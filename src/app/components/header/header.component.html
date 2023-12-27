@@ -1,0 +1,7 @@
+<header class="flex h-20 items-center border-b bg-primary">
+  <nav class="ml-8 flex gap-6 text-xl">
+    @for (navItem of navItems; track $index) {
+      <a [routerLink]="navItem.route" class="text-white drop-shadow active:filter-none">{{ navItem.name }}</a>
+    }
+  </nav>
+</header>
