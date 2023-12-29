@@ -1,11 +1,14 @@
 <h1 class="mb-20 flex justify-center text-3xl">{{ 'wiki.title' | translate }}</h1>
-<input [(ngModel)]="input"
-       (keydown.enter)="handleWikiInput()"
-       [placeholder]="'wiki.input' | translate"
-       class="w-64 rounded p-2 round focus:outline-none"
-       type="text" />
-@if (isLoading$ | async) {
-  <app-loading-svg />
-} @else {
-  <p class="mt-20 text-xl">{{ extract$ | async }}</p>
-}
+<div class="flex flex-col items-start gap-6">
+  <input [(ngModel)]="input"
+         (keydown.enter)="handleWikiInput()"
+         [placeholder]="'wiki.input' | translate"
+         class="w-64 rounded-[2px] border border-black p-2 shadow-sm focus:border-primary focus:outline-none"
+         type="text" />
+  @if (isLoading$ | async) {
+    <app-loading-svg />
+  } @else if (!!(extract$ | async)) {
+    <app-typing-text [text]="(extract$ | async)!" />
+  }
+  <!--  <app-typing-text />-->
+</div>

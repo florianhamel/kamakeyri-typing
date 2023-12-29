@@ -1,1 +1,5 @@
-<p>typing-text works!</p>
+<div class="border border-black p-3 bg-white rounded-[2px]">
+  @for (charWrap of ((session$ | async)?.charWraps); track charWrap.source) {
+    <span class="font-mono text-2xl">{{ charWrap.source }}</span>
+  }
+</div>

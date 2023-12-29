@@ -1,11 +1,19 @@
-export type TypingSession = Readonly<{
-  start: Date;
-  end: Date;
-  inputs: ReadonlyArray<string>;
-  index: number;
+export type WikiState = Readonly<{
+  extract: string | null;
+  isLoading: boolean;
 }>;
 
-export type TypingData = Readonly<{
+export type TypingState = Readonly<{
+  start: Date | null;
+  end: Date | null;
+  index: number;
+  charWraps: ReadonlyArray<CharWrap>;
   keystrokes: number;
   errors: number;
 }>;
+
+export type CharWrap = {
+  source: string;
+  input: string | null;
+  sequence: string | null;
+}

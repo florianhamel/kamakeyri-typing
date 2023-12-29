@@ -1,15 +1,6 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
 import { wikiActions } from './wiki.actions';
-
-export type WikiState = {
-  extract: string | null;
-  isLoading: boolean;
-};
-
-export const initialState: WikiState = {
-  extract: null,
-  isLoading: false
-};
+import { initialState } from './wiki.state';
 
 export const wikiFeature = createFeature({
   name: 'wiki',
@@ -20,5 +11,3 @@ export const wikiFeature = createFeature({
     on(wikiActions.loadExtractError, (state) => ({ extract: 'An error has occurred :(', isLoading: false }))
   )
 });
-
-export const { selectExtract, selectIsLoading } = wikiFeature;
