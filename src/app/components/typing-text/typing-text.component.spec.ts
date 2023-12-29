@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { WikiTypingComponent } from './wiki-typing.component';
+import { TypingTextComponent } from './typing-text.component';
 
-describe('WikiTypingComponent', () => {
-  let component: WikiTypingComponent;
-  let fixture: ComponentFixture<WikiTypingComponent>;
+describe('TypingTextComponent', () => {
+  let component: TypingTextComponent;
+  let fixture: ComponentFixture<TypingTextComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [WikiTypingComponent]
+      imports: [TypingTextComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(WikiTypingComponent);
+    fixture = TestBed.createComponent(TypingTextComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

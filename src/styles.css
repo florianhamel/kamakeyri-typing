@@ -1,13 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
-@import './variables.css';
 @import '@fontsource/noto-sans';
 @import '@fontsource/noto-sans-mono';
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-body {
-  font-family: 'Noto Sans Mono', 'Avenir Next', sans-serif;
-  background-color: var(--bg-color);
-}
