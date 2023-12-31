@@ -7,7 +7,7 @@ export const wikiFeature = createFeature({
   reducer: createReducer(
     initialState,
     on(wikiActions.setIsLoading, (state, { isLoading }) => ({ ...state, isLoading })),
-    on(wikiActions.loadExtractSuccess, (state, { extract }) => ({ extract, isLoading: false })),
-    on(wikiActions.loadExtractError, (state) => ({ extract: 'An error has occurred :(', isLoading: false }))
+    on(wikiActions.loadExtractSuccess, (state, wikiSummary) => ({ ...state, ...wikiSummary })),
+    on(wikiActions.loadExtractError, (state) => ({ ...state, title: null, extract: 'An error has occurred' }))
   )
 });

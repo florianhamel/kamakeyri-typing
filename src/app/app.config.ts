@@ -6,7 +6,7 @@ import { TranslateLoader, TranslateModule, TranslateModuleConfig } from '@ngx-tr
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient, provideHttpClient, withFetch } from '@angular/common/http';
 import { provideStore } from '@ngrx/store';
-import { typingFeature } from './store/typing/typing.reducer';
+import { sessionFeature } from './store/session/session.reducer';
 import { provideEffects } from '@ngrx/effects';
 import { loadWiki } from './store/wiki/wiki.effects';
 import { wikiFeature } from './store/wiki/wiki.reducer';
@@ -30,7 +30,7 @@ export const appConfig: ApplicationConfig = {
     provideClientHydration(),
     provideHttpClient(withFetch()),
     provideStore({
-      typing: typingFeature.reducer,
+      session: sessionFeature.reducer,
       wiki: wikiFeature.reducer
     }),
     provideEffects({

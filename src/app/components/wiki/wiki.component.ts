@@ -1,26 +1,26 @@
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { TranslateModule } from '@ngx-translate/core';
-import { AsyncPipe } from '@angular/common';
+import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
-import { wikiActions } from '../../store/wiki/wiki.actions';
+import { TranslateModule } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
-import { LoadingSvgComponent } from '../svgs/loading-svg/loading-svg.component';
-import { selectExtract, selectIsLoading } from '../../store/wiki/wiki.selectors';
 import { WikiState } from '../../models/types';
+import { wikiActions } from '../../store/wiki/wiki.actions';
+import { selectWikiState } from '../../store/wiki/wiki.selectors';
+import { LoadingSvgComponent } from '../svgs/loading-svg/loading-svg.component';
 import { TypingTextComponent } from '../typing-text/typing-text.component';
 
 @Component({
   selector: 'app-wiki',
   standalone: true,
-  imports: [TranslateModule, FormsModule, AsyncPipe, LoadingSvgComponent, TypingTextComponent],
+  imports: [TranslateModule, FormsModule, AsyncPipe, LoadingSvgComponent, TypingTextComponent, LetDirective],
   templateUrl: './wiki.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WikiComponent {
+  wiki$: Observable<WikiState> = this.store.select(selectWikiState);
   input: string = '';
-  extract$: Observable<string | null> = this.store.select(selectExtract);
-  isLoading$: Observable<boolean> = this.store.select(selectIsLoading);
 
   constructor(private readonly store: Store<WikiState>) {}
 

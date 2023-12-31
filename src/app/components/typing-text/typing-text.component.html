@@ -1,5 +1,18 @@
-<div class="border border-black p-3 bg-white rounded-[2px]">
-  @for (charWrap of ((session$ | async)?.charWraps); track charWrap.source) {
-    <span class="font-mono text-2xl">{{ charWrap.source }}</span>
-  }
-</div>
+<ng-container *ngrxLet="session$ as session">
+  <div
+    #textRef
+    tabindex="0"
+    (keydown)="handleKeyPressed($event)"
+    class="w-fit border border-black bg-white p-3 shadow-kw shadow-secondary focus:outline-none"
+  >
+    @if (text) {
+      @for (charWrap of session.sessionChars; track $index) {
+        <span [ngStyle]="getStyle(session.index, $index, charWrap)" class="font-mono text-2xl">{{
+          charWrap.target
+        }}</span>
+      }
+    } @else {
+      <span class="font-mono text-2xl">{{ 'wiki.placeholder' | translate }}</span>
+    }
+  </div>
+</ng-container>

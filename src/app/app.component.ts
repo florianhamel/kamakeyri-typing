@@ -10,5 +10,5 @@ import { HeaderComponent } from './components/header/header.component';
   templateUrl: './app.component.html'
 })
 export class AppComponent {
-  title: string = 'kamakeyri-typing';
+  title: string = 'kamakeyri-session';
 }

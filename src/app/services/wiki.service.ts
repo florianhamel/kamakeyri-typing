@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { WikiSummary } from '../models/types';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ export class WikiService {
 
   constructor(private http: HttpClient) {}
 
-  fetchWikiSummary(title: string): Observable<{ extract: string }> {
-    return this.http.get<{ extract: string }>(this.baseUrl + title);
+  fetchWikiSummary(title: string): Observable<WikiSummary> {
+    return this.http.get<WikiSummary>(this.baseUrl + title);
   }
 }

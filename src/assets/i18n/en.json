@@ -4,6 +4,7 @@
   },
   "wiki": {
     "title": "Type any Wikipedia summary.",
-    "input": "Search Wikipedia..."
+    "input": "Search Wikipedia...",
+    "placeholder": "Search Wikipedia and start typing!"
   }
 }

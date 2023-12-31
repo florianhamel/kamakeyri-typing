@@ -1,14 +1,25 @@
-<h1 class="mb-20 flex justify-center text-3xl">{{ 'wiki.title' | translate }}</h1>
-<div class="flex flex-col items-start gap-6">
-  <input [(ngModel)]="input"
-         (keydown.enter)="handleWikiInput()"
-         [placeholder]="'wiki.input' | translate"
-         class="w-64 rounded-[2px] border border-black p-2 shadow-sm focus:border-primary focus:outline-none"
-         type="text" />
-  @if (isLoading$ | async) {
-    <app-loading-svg />
-  } @else if (!!(extract$ | async)) {
-    <app-typing-text [text]="(extract$ | async)!" />
-  }
-  <!--  <app-typing-text />-->
-</div>
+<ng-container *ngrxLet="wiki$ as wiki">
+  <h1 class="mb-20 flex justify-center text-2xl">{{ 'wiki.title' | translate }}</h1>
+  <div class="flex items-center gap-12">
+    <input
+      [(ngModel)]="input"
+      (keydown.enter)="handleWikiInput()"
+      [placeholder]="'wiki.input' | translate"
+      class="w-60 rounded-xs border border-black bg-white p-1.5 shadow-kw-sm shadow-primary focus:border-primary focus:outline-none"
+      type="text"
+    />
+
+    @if (wiki.title) {
+      <div class="rounded-xs border border-black bg-white p-1.5 shadow-kw-sm shadow-secondary">
+        <span class="text-2xl font-mono">{{ wiki!.title }}</span>
+      </div>
+    }
+  </div>
+  <div class="mt-8">
+    @if (wiki.isLoading) {
+      <app-loading-svg />
+    } @else {
+      <app-typing-text [text]="wiki.extract" />
+    }
+  </div>
+</ng-container>
