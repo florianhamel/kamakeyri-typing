@@ -7,9 +7,11 @@
   >
     @if (text) {
       @for (sessionChar of session.sessionChars; track $index) {
-        <span [ngStyle]="styleChar($index, session.index, sessionChar)" class="font-mono text-2xl">{{
-          sessionChar.target
-        }}</span>
+        <span
+          [ngStyle]="styleChar($index, session.index, sessionChar)"
+          class="whitespace-pre-wrap font-mono text-2xl"
+          >{{ formatTarget(sessionChar.target) }}</span
+        >
       }
     } @else {
       <span class="font-mono text-2xl">{{ 'wiki.placeholder' | translate }}</span>

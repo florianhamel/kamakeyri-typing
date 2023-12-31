@@ -1,8 +1,12 @@
 import { SessionState } from '../../models/store.types';
 import { SessionChar, Starter } from '../../models/types';
-import { isAscii, isUndefined } from '../checks/common.checks';
+import { isUndefined } from '../checks/common.checks';
 import { isBackspace } from '../checks/keyboard-event.checks';
-import { isUsInternational, usInternationalSequences, usInternationalStarters } from '../layouts/us-international.layout';
+import {
+  isUsInternational,
+  usInternationalSequences,
+  usInternationalStarters
+} from '../layouts/us-international.layout';
 import {
   currentSessionChar,
   getStarter,

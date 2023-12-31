@@ -15,6 +15,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { SessionState } from '../../models/store.types';
 import { SessionChar } from '../../models/types';
+import { newLine } from '../../models/unicodes';
 import { sessionActions } from '../../store/session/session.actions';
 import { selectSessionState } from '../../store/session/session.selectors';
 import { exists } from '../../utils/checks/common.checks';
@@ -49,7 +50,12 @@ export class TypingTextComponent implements OnChanges, AfterViewInit {
     }
   }
 
+  formatTarget(target: string): string {
+    return target === '\n' ? `${newLine}\n` : target;
+  }
+
   handleKeyPressed(event: KeyboardEvent): void {
+    console.log(event);
     if (isFunctional(event)) return;
     if (isEscape(event)) this.store.dispatch(sessionActions.reset());
     else this.store.dispatch(sessionActions.update({ event }));
@@ -59,21 +65,20 @@ export class TypingTextComponent implements OnChanges, AfterViewInit {
     const red: string = '200, 100, 100';
     const green: string = '#96f9c1';
     if (!sessionChar.enabled) return { backgroundColor: 'grey', color: 'lightgrey' };
-    if (this.isCurrent(index, currIndex)) return { borderBottom: '1px solid black' };
-    if (this.isCorrect(index, currIndex, sessionChar)) return { color: green };
-    if (this.isIncorrect(index, currIndex, sessionChar))
-      return { backgroundColor: `rgb(${red}, 0.3)`, color: `rgb(${red})` };
+    if (this.hasUnderscore(index, currIndex)) return { borderBottom: '1px solid black' };
+    if (this.isGreen(index, currIndex, sessionChar)) return { color: green };
+    if (this.isRed(index, currIndex, sessionChar)) return { backgroundColor: `rgb(${red}, 0.3)`, color: `rgb(${red})` };
   }
 
-  private isCurrent(index: number, currIndex: number): boolean {
+  private hasUnderscore(index: number, currIndex: number): boolean {
     return index === currIndex;
   }
 
-  private isCorrect(index: number, currIndex: number, sessionChar: SessionChar): boolean {
+  private isGreen(index: number, currIndex: number, sessionChar: SessionChar): boolean {
     return index < currIndex && isCorrect(sessionChar);
   }
 
-  private isIncorrect(index: number, currIndex: number, sessionChar: SessionChar): boolean {
+  private isRed(index: number, currIndex: number, sessionChar: SessionChar): boolean {
     return index < currIndex && !isCorrect(sessionChar);
   }
 }

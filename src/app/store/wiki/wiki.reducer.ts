@@ -8,6 +8,6 @@ export const wikiFeature = createFeature({
     initialState,
     on(wikiActions.setIsLoading, (state, { isLoading }) => ({ ...state, isLoading })),
     on(wikiActions.loadExtractSuccess, (state, wikiSummary) => ({ ...state, ...wikiSummary })),
-    on(wikiActions.loadExtractError, (state) => ({ ...state, title: null, extract: 'Oh の! an error ののの has occurredののの' }))
+    on(wikiActions.loadExtractError, (state) => ({ ...state, title: null, extract: 'Oh の\nan error has occurredののの' }))
   )
 });

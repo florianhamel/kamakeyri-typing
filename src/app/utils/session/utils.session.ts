@@ -3,6 +3,7 @@ import { SessionChar, Starter } from '../../models/types';
 import { exists } from '../checks/common.checks';
 
 export function isCorrect(sessionChar: SessionChar): boolean {
+  if (sessionChar.target === '\n') return sessionChar.input === 'Enter';
   return sessionChar.input === sessionChar.target;
 }
 
