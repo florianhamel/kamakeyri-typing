@@ -1,10 +1,11 @@
-import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { WikiService } from '../../services/wiki.service';
 import { inject } from '@angular/core';
-import { catchError, exhaustMap, finalize, map, of, tap } from 'rxjs';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
+import { catchError, exhaustMap, finalize, map, of, tap } from 'rxjs';
+import { WikiState } from '../../models/store.types';
+import { WikiSummary } from '../../models/types';
+import { WikiService } from '../../services/wiki/wiki.service';
 import { wikiActions } from './wiki.actions';
-import { WikiState, WikiSummary } from '../../models/types';
 
 export const loadWiki = createEffect(
   (actions$ = inject(Actions), wikiService = inject(WikiService), store = inject(Store<WikiState>)) => {
@@ -14,7 +15,7 @@ export const loadWiki = createEffect(
       exhaustMap(({ title }) =>
         wikiService.fetchWikiSummary(title).pipe(
           map((value: WikiSummary) => wikiActions.loadExtractSuccess(value)),
-          catchError((error: { message: string }) => of(wikiActions.loadExtractError())),
+          catchError((_: { message: string }) => of(wikiActions.loadExtractError())),
           finalize(() => store.dispatch(wikiActions.setIsLoading({ isLoading: false })))
         )
       )

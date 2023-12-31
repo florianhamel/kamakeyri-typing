@@ -3,12 +3,12 @@
     #textRef
     tabindex="0"
     (keydown)="handleKeyPressed($event)"
-    class="w-fit border border-black bg-white p-3 shadow-kw shadow-secondary focus:outline-none"
+    class="w-fit border border-black bg-white p-3 shadow-kw shadow-primary focus:outline-none"
   >
     @if (text) {
-      @for (charWrap of session.sessionChars; track $index) {
-        <span [ngStyle]="getStyle(session.index, $index, charWrap)" class="font-mono text-2xl">{{
-          charWrap.target
+      @for (sessionChar of session.sessionChars; track $index) {
+        <span [ngStyle]="styleChar($index, session.index, sessionChar)" class="font-mono text-2xl">{{
+          sessionChar.target
         }}</span>
       }
     } @else {

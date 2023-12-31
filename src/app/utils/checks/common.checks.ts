@@ -9,3 +9,7 @@ export function isNull(obj: any): boolean {
 export function exists(obj: any): boolean {
   return !isUndefined(obj) && !isNull(obj);
 }
+
+export function isAscii(char: string): boolean {
+  return /^[ -~\n]*$/.test(char);
+}

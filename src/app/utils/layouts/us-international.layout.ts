@@ -1,7 +1,12 @@
 import { Starter } from '../../models/types';
+import { isAscii } from '../checks/common.checks';
 
 export const usInternationalStarters: ReadonlyArray<Starter> = getStarters();
 export const usInternationalSequences: ReadonlyMap<string, string> = getSequences();
+
+export function isUsInternational(char: string) {
+  return isAscii(char) || [...usInternationalSequences.values()].includes(char);
+}
 
 function getStarters(): ReadonlyArray<Starter> {
   return Object.freeze([

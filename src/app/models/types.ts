@@ -1,24 +1,7 @@
-// Store
-export type WikiState = Readonly<{
-  title: string | null;
-  extract: string | null;
-  isLoading: boolean;
-}>;
-
-export type SessionState = Readonly<{
-  start: Date | null;
-  end: Date | null;
-  index: number;
-  sessionChars: ReadonlyArray<SessionChar>;
-  keystrokes: number;
-  errors: number;
-}>;
-
-
-// Others
 export type SessionChar = Readonly<{
   target: string;
   input: string | null;
+  enabled: boolean;
 }>;
 
 export type WikiSummary = Readonly<{

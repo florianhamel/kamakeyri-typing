@@ -5,7 +5,7 @@ import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
-import { WikiState } from '../../models/types';
+import { WikiState } from '../../models/store.types';
 import { wikiActions } from '../../store/wiki/wiki.actions';
 import { selectWikiState } from '../../store/wiki/wiki.selectors';
 import { LoadingSvgComponent } from '../svgs/loading-svg/loading-svg.component';

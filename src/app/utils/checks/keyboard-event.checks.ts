@@ -29,9 +29,13 @@ export function isDead(event: KeyboardEvent): boolean {
 }
 
 export function isQuote(event: KeyboardEvent): boolean {
-  return event.code === 'Quote';
+  return isDead(event) && event.code === 'Quote';
 }
 
 export function isBackquote(event: KeyboardEvent): boolean {
-  return event.code === 'Backquote';
+  return isDead(event) && event.code === 'Backquote';
+}
+
+export function isEscape(event: KeyboardEvent): boolean {
+  return event.key === 'Escape';
 }

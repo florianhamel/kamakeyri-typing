@@ -13,11 +13,13 @@ import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
-import { SessionChar, SessionState } from '../../models/types';
+import { SessionState } from '../../models/store.types';
+import { SessionChar } from '../../models/types';
 import { sessionActions } from '../../store/session/session.actions';
 import { selectSessionState } from '../../store/session/session.selectors';
-import { isCorrect } from '../../store/session/session.utils';
-import { exists } from '../../utils/common.checks';
+import { exists } from '../../utils/checks/common.checks';
+import { isEscape, isFunctional } from '../../utils/checks/keyboard-event.checks';
+import { isCorrect } from '../../utils/session/utils.session';
 
 @Component({
   selector: 'app-typing-text',
@@ -37,7 +39,7 @@ export class TypingTextComponent implements OnChanges, AfterViewInit {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (Object.keys(changes).includes('text') && exists(this.text)) {
-      this.store.dispatch(sessionActions.startSession({ content: this.text! }));
+      this.store.dispatch(sessionActions.init({ content: this.text! }));
     }
   }
 
@@ -48,25 +50,30 @@ export class TypingTextComponent implements OnChanges, AfterViewInit {
   }
 
   handleKeyPressed(event: KeyboardEvent): void {
-    this.store.dispatch(sessionActions.handleKeyPressed({ event }));
+    if (isFunctional(event)) return;
+    if (isEscape(event)) this.store.dispatch(sessionActions.reset());
+    else this.store.dispatch(sessionActions.update({ event }));
   }
 
-  getStyle(currIndex: number, index: number, charWrap: SessionChar): any {
-    if (this.isCurrent(currIndex, index)) return { borderBottom: '1px solid black' };
-    if (this.isCorrect(currIndex, index, charWrap)) return { color: '#c196f9' };
-    if (this.isIncorrect(currIndex, index, charWrap))
-      return { backgroundColor: 'rgb(150, 50, 50, 0.3)', color: 'rgb(150, 50, 50)' };
+  styleChar(index: number, currIndex: number, sessionChar: SessionChar): any {
+    const red: string = '200, 100, 100';
+    const green: string = '#96f9c1';
+    if (!sessionChar.enabled) return { backgroundColor: 'grey', color: 'lightgrey' };
+    if (this.isCurrent(index, currIndex)) return { borderBottom: '1px solid black' };
+    if (this.isCorrect(index, currIndex, sessionChar)) return { color: green };
+    if (this.isIncorrect(index, currIndex, sessionChar))
+      return { backgroundColor: `rgb(${red}, 0.3)`, color: `rgb(${red})` };
   }
 
-  private isCurrent(currIndex: number, index: number): boolean {
+  private isCurrent(index: number, currIndex: number): boolean {
     return index === currIndex;
   }
 
-  private isCorrect(currIndex: number, index: number, charWrap: SessionChar): boolean {
-    return index < currIndex && isCorrect(charWrap);
+  private isCorrect(index: number, currIndex: number, sessionChar: SessionChar): boolean {
+    return index < currIndex && isCorrect(sessionChar);
   }
 
-  private isIncorrect(currIndex: number, index: number, charWrap: SessionChar): boolean {
-    return index < currIndex && !isCorrect(charWrap);
+  private isIncorrect(index: number, currIndex: number, sessionChar: SessionChar): boolean {
+    return index < currIndex && !isCorrect(sessionChar);
   }
 }
