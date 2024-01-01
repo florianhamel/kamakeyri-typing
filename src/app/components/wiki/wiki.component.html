@@ -9,21 +9,19 @@
       type="text"
     />
     @if (vm.title) {
-      <div class="rounded-xs border border-black bg-white p-2 shadow-kw-sm shadow-primary">
-        <span class="font-mono text-2xl">{{ vm!.title }}</span>
-      </div>
+      <span class="rounded-xs border border-black bg-white p-2 font-mono text-2xl shadow-kw-sm shadow-primary">{{
+        vm!.title
+      }}</span>
     }
   </div>
-  <div>
-    @if (vm.isLoading) {
-      <app-loading-svg />
-    } @else {
-      <div class="flex flex-col gap-6">
-        <app-typing-text [text]="vm.extract" />
-        @if (vm.extract) {
-          <app-typing-data />
-        }
-      </div>
-    }
-  </div>
+  @if (vm.isLoading) {
+    <app-loading-svg />
+  } @else {
+    <div class="flex flex-col gap-6">
+      <app-typing-text [text]="vm.extract" />
+      @if (vm.extract) {
+        <app-typing-data />
+      }
+    </div>
+  }
 </ng-container>

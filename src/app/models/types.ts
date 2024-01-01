@@ -1,3 +1,5 @@
+export type SessionStatus = 'notStarted' | 'inProgress' | 'closed';
+
 export type SessionChar = Readonly<{
   target: string;
   input: string | null;

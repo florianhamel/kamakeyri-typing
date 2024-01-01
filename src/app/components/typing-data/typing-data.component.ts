@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Type } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, Type } from '@angular/core';
 import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 import { Observable, combineLatest } from 'rxjs';
@@ -23,20 +23,24 @@ type ViewModel = {
   templateUrl: './typing-data.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TypingDataComponent {
-  vm$: Observable<ViewModel> = combineLatest({
-    start: this.store.select(selectStart),
-    end: this.store.select(selectEnd),
-    keystrokes: this.store.select(selectKeystrokes),
-    errors: this.store.select(selectErrors)
-  });
+export class TypingDataComponent implements OnInit {
+  start$ = this.store.select(selectStart);
+  end$ = this.store.select(selectEnd);
+  keystrokes$ = this.store.select(selectKeystrokes);
+  errors$ = this.store.select(selectErrors);
 
   readonly dataRows: { svgComponent: Type<any>; formatter: (vm: ViewModel) => string }[] = [
-    { svgComponent: AccuracySvgComponent, formatter: this.formatAccuracy },
-    { svgComponent: WpmSvgComponent, formatter: this.formatWpm }
+    { svgComponent: WpmSvgComponent, formatter: this.formatWpm },
+    { svgComponent: AccuracySvgComponent, formatter: this.formatAccuracy }
   ];
 
   constructor(private readonly store: Store<SessionState>) {}
+
+  ngOnInit(): void {
+      this.errors$.subscribe({
+        next: (value) => console.log(value)
+      })
+  }
 
   private formatAccuracy(vm: ViewModel): string {
     const accuracy: number = vm.keystrokes > 0 ? 100 - (vm.errors * 100) / vm.keystrokes : 100;

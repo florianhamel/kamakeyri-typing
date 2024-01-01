@@ -6,21 +6,29 @@ import {
   ElementRef,
   Input,
   OnChanges,
+  OnInit,
   SimpleChanges,
   ViewChild
 } from '@angular/core';
 import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
-import { combineLatest } from 'rxjs';
+import { Observable, distinctUntilChanged, take } from 'rxjs';
 import { SessionState } from '../../models/store.types';
-import { SessionChar } from '../../models/types';
+import { SessionChar, SessionStatus } from '../../models/types';
 import { newLine } from '../../models/unicodes';
 import { sessionActions } from '../../store/session/session.actions';
-import { selectIndex, selectSessionChars, selectStart } from '../../store/session/session.selectors';
-import { exists, isNull } from '../../utils/checks/common.checks';
+import { selectIndex, selectSessionChars, selectStart, selectStatus } from '../../store/session/session.selectors';
+import { exists } from '../../utils/checks/common.checks';
 import { isEscape, isFunctional } from '../../utils/checks/keyboard-event.checks';
 import { isCorrect } from '../../utils/session/utils.session';
+
+type ViewModel = {
+  status: SessionStatus;
+  start: Date | null;
+  sessionChars: ReadonlyArray<SessionChar>;
+  index: number;
+};
 
 @Component({
   selector: 'app-typing-text',
@@ -29,20 +37,29 @@ import { isCorrect } from '../../utils/session/utils.session';
   templateUrl: './typing-text.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TypingTextComponent implements OnChanges, AfterViewInit {
+export class TypingTextComponent implements OnInit, OnChanges, AfterViewInit {
   @Input() text: string | null = null;
-
   @ViewChild('textRef') textRef: ElementRef | undefined;
 
-  vm$ = combineLatest({
-    start: this.store.select(selectStart),
-    sesssionChars: this.store.select(selectSessionChars),
-    index: this.store.select(selectIndex)
-  });
-
-  isStarted: boolean = false;
+  status$: Observable<SessionStatus> = this.store.select(selectStatus);
+  start$: Observable<Date | null> = this.store.select(selectStart);
+  sessionChars$: Observable<ReadonlyArray<SessionChar>> = this.store.select(selectSessionChars);
+  index$: Observable<number> = this.store.select(selectIndex);
 
   constructor(private readonly store: Store<SessionState>) {}
+
+  // ngOnInit(): void {}
+
+  ngOnInit(): void {
+    this.status$.subscribe({
+      next: (status) => {
+        console.log(status);
+        if (status === 'closed') {
+          this.store.dispatch(sessionActions.close());
+        }
+      }
+    });
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (Object.keys(changes).includes('text') && exists(this.text)) {
@@ -60,9 +77,10 @@ export class TypingTextComponent implements OnChanges, AfterViewInit {
     return target === '\n' ? `${newLine}\n` : target;
   }
 
-  handleKeyPressed(event: KeyboardEvent, start: Date | null): void {
+  handleKeyPressed(event: KeyboardEvent, vm: ViewModel): void {
     if (isFunctional(event)) return;
-    if (isNull(start)) {
+    if (vm.status === 'notStarted') {
+      console.log('test');
       const intervalId = window.setInterval(() => this.store.dispatch(sessionActions.updateTimer()), 1000);
       this.store.dispatch(sessionActions.start({ intervalId }));
     }

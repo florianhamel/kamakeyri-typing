@@ -1,4 +1,11 @@
-<ng-container *ngrxLet="vm$ as vm">
+<ng-container
+  *ngrxLet="{
+    start: start$,
+    end: end$,
+    keystrokes: keystrokes$,
+    errors: errors$
+  } as vm"
+>
   <div class="flex h-fit w-fit gap-4 rounded-xs border border-black bg-white p-2 shadow-kw-sm shadow-primary">
     @for (dataRow of dataRows; track $index) {
       <div class="flex w-32 items-center gap-2">

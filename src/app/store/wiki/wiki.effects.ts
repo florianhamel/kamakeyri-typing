@@ -7,15 +7,32 @@ import { WikiSummary } from '../../models/types';
 import { WikiService } from '../../services/wiki/wiki.service';
 import { wikiActions } from './wiki.actions';
 
-export const loadWiki = createEffect(
+export const loadExtract = createEffect(
   (actions$ = inject(Actions), wikiService = inject(WikiService), store = inject(Store<WikiState>)) => {
     return actions$.pipe(
       ofType(wikiActions.loadExtract),
       tap(() => store.dispatch(wikiActions.setIsLoading({ isLoading: true }))),
       exhaustMap(({ title }) =>
-        wikiService.fetchWikiSummary(title).pipe(
+        wikiService.fetchSummary(title).pipe(
           map((value: WikiSummary) => wikiActions.loadExtractSuccess(value)),
-          catchError((_: { message: string }) => of(wikiActions.loadExtractError())),
+          catchError(() => of(wikiActions.loadExtractError())),
+          finalize(() => store.dispatch(wikiActions.setIsLoading({ isLoading: false })))
+        )
+      )
+    );
+  },
+  { functional: true }
+);
+
+export const loadRandomExtract = createEffect(
+  (actions$ = inject(Actions), wikiService = inject(WikiService), store = inject(Store<WikiState>)) => {
+    return actions$.pipe(
+      ofType(wikiActions.loadRandomExtract),
+      tap(() => store.dispatch(wikiActions.setIsLoading({ isLoading: true }))),
+      exhaustMap(() =>
+        wikiService.fetchRandomSummary().pipe(
+          map((value: WikiSummary) => wikiActions.loadExtractSuccess(value)),
+          catchError(() => of(wikiActions.loadExtractError())),
           finalize(() => store.dispatch(wikiActions.setIsLoading({ isLoading: false })))
         )
       )

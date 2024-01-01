@@ -1,4 +1,4 @@
-import { SessionChar } from './types';
+import { SessionChar, SessionStatus } from './types';
 
 export type WikiState = Readonly<{
   title: string | null;
@@ -14,4 +14,5 @@ export type SessionState = Readonly<{
   sessionChars: ReadonlyArray<SessionChar>;
   keystrokes: number;
   errors: number;
+  status: SessionStatus;
 }>;

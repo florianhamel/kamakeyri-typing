@@ -1,6 +1,7 @@
 import { SessionState } from '../../models/store.types';
 
 export const initialState: SessionState = {
+  status: 'notStarted',
   start: null,
   end: null,
   intervalId: null,

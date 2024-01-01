@@ -27,12 +27,14 @@ export const sessionFeature = createFeature({
     on(sessionActions.update, (state, { event }) => updated(state, event)),
     on(sessionActions.start, (state, { intervalId }) => started(state, intervalId)),
     on(sessionActions.reset, (state) => reset(state)),
+    on(sessionActions.close, (state) => closed(state)),
     on(sessionActions.updateTimer, (state) => ({ ...state, end: new Date() }))
   )
 });
 
 export function initialized(content: string): SessionState {
   return {
+    status: 'notStarted',
     start: null,
     end: null,
     intervalId: null,
@@ -61,6 +63,7 @@ export function started(state: SessionState, intervalId: number): SessionState {
 export function reset(state: SessionState): SessionState {
   if (exists(state.intervalId)) clearInterval(state.intervalId!);
   return {
+    status: 'notStarted',
     start: null,
     end: null,
     intervalId: null,
@@ -69,4 +72,10 @@ export function reset(state: SessionState): SessionState {
     keystrokes: 0,
     errors: 0
   };
+}
+
+export function closed(state: SessionState): SessionState {
+  if (exists(state.intervalId)) console.log('clearing interval');
+  if (exists(state.intervalId)) clearInterval(state.intervalId!);
+  return { ...state, end: new Date() };
 }

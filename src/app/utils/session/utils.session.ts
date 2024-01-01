@@ -1,5 +1,5 @@
 import { SessionState } from '../../models/store.types';
-import { SessionChar, Starter } from '../../models/types';
+import { SessionChar, SessionStatus, Starter } from '../../models/types';
 import { exists } from '../checks/common.checks';
 
 export function isCorrect(sessionChar: SessionChar): boolean {
@@ -33,6 +33,10 @@ export function resetSessionChars(sessionChars: ReadonlyArray<SessionChar>): Rea
     input: null,
     enabled: sessionChar.enabled
   }));
+}
+
+export function updatedStatus(state: SessionState, index: number, sessionChar: SessionChar): SessionStatus {
+  return index === state.sessionChars.length && isCorrect(sessionChar) ? 'closed' : 'inProgress';
 }
 
 export function moveForward(state: SessionState, min: number): number {
