@@ -1,60 +1,17 @@
 import { SessionState } from '../../models/store.types';
 import { SessionChar, Starter } from '../../models/types';
 import { isUndefined } from '../checks/common.checks';
-import { isBackspace } from '../checks/keyboard-event.checks';
-import {
-  isUsInternational,
-  usInternationalSequences,
-  usInternationalStarters
-} from '../layouts/us-international.layout';
 import {
   currentSessionChar,
   getStarter,
-  initSessionChars,
   isCorrect,
-  isSequenceExtension,
-  isStarter,
   moveBackward,
   moveForward,
-  resetSessionChars,
   sessionCharAt
 } from './utils.session';
 
-export function initialized(content: string): SessionState {
-  return {
-    start: new Date(),
-    end: new Date(),
-    sessionChars: initSessionChars(content, isUsInternational),
-    index: 0,
-    keystrokes: 0,
-    errors: 0
-  };
-}
-
-export function updated(state: SessionState, event: KeyboardEvent): SessionState {
-  if (isSequenceExtension(state)) {
-    if (isBackspace(event)) return processedBackspaceSeq(state);
-    if (isStarter(event, usInternationalStarters)) return processedStarterSeq(state, event, usInternationalStarters);
-    return processedExtensionSeq(state, event, usInternationalSequences);
-  }
-  if (isBackspace(event)) return processedBackspace(state);
-  if (isStarter(event, usInternationalStarters)) return processedStarter(state, event, usInternationalStarters);
-  return processedStandard(state, event);
-}
-
-export function reset(state: SessionState): SessionState {
-  return {
-    start: new Date(),
-    end: new Date(),
-    sessionChars: resetSessionChars(state.sessionChars),
-    index: 0,
-    keystrokes: 0,
-    errors: 0
-  };
-}
-
 /*** Sequence */
-function processedBackspaceSeq(state: SessionState): SessionState {
+export function processedBackspaceSeq(state: SessionState): SessionState {
   const updated: SessionChar = { ...currentSessionChar(state)!, input: null };
   const sessionChars: ReadonlyArray<SessionChar> = state.sessionChars.with(state.index, updated);
   return {
@@ -63,7 +20,7 @@ function processedBackspaceSeq(state: SessionState): SessionState {
   };
 }
 
-function processedStarterSeq(
+export function processedStarterSeq(
   state: SessionState,
   event: KeyboardEvent,
   starters: ReadonlyArray<Starter>
@@ -83,7 +40,7 @@ function processedStarterSeq(
   };
 }
 
-function processedExtensionSeq(
+export function processedExtensionSeq(
   state: SessionState,
   event: KeyboardEvent,
   sequences: ReadonlyMap<string, string>
@@ -133,7 +90,7 @@ function processedInvalidSeq(state: SessionState, event: KeyboardEvent): Session
 }
 
 /*** Not sequence */
-function processedBackspace(state: SessionState): SessionState {
+export function processedBackspace(state: SessionState): SessionState {
   const index: number = moveBackward(state, 1);
   if (isUndefined(sessionCharAt(state, index))) return state;
   const prev: SessionChar = { ...sessionCharAt(state, index)!, input: null };
@@ -145,7 +102,7 @@ function processedBackspace(state: SessionState): SessionState {
   };
 }
 
-function processedStarter(state: SessionState, event: KeyboardEvent, starters: ReadonlyArray<Starter>): SessionState {
+export function processedStarter(state: SessionState, event: KeyboardEvent, starters: ReadonlyArray<Starter>): SessionState {
   if (isUndefined(currentSessionChar(state))) return state;
   const updated: SessionChar = { ...currentSessionChar(state)!, input: getStarter(event, starters)! };
   const sessionChars: ReadonlyArray<SessionChar> = state.sessionChars.with(state.index, updated);
@@ -155,7 +112,7 @@ function processedStarter(state: SessionState, event: KeyboardEvent, starters: R
   };
 }
 
-function processedStandard(state: SessionState, event: KeyboardEvent): SessionState {
+export function processedStandard(state: SessionState, event: KeyboardEvent): SessionState {
   if (isUndefined(currentSessionChar(state))) return state;
   const updated: SessionChar = { ...currentSessionChar(state)!, input: event.key };
   const sessionChars: ReadonlyArray<SessionChar> = state.sessionChars.with(state.index, updated);

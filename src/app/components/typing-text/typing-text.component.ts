@@ -12,13 +12,13 @@ import {
 import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
-import { Observable } from 'rxjs';
+import { combineLatest } from 'rxjs';
 import { SessionState } from '../../models/store.types';
 import { SessionChar } from '../../models/types';
 import { newLine } from '../../models/unicodes';
 import { sessionActions } from '../../store/session/session.actions';
-import { selectSessionState } from '../../store/session/session.selectors';
-import { exists } from '../../utils/checks/common.checks';
+import { selectIndex, selectSessionChars, selectStart } from '../../store/session/session.selectors';
+import { exists, isNull } from '../../utils/checks/common.checks';
 import { isEscape, isFunctional } from '../../utils/checks/keyboard-event.checks';
 import { isCorrect } from '../../utils/session/utils.session';
 
@@ -34,9 +34,15 @@ export class TypingTextComponent implements OnChanges, AfterViewInit {
 
   @ViewChild('textRef') textRef: ElementRef | undefined;
 
-  session$: Observable<SessionState> = this.store.select(selectSessionState);
+  vm$ = combineLatest({
+    start: this.store.select(selectStart),
+    sesssionChars: this.store.select(selectSessionChars),
+    index: this.store.select(selectIndex)
+  });
 
-  constructor(private readonly store: Store) {}
+  isStarted: boolean = false;
+
+  constructor(private readonly store: Store<SessionState>) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (Object.keys(changes).includes('text') && exists(this.text)) {
@@ -54,9 +60,12 @@ export class TypingTextComponent implements OnChanges, AfterViewInit {
     return target === '\n' ? `${newLine}\n` : target;
   }
 
-  handleKeyPressed(event: KeyboardEvent): void {
-    console.log(event);
+  handleKeyPressed(event: KeyboardEvent, start: Date | null): void {
     if (isFunctional(event)) return;
+    if (isNull(start)) {
+      const intervalId = window.setInterval(() => this.store.dispatch(sessionActions.updateTimer()), 1000);
+      this.store.dispatch(sessionActions.start({ intervalId }));
+    }
     if (isEscape(event)) this.store.dispatch(sessionActions.reset());
     else this.store.dispatch(sessionActions.update({ event }));
   }

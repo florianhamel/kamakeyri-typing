@@ -9,8 +9,9 @@ export type WikiState = Readonly<{
 export type SessionState = Readonly<{
   start: Date | null;
   end: Date | null;
-  sessionChars: ReadonlyArray<SessionChar>;
+  intervalId: number | null;
   index: number;
+  sessionChars: ReadonlyArray<SessionChar>;
   keystrokes: number;
   errors: number;
 }>;

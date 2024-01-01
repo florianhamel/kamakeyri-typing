@@ -1,3 +1,10 @@
 import { sessionFeature } from './session.reducer';
 
-export const { selectSessionState } = sessionFeature;
+export const {
+  selectStart,
+  selectEnd,
+  selectIndex,
+  selectSessionChars,
+  selectKeystrokes,
+  selectErrors,
+} = sessionFeature;
