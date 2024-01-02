@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
-import { combineLatest } from 'rxjs';
 import { WikiState } from '../../models/types';
 import { wikiActions } from '../../store/wiki/wiki.actions';
 import { selectExtract, selectIsLoading, selectTitle } from '../../store/wiki/wiki.selectors';
@@ -28,11 +27,9 @@ import { LoadingSvgComponent } from '../svgs/loading-svg/loading-svg.component';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WikiComponent {
-  vm$ = combineLatest({
-    title: this.store.select(selectTitle),
-    extract: this.store.select(selectExtract),
-    isLoading: this.store.select(selectIsLoading)
-  });
+  title$ = this.store.select(selectTitle);
+  extract$ = this.store.select(selectExtract);
+  isLoading$ = this.store.select(selectIsLoading);
 
   input: string = '';
 
@@ -40,5 +37,9 @@ export class WikiComponent {
 
   handleWikiInput(): void {
     this.store.dispatch(wikiActions.loadExtract({ title: this.input }));
+  }
+
+  handleRandom(): void {
+    this.store.dispatch(wikiActions.loadRandomExtract());
   }
 }
