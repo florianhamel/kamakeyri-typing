@@ -75,7 +75,6 @@ export function reset(state: SessionState): SessionState {
 }
 
 export function closed(state: SessionState): SessionState {
-  console.log('hello');
   if (exists(state.intervalId)) clearInterval(state.intervalId!);
   return { ...state, end: new Date(), intervalId: null, status: 'closed' };
 }

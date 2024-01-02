@@ -1,5 +1,4 @@
-import { SessionState } from '../../models/types';
-import { SessionChar, SessionStatus, Starter } from '../../models/types';
+import { SessionChar, SessionState, SessionStatus, Starter } from '../../models/types';
 import { exists } from '../checks/common.checks';
 
 export function isCorrect(sessionChar: SessionChar): boolean {
@@ -53,6 +52,14 @@ export function moveBackward(state: SessionState, min: number): number {
     --index;
   }
   return index;
+}
+
+export function lastSessionChar(sessionChars: ReadonlyArray<SessionChar>): SessionChar {
+  let index: number = sessionChars.length - 1;
+  while (0 < index && !sessionChars[index].enabled) {
+    --index;
+  }
+  return sessionChars[index];
 }
 
 export function currentSessionChar(state: SessionState): SessionChar | undefined {
