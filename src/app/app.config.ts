@@ -8,8 +8,9 @@ import { HttpClient, provideHttpClient, withFetch } from '@angular/common/http';
 import { provideStore } from '@ngrx/store';
 import { sessionFeature } from './store/session/session.reducer';
 import { provideEffects } from '@ngrx/effects';
-import { loadExtract } from './store/wiki/wiki.effects';
+import { wikiLoadExtract } from './store/wiki/wiki.effects';
 import { wikiFeature } from './store/wiki/wiki.reducer';
+import { sessionCheckStatus } from './store/session/session.effects';
 
 export function TranslateLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http);
@@ -34,7 +35,8 @@ export const appConfig: ApplicationConfig = {
       wiki: wikiFeature.reducer
     }),
     provideEffects({
-      wikiEffect: loadExtract
+      wikiLoadExtract,
+      sessionCheckStatus
     }),
     importProvidersFrom(TranslateModule.forRoot(provideTranslation()))
   ]

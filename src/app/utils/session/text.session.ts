@@ -1,15 +1,6 @@
-import { SessionState } from '../../models/store.types';
-import { SessionChar, SessionStatus, Starter } from '../../models/types';
+import { SessionChar, SessionState, Starter } from '../../models/types';
 import { isUndefined } from '../checks/common.checks';
-import {
-  currentSessionChar,
-  getStarter,
-  isCorrect,
-  moveBackward,
-  moveForward,
-  sessionCharAt,
-  updatedStatus
-} from './utils.session';
+import { currentSessionChar, getStarter, isCorrect, moveBackward, moveForward, sessionCharAt } from './utils.session';
 
 /*** Sequence */
 export function processedBackspaceSeq(state: SessionState): SessionState {
@@ -32,10 +23,8 @@ export function processedStarterSeq(
     : state.sessionChars.with(index, { ...sessionCharAt(state, index)!, input: getStarter(event, starters)! });
   const keystrokes: number = state.keystrokes + 1;
   const errors: number = isCorrect(currentSessionChar(state)!) ? state.errors : state.errors + 1;
-  const status: SessionStatus = updatedStatus(state, index, currentSessionChar(state)!);
   return {
     ...state,
-    status,
     sessionChars,
     index,
     keystrokes,
@@ -59,10 +48,8 @@ function processedValidSeq(state: SessionState, sequence: string): SessionState 
   const sessionChars: ReadonlyArray<SessionChar> = state.sessionChars.with(state.index, updated);
   const keystrokes: number = state.keystrokes + 2;
   const errors: number = isCorrect(currentSessionChar(state)!) ? state.errors : state.errors + 1;
-  const status: SessionStatus = updatedStatus(state, index, updated);
   return {
     ...state,
-    status,
     sessionChars,
     index,
     keystrokes,
@@ -85,14 +72,12 @@ function processedInvalidSeq(state: SessionState, event: KeyboardEvent): Session
     : isUndefined(sessionCharAt(state, index)) || isCorrect(sessionCharAt(state, index)!)
       ? state.errors + 1
       : state.errors + 2;
-  const status: SessionStatus = updatedStatus(state, index, currentSessionChar(state)!);
   return {
     ...state,
     sessionChars,
     index,
     keystrokes,
-    errors,
-    status
+    errors
   };
 }
 
@@ -117,10 +102,8 @@ export function processedStarter(
   if (isUndefined(currentSessionChar(state))) return state;
   const updated: SessionChar = { ...currentSessionChar(state)!, input: getStarter(event, starters)! };
   const sessionChars: ReadonlyArray<SessionChar> = state.sessionChars.with(state.index, updated);
-  const status: SessionStatus = 'inProgress';
   return {
     ...state,
-    status,
     sessionChars
   };
 }
@@ -132,13 +115,11 @@ export function processedStandard(state: SessionState, event: KeyboardEvent): Se
   const sessionChars: ReadonlyArray<SessionChar> = state.sessionChars.with(state.index, updated);
   const keystrokes: number = state.keystrokes + 1;
   const errors: number = isCorrect(updated) ? state.errors : state.errors + 1;
-  const status: SessionStatus = updatedStatus(state, index, updated);
   return {
     ...state,
     sessionChars,
     index,
     keystrokes,
-    errors,
-    status
+    errors
   };
 }

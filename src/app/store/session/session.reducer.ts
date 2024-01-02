@@ -1,5 +1,5 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
-import { SessionState } from '../../models/store.types';
+import { SessionState } from '../../models/types';
 import { exists } from '../../utils/checks/common.checks';
 import { isBackspace } from '../../utils/checks/keyboard-event.checks';
 import {
@@ -34,14 +34,14 @@ export const sessionFeature = createFeature({
 
 export function initialized(content: string): SessionState {
   return {
-    status: 'notStarted',
     start: null,
     end: null,
     intervalId: null,
     sessionChars: initSessionChars(content, isUsInternational),
     index: 0,
     keystrokes: 0,
-    errors: 0
+    errors: 0,
+    status: 'notStarted'
   };
 }
 
@@ -57,25 +57,25 @@ export function updated(state: SessionState, event: KeyboardEvent): SessionState
 }
 
 export function started(state: SessionState, intervalId: number): SessionState {
-  return { ...state, start: new Date(), end: new Date(), intervalId };
+  return { ...state, start: new Date(), end: new Date(), intervalId, status: 'inProgress' };
 }
 
 export function reset(state: SessionState): SessionState {
   if (exists(state.intervalId)) clearInterval(state.intervalId!);
   return {
-    status: 'notStarted',
     start: null,
     end: null,
     intervalId: null,
     sessionChars: resetSessionChars(state.sessionChars),
     index: 0,
     keystrokes: 0,
-    errors: 0
+    errors: 0,
+    status: 'notStarted'
   };
 }
 
 export function closed(state: SessionState): SessionState {
-  if (exists(state.intervalId)) console.log('clearing interval');
+  console.log('hello');
   if (exists(state.intervalId)) clearInterval(state.intervalId!);
-  return { ...state, end: new Date() };
+  return { ...state, end: new Date(), intervalId: null, status: 'closed' };
 }

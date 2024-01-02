@@ -2,12 +2,11 @@ import { inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { catchError, exhaustMap, finalize, map, of, tap } from 'rxjs';
-import { WikiState } from '../../models/store.types';
-import { WikiSummary } from '../../models/types';
+import { WikiState, WikiSummary } from '../../models/types';
 import { WikiService } from '../../services/wiki/wiki.service';
 import { wikiActions } from './wiki.actions';
 
-export const loadExtract = createEffect(
+export const wikiLoadExtract = createEffect(
   (actions$ = inject(Actions), wikiService = inject(WikiService), store = inject(Store<WikiState>)) => {
     return actions$.pipe(
       ofType(wikiActions.loadExtract),
@@ -24,7 +23,7 @@ export const loadExtract = createEffect(
   { functional: true }
 );
 
-export const loadRandomExtract = createEffect(
+export const wikiLoadRandomExtract = createEffect(
   (actions$ = inject(Actions), wikiService = inject(WikiService), store = inject(Store<WikiState>)) => {
     return actions$.pipe(
       ofType(wikiActions.loadRandomExtract),

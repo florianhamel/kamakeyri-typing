@@ -8,6 +8,7 @@ export const sessionActions = createActionGroup({
     update: props<{ event: KeyboardEvent }>(),
     reset: emptyProps(),
     close: emptyProps(),
-    updateTimer: emptyProps()
+    updateTimer: emptyProps(),
+    checkStatus: emptyProps()
   }
 });

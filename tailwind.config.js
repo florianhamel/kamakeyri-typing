@@ -8,10 +8,12 @@ module.exports = {
     },
     extend: {
       colors: {
+        'kw-white': '#fff',
+        'kw-black': '#000',
+        'tertiary-light': '#fef7f2',
         primary: '#c196f9',
         secondary: '#96f9c1',
-        tertiary: '#f9c196',
-        'tertiary-light': '#fef7f2'
+        tertiary: '#f9c196'
       },
       boxShadow: {
         'kw-sm': '5px 5px 0 rgb(0, 0, 0 / 0.4)',

@@ -5,12 +5,12 @@ import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { combineLatest } from 'rxjs';
-import { WikiState } from '../../models/store.types';
+import { WikiState } from '../../models/types';
 import { wikiActions } from '../../store/wiki/wiki.actions';
 import { selectExtract, selectIsLoading, selectTitle } from '../../store/wiki/wiki.selectors';
+import { SessionDataComponent } from '../session-data/session-data.component';
+import { SessionTextComponent } from '../session-text/session-text.component';
 import { LoadingSvgComponent } from '../svgs/loading-svg/loading-svg.component';
-import { TypingDataComponent } from '../typing-data/typing-data.component';
-import { TypingTextComponent } from '../typing-text/typing-text.component';
 
 @Component({
   selector: 'app-wiki',
@@ -20,9 +20,9 @@ import { TypingTextComponent } from '../typing-text/typing-text.component';
     FormsModule,
     AsyncPipe,
     LoadingSvgComponent,
-    TypingTextComponent,
+    SessionTextComponent,
     LetDirective,
-    TypingDataComponent
+    SessionDataComponent
   ],
   templateUrl: './wiki.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush

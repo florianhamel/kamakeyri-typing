@@ -1,11 +1,12 @@
 <ng-container
   *ngrxLet="{
-    status: status$,
     start: start$,
     sessionChars: sessionChars$,
-    index: index$
+    index: index$,
+    status: status$
   } as vm"
 >
+  <!-- Component -->
   <div
     #textRef
     tabindex="0"
@@ -13,13 +14,18 @@
     class="w-fit rounded-xs border border-black bg-white p-3 shadow-kw-sm shadow-primary focus:outline-none"
   >
     @if (text) {
-      @for (sessionChar of vm.sessionChars; track $index) {
-        <span [ngStyle]="styleChar($index, vm.index, sessionChar)" class="whitespace-pre-wrap font-mono text-2xl">{{
-          formatTarget(sessionChar.target)
-        }}</span>
-      }
+      <ng-container *ngTemplateOutlet="sessionChars" />
     } @else {
       <span class="text-2xl">{{ 'wiki.placeholder' | translate }}</span>
     }
   </div>
+
+  <!-- Templates -->
+  <ng-template #sessionChars>
+    @for (sessionChar of vm.sessionChars; track $index) {
+      <span [ngStyle]="styleChar($index, vm.index, sessionChar)" class="whitespace-pre-wrap font-mono text-2xl">{{
+        formatTarget(sessionChar.target)
+      }}</span>
+    }
+  </ng-template>
 </ng-container>

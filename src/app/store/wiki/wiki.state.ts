@@ -1,4 +1,4 @@
-import { WikiState } from '../../models/store.types';
+import { WikiState } from '../../models/types';
 
 export const initialState: WikiState = {
   title: null,

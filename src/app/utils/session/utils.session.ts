@@ -1,4 +1,4 @@
-import { SessionState } from '../../models/store.types';
+import { SessionState } from '../../models/types';
 import { SessionChar, SessionStatus, Starter } from '../../models/types';
 import { exists } from '../checks/common.checks';
 
