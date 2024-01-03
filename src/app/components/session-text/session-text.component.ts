@@ -61,7 +61,9 @@ export class SessionTextComponent implements OnChanges, AfterViewInit {
   handleKeyPressed(event: KeyboardEvent, vm: ViewModel): void {
     if (this.isIgnored(event, vm)) return;
     if (isNull(vm.start)) {
-      const intervalId = window.setInterval(() => this.store.dispatch(sessionActions.updateTimer()), 1000);
+      const intervalId: number = window.setInterval(() => {
+        this.store.dispatch(sessionActions.updateTimer());
+      }, 2000);
       this.store.dispatch(sessionActions.start({ intervalId }));
     }
     if (isEscape(event)) this.store.dispatch(sessionActions.reset());

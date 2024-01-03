@@ -23,6 +23,23 @@ export const wikiLoadExtract = createEffect(
   { functional: true }
 );
 
+export const wikiLoadRelatedExtract = createEffect(
+  (actions$ = inject(Actions), wikiService = inject(WikiService), store = inject(Store<WikiState>)) => {
+    return actions$.pipe(
+      ofType(wikiActions.loadRelatedExtract),
+      tap(() => store.dispatch(wikiActions.setIsLoading({ isLoading: true }))),
+      exhaustMap(({ title }) =>
+        wikiService.fetchRelatedSummary(title).pipe(
+          map((value: WikiSummary) => wikiActions.loadExtractSuccess(value)),
+          catchError(() => of(wikiActions.loadExtractError())),
+          finalize(() => store.dispatch(wikiActions.setIsLoading({ isLoading: false })))
+        )
+      )
+    );
+  },
+  { functional: true }
+);
+
 export const wikiLoadRandomExtract = createEffect(
   (actions$ = inject(Actions), wikiService = inject(WikiService), store = inject(Store<WikiState>)) => {
     return actions$.pipe(

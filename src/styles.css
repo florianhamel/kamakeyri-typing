@@ -6,6 +6,16 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --primary-color: #333333;
+@layer components {
+  .kw-block {
+    @apply h-fit w-fit rounded-xs border border-kw-black bg-white p-4;
+  }
+
+  .kw-btn {
+    @apply transition-colors h-fit w-fit rounded-xs border border-black bg-kw-white p-1 hover:border-primary;
+  }
+
+  .kw-input {
+    @apply h-fit rounded-xs border border-black bg-kw-white p-1 focus:border-primary focus:outline-none;
+  }
 }

@@ -9,7 +9,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { routes } from './app.routes';
 import { sessionCheckStatus } from './store/session/session.effects';
 import { sessionFeature } from './store/session/session.reducer';
-import { wikiLoadExtract, wikiLoadRandomExtract } from './store/wiki/wiki.effects';
+import { wikiLoadExtract, wikiLoadRandomExtract, wikiLoadRelatedExtract } from './store/wiki/wiki.effects';
 import { wikiFeature } from './store/wiki/wiki.reducer';
 
 export function TranslateLoaderFactory(http: HttpClient): TranslateHttpLoader {
@@ -36,6 +36,7 @@ export const appConfig: ApplicationConfig = {
     }),
     provideEffects({
       wikiLoadExtract,
+      wikiLoadRelatedExtract,
       wikiLoadRandomExtract,
       sessionCheckStatus
     }),

@@ -4,12 +4,13 @@ import { FormsModule } from '@angular/forms';
 import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
-import { WikiState } from '../../models/types';
+import { SessionState, WikiState } from '../../models/types';
 import { wikiActions } from '../../store/wiki/wiki.actions';
 import { selectExtract, selectIsLoading, selectTitle } from '../../store/wiki/wiki.selectors';
 import { SessionDataComponent } from '../session-data/session-data.component';
 import { SessionTextComponent } from '../session-text/session-text.component';
 import { LoadingSvgComponent } from '../svgs/loading-svg/loading-svg.component';
+import { selectStatus } from '../../store/session/session.selectors';
 
 @Component({
   selector: 'app-wiki',
@@ -27,19 +28,28 @@ import { LoadingSvgComponent } from '../svgs/loading-svg/loading-svg.component';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WikiComponent {
-  title$ = this.store.select(selectTitle);
-  extract$ = this.store.select(selectExtract);
-  isLoading$ = this.store.select(selectIsLoading);
+  title$ = this.wikiStore.select(selectTitle);
+  extract$ = this.wikiStore.select(selectExtract);
+  isLoading$ = this.wikiStore.select(selectIsLoading);
+
+  status$ = this.sessionStore.select(selectStatus);
 
   input: string = '';
 
-  constructor(private readonly store: Store<WikiState>) {}
+  constructor(
+    private readonly wikiStore: Store<WikiState>,
+    private readonly sessionStore: Store<SessionState>
+  ) {}
 
   handleWikiInput(): void {
-    this.store.dispatch(wikiActions.loadExtract({ title: this.input }));
+    this.wikiStore.dispatch(wikiActions.loadExtract({ title: this.input }));
+  }
+
+  handleRelated(title: string | null): void {
+    this.wikiStore.dispatch(wikiActions.loadRelatedExtract({ title: title ?? this.input }));
   }
 
   handleRandom(): void {
-    this.store.dispatch(wikiActions.loadRandomExtract());
+    this.wikiStore.dispatch(wikiActions.loadRandomExtract());
   }
 }

@@ -3,7 +3,8 @@
     "experience": "Kamakeyri Typing, the ultimate typing experience."
   },
   "wiki": {
-    "title": "Type any Wikipedia summary.",
+    "title": "Wiki Typing",
+    "description": "Type any Wikipedia summary.",
     "input": "Search Wikipedia...",
     "placeholder": "Find a Wikipedia summary and start typing!"
   }

@@ -15,7 +15,11 @@ module.exports = {
         secondary: '#96f9c1',
         tertiary: '#f9c196'
       },
+      fontSize: {
+        typing: ['2rem', '2.6rem']
+      },
       boxShadow: {
+        'kw-xs': '2px 2px 0 rgb(0, 0, 0 / 0.4)',
         'kw-sm': '5px 5px 0 rgb(0, 0, 0 / 0.4)',
         kw: '10px 10px 0 rgb(0, 0, 0 / 0.4)'
       },
