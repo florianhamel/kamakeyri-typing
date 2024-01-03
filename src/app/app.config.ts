@@ -7,10 +7,10 @@ import { provideStore } from '@ngrx/store';
 import { TranslateLoader, TranslateModule, TranslateModuleConfig } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { routes } from './app.routes';
-import { sessionCheckStatus } from './store/session/session.effects';
-import { sessionFeature } from './store/session/session.reducer';
-import { wikiLoadExtract, wikiLoadRandomExtract, wikiLoadRelatedExtract } from './store/wiki/wiki.effects';
-import { wikiFeature } from './store/wiki/wiki.reducer';
+import { sessionCheckStatus } from './session/store/session.effects';
+import { sessionFeature } from './session/store/session.reducer';
+import { wikiLoadExtract, wikiLoadRandomExtract, wikiLoadRelatedExtract } from './wiki/store/wiki.effects';
+import { wikiFeature } from './wiki/store/wiki.reducer';
 
 export function TranslateLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http);

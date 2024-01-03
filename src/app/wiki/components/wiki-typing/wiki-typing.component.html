@@ -1,0 +1,19 @@
+<ng-container
+  *ngrxLet="{
+    isLoading: isLoading$,
+    extract: extract$
+  } as vm"
+>
+  @if (vm.isLoading) {
+    <app-loading-svg />
+  } @else if (vm.extract) {
+    <div class="flex flex-col gap-6">
+      <app-session-text [text]="vm.extract" />
+      @if (vm.extract) {
+        <app-session-data />
+      }
+    </div>
+  } @else {
+    <span class="text-2xl">{{ 'wiki.placeholder' | translate }}</span>
+  }
+</ng-container>
