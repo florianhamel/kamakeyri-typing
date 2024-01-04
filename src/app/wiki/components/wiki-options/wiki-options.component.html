@@ -1,32 +1,22 @@
-<ng-container
-  *ngrxLet="{
-    title: title$,
-    sessionStatus: sessionStatus$
-  } as vm"
->
-  <div class="mb-6 flex flex-1 items-center justify-between gap-4">
-    <div class="flex items-center gap-4">
-      <button (click)="handleRandom()" class="kw-btn">Random</button>
-      <input
-        [(ngModel)]="input"
-        (keydown.enter)="handleWikiInput()"
-        [placeholder]="'wiki.input' | translate"
-        class="kw-input w-60"
-        type="text"
-      />
-    </div>
-    @if (vm.title) {
-      <div class="flex items-center gap-4">
-        <span class="text-2xl">{{ vm!.title }}</span>
-        <button (click)="handleRelated(vm.title)" class="kw-btn">Related</button>
-      </div>
-    }
+<div class="mb-6 flex flex-1 items-center justify-between gap-4">
+  <div class="flex items-center gap-4">
+    <button (click)="handleRandom()"
+            class="kw-btn">Random
+    </button>
+    <input
+      [(ngModel)]="input"
+      (keydown.enter)="handleWikiInput()"
+      [placeholder]="'wiki.input' | translate"
+      class="kw-input w-60"
+      type="text"
+    />
   </div>
-  @if (vm.sessionStatus === 'closed') {
-    <div class="flex gap-6">
-      <span>{{ 'Press ⬅️ for Random' }}</span>
-      <span>{{ 'Press ↩️ for Search' }}</span>
-      <span>{{ 'Press ➡️ for Related' }}</span>
+  @if ($title()) {
+    <div class="flex items-center gap-4">
+      <span class="text-2xl">{{ $title() }}</span>
+      <button (click)="handleRelated($title())"
+              class="kw-btn">Related
+      </button>
     </div>
   }
-</ng-container>
+</div>

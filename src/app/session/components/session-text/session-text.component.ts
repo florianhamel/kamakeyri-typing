@@ -4,29 +4,24 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  EventEmitter,
   Input,
   OnChanges,
+  Output,
+  Signal,
   SimpleChanges,
   ViewChild
 } from '@angular/core';
 import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
-import { Observable } from 'rxjs';
 import { SessionChar, SessionState, SessionStatus } from '../../../common/types';
 import { newLine } from '../../../common/unicodes';
 import { sessionActions } from '../../store/session.actions';
-import { selectIndex, selectSessionChars, selectStart, selectStatus } from '../../store/session.selectors';
+import { selectSessionState } from '../../store/session.selectors';
 import { exists, isNull } from '../../../common/checks/common.checks';
 import { isEscape, isFunctional } from '../../../common/checks/keyboard-event.checks';
 import { isCorrect } from '../../utils/utils';
-
-type ViewModel = {
-  start: Date | null;
-  sessionChars: ReadonlyArray<SessionChar>;
-  index: number;
-  status: SessionStatus;
-};
 
 @Component({
   selector: 'app-session-text',
@@ -37,19 +32,22 @@ type ViewModel = {
 })
 export class SessionTextComponent implements OnChanges, AfterViewInit {
   @Input() text!: string;
+  @Input() postSessionKeys!: ReadonlyArray<string>;
+
+  @Output() postSessionKeydown: EventEmitter<string> = new EventEmitter<string>();
 
   @ViewChild('textRef') textRef: ElementRef | undefined;
 
-  start$: Observable<Date | null> = this.store.select(selectStart);
-  sessionChars$: Observable<ReadonlyArray<SessionChar>> = this.store.select(selectSessionChars);
-  index$: Observable<number> = this.store.select(selectIndex);
-  status$: Observable<SessionStatus> = this.store.select(selectStatus);
+  $sessionState: Signal<SessionState> = this.sessionStore.selectSignal(selectSessionState);
 
-  constructor(private readonly store: Store<SessionState>) {}
+  // TODO pass that through in object along the postSessionKeys
+  options: string[] = ['Press ⬅️ for Random', 'Press ➡️ for Related'];
+
+  constructor(private readonly sessionStore: Store<SessionState>) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (Object.keys(changes).includes('text') && exists(this.text)) {
-      this.store.dispatch(sessionActions.init({ content: this.text! }));
+      this.sessionStore.dispatch(sessionActions.init({ content: this.text! }));
     }
   }
 
@@ -59,15 +57,16 @@ export class SessionTextComponent implements OnChanges, AfterViewInit {
     }
   }
 
-  handleKeyPressed(event: KeyboardEvent, vm: ViewModel): void {
-    if (this.isIgnored(event, vm.status)) return;
+  handleKeyPressed(event: KeyboardEvent): void {
+    if (this.isPostSession(event)) this.postSessionKeydown.emit(event.key);
+    if (this.isIgnored(event, this.$sessionState().status)) return;
     if (isEscape(event)) {
-      this.store.dispatch(sessionActions.reset());
+      this.sessionStore.dispatch(sessionActions.reset());
       return;
     }
-    if (this.isNotStarted(vm.start)) this.store.dispatch(sessionActions.start());
-    this.store.dispatch(sessionActions.update({ event }));
-    this.store.dispatch(sessionActions.checkStatus());
+    if (this.isNotStarted(this.$sessionState().start)) this.sessionStore.dispatch(sessionActions.start());
+    this.sessionStore.dispatch(sessionActions.update({ event }));
+    this.sessionStore.dispatch(sessionActions.checkStatus());
   }
 
   formatTarget(target: string): string {
@@ -81,6 +80,10 @@ export class SessionTextComponent implements OnChanges, AfterViewInit {
     if (this.hasUnderscore(index, currIndex)) return { borderBottom: '1px solid black' };
     if (this.isGreen(index, currIndex, sessionChar)) return { color: green };
     if (this.isRed(index, currIndex, sessionChar)) return { backgroundColor: `rgb(${red}, 0.3)`, color: `rgb(${red})` };
+  }
+
+  private isPostSession(event: KeyboardEvent): boolean {
+    return this.$sessionState().status !== 'inProgress' && this.postSessionKeys?.includes(event.key);
   }
 
   private isIgnored(event: KeyboardEvent, status: SessionStatus): boolean {

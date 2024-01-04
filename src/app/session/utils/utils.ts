@@ -14,12 +14,20 @@ export function isStarter(event: KeyboardEvent, starters: ReadonlyArray<Starter>
   return starters.some((starter) => eventMatchesStarter(event, starter));
 }
 
-export function getStarter(event: KeyboardEvent, starters: ReadonlyArray<Starter>): string | undefined {
-  return starters.find((starter) => eventMatchesStarter(event, starter))?.value;
+export function isNotStarted(session: SessionStatus): boolean {
+  return session === 'notStarted';
 }
 
-function eventMatchesStarter(event: KeyboardEvent, starter: Starter): boolean {
-  return event.key === starter.key && event.code === starter.code && event.shiftKey === starter.shiftKey;
+export function isInProgress(session: SessionStatus): boolean {
+  return session === 'inProgress';
+}
+
+export function isClosed(session: SessionStatus): boolean {
+  return session === 'closed';
+}
+
+export function getStarter(event: KeyboardEvent, starters: ReadonlyArray<Starter>): string | undefined {
+  return starters.find((starter) => eventMatchesStarter(event, starter))?.value;
 }
 
 export function initSessionChars(content: string, checker: (char: string) => boolean): ReadonlyArray<SessionChar> {
@@ -68,4 +76,8 @@ export function currentSessionChar(state: SessionState): SessionChar | undefined
 
 export function sessionCharAt(state: SessionState, index: number): SessionChar | undefined {
   return index < 0 ? undefined : state.sessionChars.at(index);
+}
+
+function eventMatchesStarter(event: KeyboardEvent, starter: Starter): boolean {
+  return event.key === starter.key && event.code === starter.code && event.shiftKey === starter.shiftKey;
 }

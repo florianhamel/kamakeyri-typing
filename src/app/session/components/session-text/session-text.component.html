@@ -1,16 +1,18 @@
-<ng-container
-  *ngrxLet="{
-    start: start$,
-    sessionChars: sessionChars$,
-    index: index$,
-    status: status$
-  } as vm"
->
-  <div #textRef tabindex="0" (keydown)="handleKeyPressed($event, vm)" class="kw-block w-fit focus:outline-none">
-    @for (sessionChar of vm.sessionChars; track $index) {
-      <span [ngStyle]="styleChar($index, vm.index, sessionChar)" class="whitespace-pre-wrap font-mono text-2xl">{{
+<div #textRef
+     tabindex="0"
+     (keydown)="handleKeyPressed($event)"
+     class="kw-block w-fit focus:outline-none">
+  @if ($sessionState().status !== 'inProgress') {
+    <div class="mb-6 flex gap-6 justify-center">
+      @for (option of options; track $index) {
+        <span>{{ option }}</span>
+      }
+    </div>
+  }
+  @for (sessionChar of $sessionState().sessionChars; track $index) {
+    <span [ngStyle]="styleChar($index, $sessionState().index, sessionChar)"
+          class="whitespace-pre-wrap font-mono text-2xl">{{
         formatTarget(sessionChar.target)
       }}</span>
-    }
-  </div>
-</ng-container>
+  }
+</div>

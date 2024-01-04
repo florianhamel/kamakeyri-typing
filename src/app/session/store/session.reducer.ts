@@ -1,11 +1,11 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
-import { SessionState } from '../../common/types';
 import { isBackspace } from '../../common/checks/keyboard-event.checks';
 import {
   isUsInternational,
   usInternationalSequences,
   usInternationalStarters
 } from '../../common/layouts/us-international.layout';
+import { SessionState } from '../../common/types';
 import {
   processedBackspace,
   processedBackspaceSeq,

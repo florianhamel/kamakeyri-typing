@@ -1,19 +1,36 @@
-<ng-container
-  *ngrxLet="{
-    isLoading: isLoading$,
-    extract: extract$
-  } as vm"
->
-  @if (vm.isLoading) {
-    <app-loading-svg />
-  } @else if (vm.extract) {
-    <div class="flex flex-col gap-6">
-      <app-session-text [text]="vm.extract" />
-      @if (vm.extract) {
-        <app-session-data />
-      }
+<div class="mb-6 flex flex-1 items-center justify-between gap-4">
+  <div class="flex items-center gap-4">
+    <button (click)="handleRandom()"
+            class="kw-btn">Random
+    </button>
+    <input
+      [(ngModel)]="input"
+      (keydown.enter)="handleWikiInput()"
+      [placeholder]="'wiki.input' | translate"
+      class="kw-input w-60"
+      type="text"
+    />
+  </div>
+  @if ($wikiState().title) {
+    <div class="flex items-center gap-4">
+      <span class="text-2xl">{{ $wikiState().title }}</span>
+      <button (click)="handleRelated($wikiState().title)"
+              class="kw-btn">Related
+      </button>
     </div>
-  } @else {
-    <span class="text-2xl">{{ 'wiki.placeholder' | translate }}</span>
   }
-</ng-container>
+</div>
+@if ($wikiState().isLoading) {
+  <app-loading-svg />
+} @else if ($wikiState().extract) {
+  <div class="flex flex-col gap-6">
+    <app-session-text (postSessionKeydown)="handlePostSession($event)"
+                      [postSessionKeys]="[ 'ArrowLeft', 'ArrowRight' ]"
+                      [text]="$wikiState().extract!" />
+    @if ($wikiState().extract) {
+      <app-session-data />
+    }
+  </div>
+} @else {
+  <span class="text-2xl">{{ 'wiki.placeholder' | translate }}</span>
+}
