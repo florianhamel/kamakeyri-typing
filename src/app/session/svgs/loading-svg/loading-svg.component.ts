@@ -7,5 +7,6 @@ import { Component } from '@angular/core';
   templateUrl: './loading-svg.component.svg'
 })
 export class LoadingSvgComponent {
-
+  readonly firstColor: string = '#ffffff';
+  readonly secondColor: string = '#000000';
 }

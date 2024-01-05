@@ -6,6 +6,21 @@
     "title": "Wiki Typing",
     "description": "Type any Wikipedia summary.",
     "input": "Search Wikipedia...",
-    "placeholder": "Find a Wikipedia summary and start typing!"
+    "placeholder": "Find a Wikipedia summary and start typing!",
+    "options": {
+      "random": "Press ⬅\uFE0F for Random",
+      "related": "Press ➡\uFE0F for Related"
+    }
+  },
+  "typing": {
+    "speed": "\uD83D\uDE80️ Speed",
+    "accuracy": "\uD83C\uDFAF Accuracy"
+  },
+  "session": {
+    "status": {
+      "notStarted": "\uD83C\uDFC1 Not started",
+      "inProgress": "\u23F3 In progress",
+      "closed": "\u2705 Closed"
+    }
   }
 }

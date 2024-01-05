@@ -1,9 +1,17 @@
+import { Type } from '@angular/core';
+
 export type SessionStatus = 'notStarted' | 'inProgress' | 'closed';
 
 export type SessionChar = Readonly<{
   target: string;
   input: string | null;
   enabled: boolean;
+}>;
+
+export type SessionDataItem = Readonly<{
+  transl: string;
+  formatter: (sessionState: SessionState) => string;
+  svgComponent?: Type<any>;
 }>;
 
 export type WikiSummary = Readonly<{
@@ -31,5 +39,5 @@ export type SessionState = Readonly<{
   sessionChars: ReadonlyArray<SessionChar>;
   keystrokes: number;
   errors: number;
-  status: SessionStatus
+  status: SessionStatus;
 }>;

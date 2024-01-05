@@ -1,9 +1,12 @@
 <div class="kw-block flex items-center gap-4">
-  @for (dataRow of dataRows; track $index) {
-    <div class="flex w-36 items-center gap-2">
-      <ng-container *ngComponentOutlet="dataRow.svgComponent" />
-      <span>{{ dataRow.formatter($sessionState()) }}</span>
+  @for (sessionDataItem of sessionData; track $index) {
+    <div class="flex w-40 items-center gap-2">
+      <span>{{ sessionDataItem.transl | translate }}:</span>
+      @if (sessionDataItem) {
+        <ng-container *ngComponentOutlet="sessionDataItem.svgComponent!" />
+      }
+      <span class="font-black">{{ sessionDataItem.formatter($sessionState()) }}</span>
     </div>
   }
-  <span>{{ formatStatus() }}</span>
+  <span>{{ 'session.status.' + $sessionState().status | translate }}</span>
 </div>

@@ -40,9 +40,6 @@ export class SessionTextComponent implements OnChanges, AfterViewInit {
 
   $sessionState: Signal<SessionState> = this.sessionStore.selectSignal(selectSessionState);
 
-  // TODO pass that through in object along the postSessionKeys
-  options: string[] = ['Press ⬅️ for Random', 'Press ➡️ for Related'];
-
   constructor(private readonly sessionStore: Store<SessionState>) {}
 
   ngOnChanges(changes: SimpleChanges): void {

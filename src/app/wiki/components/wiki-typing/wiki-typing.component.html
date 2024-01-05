@@ -1,36 +1,45 @@
-<div class="mb-6 flex flex-1 items-center justify-between gap-4">
-  <div class="flex items-center gap-4">
-    <button (click)="handleRandom()"
-            class="kw-btn">Random
-    </button>
-    <input
-      [(ngModel)]="input"
-      (keydown.enter)="handleWikiInput()"
-      [placeholder]="'wiki.input' | translate"
-      class="kw-input w-60"
-      type="text"
-    />
-  </div>
-  @if ($wikiState().title) {
+<div (keydown)="handlePostSession($event)"
+     tabindex="0">
+  <div class="mb-6 flex flex-1 items-center justify-between gap-4">
     <div class="flex items-center gap-4">
-      <span class="text-2xl">{{ $wikiState().title }}</span>
-      <button (click)="handleRelated($wikiState().title)"
-              class="kw-btn">Related
+      <button (click)="handleRandom()"
+              class="kw-btn">Random
       </button>
+      <input
+        (keydown.enter)="handleInput()"
+        [(ngModel)]="input"
+        [placeholder]="'wiki.input' | translate"
+        class="kw-input w-60"
+        type="text"
+      />
     </div>
-  }
-</div>
-@if ($wikiState().isLoading) {
-  <app-loading-svg />
-} @else if ($wikiState().extract) {
-  <div class="flex flex-col gap-6">
-    <app-session-text (postSessionKeydown)="handlePostSession($event)"
-                      [postSessionKeys]="[ 'ArrowLeft', 'ArrowRight' ]"
-                      [text]="$wikiState().extract!" />
-    @if ($wikiState().extract) {
-      <app-session-data />
+    @if ($wikiState().title) {
+      <div class="flex items-center gap-4">
+        <span class="text-2xl">{{ $wikiState().title }}</span>
+        <button (click)="handleRelated()"
+                class="kw-btn">Related
+        </button>
+      </div>
     }
   </div>
-} @else {
-  <span class="text-2xl">{{ 'wiki.placeholder' | translate }}</span>
-}
+  @if ($wikiState().isLoading) {
+    <app-loading-svg />
+  } @else if ($wikiState().extract) {
+    @if ($sessionStatus() !== 'inProgress') {
+      <div class="mb-6 flex gap-6">
+        @for (transl of optionTransls; track $index) {
+          <span>{{ transl | translate }}</span>
+        }
+      </div>
+    }
+    <div class="flex flex-col gap-6">
+      <app-session-text [text]="$wikiState().extract!" />
+      @if ($wikiState().extract) {
+        <app-session-data />
+      }
+
+    </div>
+  } @else {
+    <span class="text-2xl">{{ 'wiki.placeholder' | translate }}</span>
+  }
+</div>
