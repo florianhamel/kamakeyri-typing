@@ -21,7 +21,7 @@ import { sessionActions } from '../../store/session.actions';
 import { selectSessionState } from '../../store/session.selectors';
 import { exists, isNull } from '../../../common/checks/common.checks';
 import { isEscape, isFunctional } from '../../../common/checks/keyboard-event.checks';
-import { isCorrect } from '../../utils/utils';
+import { isCorrect } from '../../utils/utils.session';
 
 @Component({
   selector: 'app-session-text',

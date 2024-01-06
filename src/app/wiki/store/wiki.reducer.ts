@@ -17,7 +17,7 @@ function loadedExtractError(state: WikiState): WikiState {
   return {
     ...state,
     title: null,
-    extract: 'Oh の\nan error has occurredののの',
+    extract: 'のののOh の\nan error has occurredののの',
     isLoading: false
   };
 }

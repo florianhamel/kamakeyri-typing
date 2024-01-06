@@ -5,7 +5,7 @@ import {
   usInternationalSequences,
   usInternationalStarters
 } from '../../common/layouts/us-international.layout';
-import { SessionState } from '../../common/types';
+import { SessionChar, SessionState } from '../../common/types';
 import {
   processedBackspace,
   processedBackspaceSeq,
@@ -13,8 +13,14 @@ import {
   processedStandard,
   processedStarter,
   processedStarterSeq
-} from '../utils/text';
-import { initSessionChars, isSequenceExtension, isStarter, resetSessionChars } from '../utils/utils';
+} from '../utils/text.session';
+import {
+  firstIndex,
+  initSessionChars,
+  isSequenceExtension,
+  isStarter,
+  resetSessionChars
+} from '../utils/utils.session';
 import { sessionActions } from './session.actions';
 import { initialState } from './session.state';
 
@@ -32,11 +38,12 @@ export const sessionFeature = createFeature({
 });
 
 export function initialized(content: string): SessionState {
+  const sessionChars: ReadonlyArray<SessionChar> = initSessionChars(content, isUsInternational);
   return {
     start: null,
     end: null,
-    sessionChars: initSessionChars(content, isUsInternational),
-    index: 0,
+    index: firstIndex(sessionChars),
+    sessionChars,
     keystrokes: 0,
     errors: 0,
     status: 'notStarted'
@@ -62,8 +69,8 @@ export function reset(state: SessionState): SessionState {
   return {
     start: null,
     end: null,
-    sessionChars: resetSessionChars(state.sessionChars),
     index: 0,
+    sessionChars: resetSessionChars(state.sessionChars),
     keystrokes: 0,
     errors: 0,
     status: 'notStarted'

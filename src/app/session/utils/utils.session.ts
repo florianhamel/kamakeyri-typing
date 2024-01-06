@@ -1,5 +1,5 @@
-import { SessionChar, SessionState, SessionStatus, Starter } from '../../common/types';
 import { exists } from '../../common/checks/common.checks';
+import { SessionChar, SessionState, SessionStatus, Starter } from '../../common/types';
 
 export function isCorrect(sessionChar: SessionChar): boolean {
   if (sessionChar.target === '\n') return sessionChar.input === 'Enter';
@@ -48,25 +48,25 @@ export function updatedStatus(state: SessionState, index: number, sessionChar: S
 
 export function moveForward(state: SessionState, min: number): number {
   let index: number = state.index + min;
-  while (index < state.sessionChars.length && !state.sessionChars[index].enabled) {
-    ++index;
-  }
+  while (index < state.sessionChars.length && !state.sessionChars[index].enabled) ++index;
   return index;
 }
 
 export function moveBackward(state: SessionState, min: number): number {
   let index: number = 0 < state.index ? state.index - min : state.index;
-  while (0 < index && !state.sessionChars[index].enabled) {
-    --index;
-  }
+  while (0 < index && !state.sessionChars[index].enabled) --index;
   return index;
+}
+
+export function firstIndex(sessionChars: ReadonlyArray<SessionChar>): number {
+  let index: number = 0;
+  while (index < sessionChars.length && !sessionChars[index].enabled) ++index;
+  return index
 }
 
 export function lastSessionChar(sessionChars: ReadonlyArray<SessionChar>): SessionChar {
   let index: number = sessionChars.length - 1;
-  while (0 < index && !sessionChars[index].enabled) {
-    --index;
-  }
+  while (0 < index && !sessionChars[index].enabled) --index;
   return sessionChars[index];
 }
 
