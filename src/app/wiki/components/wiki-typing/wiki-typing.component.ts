@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Signal } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Signal, ViewChild } from '@angular/core';
 import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
@@ -28,7 +28,9 @@ import { wikiConst } from '../../../common/constants';
   templateUrl: './wiki-typing.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class WikiTypingComponent {
+export class WikiTypingComponent implements AfterViewInit {
+  @ViewChild('wikiInput') wikiInput: ElementRef | undefined;
+
   $wikiState: Signal<WikiState> = this.wikiStore.selectSignal(selectWikiState);
   $sessionStatus: Signal<SessionStatus> = this.sessionStore.selectSignal(selectStatus);
 
@@ -40,6 +42,10 @@ export class WikiTypingComponent {
     private readonly wikiStore: Store<WikiState>,
     private readonly sessionStore: Store<SessionState>
   ) {}
+
+  ngAfterViewInit(): void {
+    this.wikiInput?.nativeElement.focus();
+  }
 
   handlePostSession(event: KeyboardEvent): void {
     if (this.$sessionStatus() !== 'inProgress') {

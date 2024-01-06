@@ -3,6 +3,7 @@
     <div class="flex items-center gap-4">
       <button (click)="handleRandom()" class="kw-btn">Random</button>
       <input
+        #wikiInput
         (keydown.enter)="handleInput()"
         [(ngModel)]="input"
         [placeholder]="'wiki.input' | translate"

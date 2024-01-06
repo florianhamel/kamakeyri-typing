@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { AuthState } from '../../../common/types';
@@ -10,13 +10,19 @@ import { authActions } from '../../store/auth.actions';
   imports: [ReactiveFormsModule],
   templateUrl: './log-in.component.html'
 })
-export class LogInComponent {
+export class LogInComponent implements AfterViewInit {
+  @ViewChild('usernameInput') usernameInput: ElementRef | undefined;
+
   logInForm: FormGroup = new FormGroup({
     username: new FormControl('', Validators.required),
     password: new FormControl('', Validators.required)
   });
 
   constructor(private readonly authStore: Store<AuthState>) {}
+
+  ngAfterViewInit(): void {
+    this.usernameInput?.nativeElement.focus();
+  }
 
   handleSubmission(): void {
     this.authStore.dispatch(
