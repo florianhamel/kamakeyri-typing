@@ -11,6 +11,8 @@ import { sessionCheckStatus } from './session/store/session.effects';
 import { sessionFeature } from './session/store/session.reducer';
 import { wikiLoadExtract, wikiLoadRandomExtract, wikiLoadRelatedExtract } from './wiki/store/wiki.effects';
 import { wikiFeature } from './wiki/store/wiki.reducer';
+import { authLogIn } from './auth/store/auth.effects';
+import { authFeature } from './auth/store/auth.reducer';
 
 export function TranslateLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http);
@@ -32,13 +34,15 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withFetch()),
     provideStore({
       session: sessionFeature.reducer,
-      wiki: wikiFeature.reducer
+      wiki: wikiFeature.reducer,
+      auth: authFeature.reducer
     }),
     provideEffects({
       wikiLoadExtract,
       wikiLoadRelatedExtract,
       wikiLoadRandomExtract,
-      sessionCheckStatus
+      sessionCheckStatus,
+      authLogIn
     }),
     importProvidersFrom(TranslateModule.forRoot(provideTranslation()))
   ]

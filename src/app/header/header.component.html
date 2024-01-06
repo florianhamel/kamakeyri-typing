@@ -1,8 +1,15 @@
-<header class="flex h-20 items-center">
+<header class="flex h-20 items-center justify-between">
   <nav class="text ml-8 flex gap-6">
     @for (navItem of navItems; track $index) {
-      <a [routerLink]="navItem.route"
-         class="hover:text-primary transition-colors">{{ navItem.name }}</a>
+      <a [routerLink]="navItem.route" class="transition-colors hover:text-primary">{{ navItem.name }}</a>
     }
   </nav>
+
+  <div class="mr-20">
+    @if ($isLoggedIn()) {
+      <span>Hello {{ $authState().username }} ✨</span>
+    } @else {
+      <a [routerLink]="navLogIn.route" class="transition-colors hover:text-primary">{{ navLogIn.name }}</a>
+    }
+  </div>
 </header>

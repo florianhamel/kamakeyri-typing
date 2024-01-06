@@ -1,0 +1,10 @@
+<form
+  [formGroup]="logInForm"
+  (ngSubmit)="handleSubmission()"
+  class="flex w-fit flex-col gap-6 rounded-xs border border-kw-black p-6 mx-auto"
+>
+  <p class="text-2xl">Log in</p>
+  <input formControlName="username" placeholder="Enter username/email" type="text" class="kw-input" />
+  <input formControlName="password" placeholder="Enter password" type="password" class="kw-input" />
+  <button [disabled]="!logInForm.valid" class="kw-btn disabled:kw-btn-disabled mx-auto">Log in</button>
+</form>
