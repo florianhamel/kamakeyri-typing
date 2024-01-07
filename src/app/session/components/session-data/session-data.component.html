@@ -1,4 +1,7 @@
 <div class="kw-block flex items-center gap-4">
+  @if (!$isLoggedIn() && $sessionState().status === 'closed') {
+    <a (click)="openDialog()" class="underline hover:cursor-pointer">{{ 'session.saveProgress' | translate }}</a>
+  }
   @for (sessionDataItem of sessionData; track $index) {
     <div class="flex w-40 items-center gap-2">
       <span>{{ sessionDataItem.transl | translate }}:</span>

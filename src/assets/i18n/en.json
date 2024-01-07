@@ -21,6 +21,7 @@
       "notStarted": "\uD83C\uDFC1 Not started",
       "inProgress": "\u23F3 In progress",
       "closed": "\u2705 Closed"
-    }
+    },
+    "saveProgress": "Log in and save your progress!"
   }
 }

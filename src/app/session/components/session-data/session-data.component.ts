@@ -1,13 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Signal, Type } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Signal } from '@angular/core';
 import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
+import { TranslateModule } from '@ngx-translate/core';
+import { exists } from '../../../common/checks/common.checks';
 import { SessionDataItem, SessionState } from '../../../common/types';
 import { selectSessionState } from '../../store/session.selectors';
-import { exists } from '../../../common/checks/common.checks';
-import { AccuracySvgComponent } from '../../svgs/accuracy-svg/accuracy-svg.component';
-import { WpmSvgComponent } from '../../svgs/wpm-svg/wpm-svg.component';
-import { TranslateModule } from '@ngx-translate/core';
+import { selectIsLoggedIn } from '../../../auth/store/auth.selectors';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { LogInComponent } from '../../../auth/components/log-in/log-in.component';
 
 @Component({
   selector: 'app-session-data',
@@ -17,19 +18,21 @@ import { TranslateModule } from '@ngx-translate/core';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SessionDataComponent {
-  $sessionState: Signal<SessionState> = this.sessionStore.selectSignal(selectSessionState);
+  $sessionState: Signal<SessionState> = this.store.selectSignal(selectSessionState);
+  $isLoggedIn: Signal<boolean> = this.store.selectSignal(selectIsLoggedIn);
 
-  // readonly sessionData: SessionDataItem[] = [
-  //   { transl: 'typing.speed', formatter: this.formatWpm, svgComponent: WpmSvgComponent },
-  //   { transl: 'typing.accuracy', formatter: this.formatAccuracy, svgComponent: AccuracySvgComponent }
-  // ];
+  logInRef?: MatDialogRef<LogInComponent>;
 
   readonly sessionData: SessionDataItem[] = [
     { transl: 'typing.speed', formatter: this.formatWpm },
     { transl: 'typing.accuracy', formatter: this.formatAccuracy }
   ];
 
-  constructor(private readonly sessionStore: Store<SessionState>) {}
+  constructor(private readonly store: Store, private readonly dialog: MatDialog) {}
+
+  openDialog(): void {
+    this.logInRef = this.dialog.open(LogInComponent);
+  }
 
   private formatWpm(sessionState: SessionState): string {
     const minutes: number =

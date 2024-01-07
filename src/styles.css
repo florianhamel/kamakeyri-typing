@@ -8,7 +8,7 @@
 
 @layer components {
   .kw-block {
-    @apply h-fit w-fit rounded-xs border border-kw-black bg-white p-3;
+    @apply h-fit w-fit rounded-xs border border-kw-black bg-white p-2;
   }
 
   .kw-btn {
