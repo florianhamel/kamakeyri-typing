@@ -1,14 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Signal } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
+import { LogInComponent } from '../../../auth/components/log-in/log-in.component';
+import { selectIsLoggedIn } from '../../../auth/store/auth.selectors';
 import { exists } from '../../../common/checks/common.checks';
 import { SessionDataItem, SessionState } from '../../../common/types';
 import { selectSessionState } from '../../store/session.selectors';
-import { selectIsLoggedIn } from '../../../auth/store/auth.selectors';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { LogInComponent } from '../../../auth/components/log-in/log-in.component';
 
 @Component({
   selector: 'app-session-data',
@@ -28,7 +28,10 @@ export class SessionDataComponent {
     { transl: 'typing.accuracy', formatter: this.formatAccuracy }
   ];
 
-  constructor(private readonly store: Store, private readonly dialog: MatDialog) {}
+  constructor(
+    private readonly store: Store,
+    private readonly dialog: MatDialog
+  ) {}
 
   openDialog(): void {
     this.logInRef = this.dialog.open(LogInComponent);

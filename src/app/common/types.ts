@@ -1,6 +1,4 @@
 import { Type } from '@angular/core';
-import { LogInComponent } from '../auth/components/log-in/log-in.component';
-import { MatDialogRef } from '@angular/material/dialog';
 
 export type SessionState = Readonly<{
   start: Date | null;
@@ -12,13 +10,13 @@ export type SessionState = Readonly<{
   status: SessionStatus;
 }>;
 
+export type SessionStatus = 'notStarted' | 'inProgress' | 'closed';
+
 export type SessionChar = Readonly<{
   target: string;
   input: string | null;
   enabled: boolean;
 }>;
-
-export type SessionStatus = 'notStarted' | 'inProgress' | 'closed';
 
 export type SessionDataItem = Readonly<{
   transl: string;
@@ -26,22 +24,30 @@ export type SessionDataItem = Readonly<{
   svgComponent?: Type<any>;
 }>;
 
+export type SessionCore = Readonly<{
+  time: number;
+  length: number;
+  keystrokes: number;
+  errors: number;
+}>;
+
 export type WikiState = Readonly<{
   title: string | null;
   extract: string | null;
+  mode: WikiMode | null;
   isLoading: boolean;
+}>;
+
+export type WikiMode = 'search' | 'related' | 'random';
+
+export type WikiData = Readonly<{
+  titles: { normalized: string };
+  extract: string;
 }>;
 
 export type WikiSummary = Readonly<{
   title: string;
   extract: string;
-}>;
-
-export type Starter = Readonly<{
-  key: string;
-  code: string;
-  shiftKey: boolean;
-  value: string;
 }>;
 
 export type AuthState = Readonly<{
@@ -57,4 +63,11 @@ export type UserInfo = Readonly<{
 export type Credentials = Readonly<{
   username: string;
   password: string;
+}>;
+
+export type Starter = Readonly<{
+  key: string;
+  code: string;
+  shiftKey: boolean;
+  value: string;
 }>;

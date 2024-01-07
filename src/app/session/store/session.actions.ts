@@ -9,6 +9,7 @@ export const sessionActions = createActionGroup({
     reset: emptyProps(),
     close: emptyProps(),
     updateTimer: emptyProps(),
-    checkStatus: emptyProps()
+    closeIfNeeded: emptyProps(),
+    save: emptyProps()
   }
 });

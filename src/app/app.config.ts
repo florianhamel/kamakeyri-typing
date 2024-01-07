@@ -1,19 +1,19 @@
 import { HttpClient, provideHttpClient, withFetch } from '@angular/common/http';
 import { ApplicationConfig, importProvidersFrom } from '@angular/core';
 import { provideClientHydration } from '@angular/platform-browser';
+import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
 import { provideEffects } from '@ngrx/effects';
 import { provideStore } from '@ngrx/store';
 import { TranslateLoader, TranslateModule, TranslateModuleConfig } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { routes } from './app.routes';
-import { sessionCheckStatus } from './session/store/session.effects';
+import { authLogIn } from './auth/store/auth.effects';
+import { authFeature } from './auth/store/auth.reducer';
+import { sessionCloseIfNeeded } from './session/store/session.effects';
 import { sessionFeature } from './session/store/session.reducer';
 import { wikiLoadExtract, wikiLoadRandomExtract, wikiLoadRelatedExtract } from './wiki/store/wiki.effects';
 import { wikiFeature } from './wiki/store/wiki.reducer';
-import { authLogIn } from './auth/store/auth.effects';
-import { authFeature } from './auth/store/auth.reducer';
-import { provideAnimations } from '@angular/platform-browser/animations';
 
 export function TranslateLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http);
@@ -34,18 +34,18 @@ export const appConfig: ApplicationConfig = {
     provideClientHydration(),
     provideHttpClient(withFetch()),
     provideStore({
-        session: sessionFeature.reducer,
-        wiki: wikiFeature.reducer,
-        auth: authFeature.reducer
+      session: sessionFeature.reducer,
+      wiki: wikiFeature.reducer,
+      auth: authFeature.reducer
     }),
     provideEffects({
-        wikiLoadExtract,
-        wikiLoadRelatedExtract,
-        wikiLoadRandomExtract,
-        sessionCheckStatus,
-        authLogIn
+      wikiLoadExtract,
+      wikiLoadRelatedExtract,
+      wikiLoadRandomExtract,
+      sessionCloseIfNeeded,
+      authLogIn
     }),
     importProvidersFrom(TranslateModule.forRoot(provideTranslation())),
     provideAnimations()
-]
+  ]
 };

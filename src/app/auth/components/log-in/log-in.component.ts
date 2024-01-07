@@ -26,7 +26,6 @@ export class LogInComponent implements AfterViewInit {
     private readonly dialogRef: MatDialogRef<LogInComponent>
   ) {
     effect(() => {
-      // console.log(this.$isLoggedIn());
       if (this.$isLoggedIn()) {
         this.dialogRef.close();
       }

@@ -1,17 +1,25 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Signal, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  Signal,
+  ViewChild,
+  effect
+} from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
-import { SessionState, SessionStatus, WikiState } from '../../../common/types';
+import { wikiConst } from '../../../common/constants';
+import { SessionState, WikiState } from '../../../common/types';
 import { SessionDataComponent } from '../../../session/components/session-data/session-data.component';
 import { SessionTextComponent } from '../../../session/components/session-text/session-text.component';
+import { selectSessionState } from '../../../session/store/session.selectors';
 import { LoadingSvgComponent } from '../../../session/svgs/loading-svg/loading-svg.component';
-import { selectWikiState } from '../../store/wiki.selectors';
 import { wikiActions } from '../../store/wiki.actions';
-import { FormsModule } from '@angular/forms';
-import { selectStatus } from '../../../session/store/session.selectors';
-import { wikiConst } from '../../../common/constants';
+import { selectWikiState } from '../../store/wiki.selectors';
 
 @Component({
   selector: 'app-wiki-typing',
@@ -31,38 +39,39 @@ import { wikiConst } from '../../../common/constants';
 export class WikiTypingComponent implements AfterViewInit {
   @ViewChild('wikiInput') wikiInput: ElementRef | undefined;
 
-  $wikiState: Signal<WikiState> = this.wikiStore.selectSignal(selectWikiState);
-  $sessionStatus: Signal<SessionStatus> = this.sessionStore.selectSignal(selectStatus);
+  $wikiState: Signal<WikiState> = this.store.selectSignal(selectWikiState);
+  $sessionState: Signal<SessionState> = this.store.selectSignal(selectSessionState);
 
   input: string = '';
 
-  optionTransls: ReadonlyArray<string> = ['wiki.options.random', 'wiki.options.related'];
-
-  constructor(
-    private readonly wikiStore: Store<WikiState>,
-    private readonly sessionStore: Store<SessionState>
-  ) {}
+  constructor(private readonly store: Store) {
+    effect(() => {
+      if (this.$sessionState().status === 'closed') {
+        console.log('closed');
+      }
+    });
+  }
 
   ngAfterViewInit(): void {
     this.wikiInput?.nativeElement.focus();
   }
 
   handlePostSession(event: KeyboardEvent): void {
-    if (this.$sessionStatus() !== 'inProgress') {
+    if (this.$sessionState().status !== 'inProgress') {
       if (event.key === wikiConst.randomKey) this.handleRandom();
       if (event.key === wikiConst.relatedKey) this.handleRelated();
     }
   }
 
   handleInput(): void {
-    this.wikiStore.dispatch(wikiActions.loadExtract({ title: this.input }));
+    this.store.dispatch(wikiActions.loadSearchSummary({ title: this.input }));
   }
 
   handleRelated(): void {
-    this.wikiStore.dispatch(wikiActions.loadRelatedExtract({ title: this.$wikiState().title ?? this.input }));
+    this.store.dispatch(wikiActions.loadRelatedSummary({ title: this.$wikiState().title ?? this.input }));
   }
 
   handleRandom(): void {
-    this.wikiStore.dispatch(wikiActions.loadRandomExtract());
+    this.store.dispatch(wikiActions.loadRandomSummary());
   }
 }

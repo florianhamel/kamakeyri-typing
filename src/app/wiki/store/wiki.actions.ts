@@ -1,14 +1,14 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
-import { WikiSummary } from '../../common/types';
+import { WikiMode, WikiSummary } from '../../common/types';
 
 export const wikiActions = createActionGroup({
   source: 'wiki',
   events: {
     setIsLoading: props<{ isLoading: boolean }>(),
-    loadExtract: props<{ title: string }>(),
-    loadRelatedExtract: props<{ title: string }>(),
-    loadRandomExtract: emptyProps(),
-    loadExtractSuccess: props<WikiSummary>(),
-    loadExtractError: emptyProps()
+    loadSearchSummary: props<{ title: string }>(),
+    loadRelatedSummary: props<{ title: string }>(),
+    loadRandomSummary: emptyProps(),
+    loadSummarySuccess: props<WikiSummary & Readonly<{ mode: WikiMode }>>(),
+    loadSummaryError: emptyProps()
   }
 });

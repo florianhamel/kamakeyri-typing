@@ -2,17 +2,16 @@ import { inject } from '@angular/core';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { filter, map } from 'rxjs';
-import { SessionState } from '../../common/types';
 import { isCorrect, lastSessionChar } from '../utils/utils.session';
 import { sessionActions } from './session.actions';
-import { selectIndex, selectSessionChars } from './session.selectors';
+import { selectSessionState } from './session.selectors';
 
-export const sessionCheckStatus = createEffect(
-  (actions$ = inject(Actions), store = inject(Store<SessionState>)) => {
+export const sessionCloseIfNeeded = createEffect(
+  (actions$ = inject(Actions), store = inject(Store)) => {
     return actions$.pipe(
-      ofType(sessionActions.checkStatus),
-      concatLatestFrom(() => [store.select(selectSessionChars), store.select(selectIndex)]),
-      filter(([, sessionChars, index]) => sessionChars.length <= index && isCorrect(lastSessionChar(sessionChars))),
+      ofType(sessionActions.closeIfNeeded),
+      concatLatestFrom(() => [store.select(selectSessionState)]),
+      filter(([, state]) => state.sessionChars.length <= state.index && isCorrect(lastSessionChar(state.sessionChars))),
       map(() => sessionActions.close())
     );
   },

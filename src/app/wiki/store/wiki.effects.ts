@@ -9,12 +9,12 @@ import { wikiActions } from './wiki.actions';
 export const wikiLoadExtract = createEffect(
   (actions$ = inject(Actions), wikiService = inject(WikiService), wikiStore = inject(Store<WikiState>)) => {
     return actions$.pipe(
-      ofType(wikiActions.loadExtract),
+      ofType(wikiActions.loadSearchSummary),
       tap(() => wikiStore.dispatch(wikiActions.setIsLoading({ isLoading: true }))),
       exhaustMap(({ title }) =>
         wikiService.fetchSummary(title).pipe(
-          map((value: WikiSummary) => wikiActions.loadExtractSuccess(value)),
-          catchError(() => of(wikiActions.loadExtractError()))
+          map((wikiSummary: WikiSummary) => wikiActions.loadSummarySuccess({ ...wikiSummary, mode: 'search' })),
+          catchError(() => of(wikiActions.loadSummaryError()))
         )
       )
     );
@@ -25,12 +25,12 @@ export const wikiLoadExtract = createEffect(
 export const wikiLoadRelatedExtract = createEffect(
   (actions$ = inject(Actions), wikiService = inject(WikiService), wikiStore = inject(Store<WikiState>)) => {
     return actions$.pipe(
-      ofType(wikiActions.loadRelatedExtract),
+      ofType(wikiActions.loadRelatedSummary),
       tap(() => wikiStore.dispatch(wikiActions.setIsLoading({ isLoading: true }))),
       exhaustMap(({ title }) =>
         wikiService.fetchRelatedSummary(title).pipe(
-          map((value: WikiSummary) => wikiActions.loadExtractSuccess(value)),
-          catchError(() => of(wikiActions.loadExtractError()))
+          map((wikiSummary: WikiSummary) => wikiActions.loadSummarySuccess({ ...wikiSummary, mode: 'related' })),
+          catchError(() => of(wikiActions.loadSummaryError()))
         )
       )
     );
@@ -41,12 +41,12 @@ export const wikiLoadRelatedExtract = createEffect(
 export const wikiLoadRandomExtract = createEffect(
   (actions$ = inject(Actions), wikiService = inject(WikiService), wikiStore = inject(Store<WikiState>)) => {
     return actions$.pipe(
-      ofType(wikiActions.loadRandomExtract),
+      ofType(wikiActions.loadRandomSummary),
       tap(() => wikiStore.dispatch(wikiActions.setIsLoading({ isLoading: true }))),
       exhaustMap(() =>
         wikiService.fetchRandomSummary().pipe(
-          map((value: WikiSummary) => wikiActions.loadExtractSuccess(value)),
-          catchError(() => of(wikiActions.loadExtractError()))
+          map((wikiSummary: WikiSummary) => wikiActions.loadSummarySuccess({ ...wikiSummary, mode: 'random' })),
+          catchError(() => of(wikiActions.loadSummaryError()))
         )
       )
     );

@@ -21,11 +21,10 @@
   @if ($wikiState().isLoading) {
     <app-loading-svg />
   } @else if ($wikiState().extract) {
-    @if ($sessionStatus() !== 'inProgress') {
+    @if ($sessionState().status !== 'inProgress') {
       <div class="mb-6 flex gap-6">
-        @for (transl of optionTransls; track $index) {
-          <span>{{ transl | translate }}</span>
-        }
+        <span>{{ 'wiki.options.random' | translate }}</span>
+        <span>{{ 'wiki.options.related' | translate }}</span>
       </div>
     }
     <div class="flex flex-col gap-6">
