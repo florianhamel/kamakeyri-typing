@@ -23,3 +23,6 @@
     @apply transition-colors h-fit rounded-xs border border-black bg-kw-white p-1 focus:border-primary focus:outline-none;
   }
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

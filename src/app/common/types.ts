@@ -1,4 +1,6 @@
 import { Type } from '@angular/core';
+import { LogInComponent } from '../auth/components/log-in/log-in.component';
+import { MatDialogRef } from '@angular/material/dialog';
 
 export type SessionState = Readonly<{
   start: Date | null;

@@ -1,4 +1,6 @@
 import { AuthState } from '../../common/types';
-import { getStoredItem } from '../../common/local-storage';
 
-export const initialState: AuthState = getStoredItem<AuthState>('authState') ?? { username: null, exp: null };
+export const initialState: AuthState = {
+  username: null,
+  exp: null
+};

@@ -13,6 +13,7 @@ import { wikiLoadExtract, wikiLoadRandomExtract, wikiLoadRelatedExtract } from '
 import { wikiFeature } from './wiki/store/wiki.reducer';
 import { authLogIn } from './auth/store/auth.effects';
 import { authFeature } from './auth/store/auth.reducer';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 export function TranslateLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http);
@@ -33,17 +34,18 @@ export const appConfig: ApplicationConfig = {
     provideClientHydration(),
     provideHttpClient(withFetch()),
     provideStore({
-      session: sessionFeature.reducer,
-      wiki: wikiFeature.reducer,
-      auth: authFeature.reducer
+        session: sessionFeature.reducer,
+        wiki: wikiFeature.reducer,
+        auth: authFeature.reducer
     }),
     provideEffects({
-      wikiLoadExtract,
-      wikiLoadRelatedExtract,
-      wikiLoadRandomExtract,
-      sessionCheckStatus,
-      authLogIn
+        wikiLoadExtract,
+        wikiLoadRelatedExtract,
+        wikiLoadRandomExtract,
+        sessionCheckStatus,
+        authLogIn
     }),
-    importProvidersFrom(TranslateModule.forRoot(provideTranslation()))
-  ]
+    importProvidersFrom(TranslateModule.forRoot(provideTranslation())),
+    provideAnimations()
+]
 };

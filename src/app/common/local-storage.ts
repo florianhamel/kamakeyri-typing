@@ -6,7 +6,7 @@ export function createHydrateReducer<S>(
   ...ons: ReducerTypes<S, readonly ActionCreator[]>[]
 ): ActionReducer<S> {
   const hydratedState: S | null = getStoredItem<S>(stateKey);
-  return createReducer(hydratedState ?? initialState, ...ons);
+  return createReducer<S>(hydratedState ?? initialState, ...ons);
 }
 
 export function getStoredItem<T>(key: string): T | null {

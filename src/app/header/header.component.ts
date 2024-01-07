@@ -1,10 +1,11 @@
-import { Component, effect, Signal } from '@angular/core';
+import { NgIf } from '@angular/common';
+import { Component, Signal } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { RouterLink } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { AuthState } from '../common/types';
-import { selectWikiState } from '../wiki/store/wiki.selectors';
+import { LogInComponent } from '../auth/components/log-in/log-in.component';
 import { selectAuthState, selectIsLoggedIn } from '../auth/store/auth.selectors';
-import { NgIf } from '@angular/common';
+import { AuthState } from '../common/types';
 
 type NavItem = {
   name: string;
@@ -21,6 +22,8 @@ export class HeaderComponent {
   $authState: Signal<AuthState> = this.store.selectSignal(selectAuthState);
   $isLoggedIn: Signal<boolean> = this.store.selectSignal(selectIsLoggedIn);
 
+  logInRef?: MatDialogRef<LogInComponent>;
+
   readonly navItems: NavItem[] = [
     { name: 'Kamakeyri', route: '' },
     { name: 'Wiki Typing', route: 'wiki' }
@@ -28,5 +31,12 @@ export class HeaderComponent {
 
   readonly navLogIn: NavItem = { name: 'Log in', route: 'log-in' };
 
-  constructor(private readonly store: Store) {}
+  constructor(
+    private readonly store: Store,
+    private readonly dialog: MatDialog
+  ) {}
+
+  openDialog(): void {
+    this.logInRef = this.dialog.open(LogInComponent);
+  }
 }

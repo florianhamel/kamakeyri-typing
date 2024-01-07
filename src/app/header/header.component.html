@@ -9,7 +9,9 @@
     @if ($isLoggedIn()) {
       <span>Hello {{ $authState().username }} ✨</span>
     } @else {
-      <a [routerLink]="navLogIn.route" class="transition-colors hover:text-primary">{{ navLogIn.name }}</a>
+      <a (click)="openDialog()" class="transition-colors hover:cursor-pointer hover:text-primary">{{
+        navLogIn.name
+      }}</a>
     }
   </div>
 </header>

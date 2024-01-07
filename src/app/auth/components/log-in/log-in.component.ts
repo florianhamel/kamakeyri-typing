@@ -1,8 +1,9 @@
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Signal, ViewChild, effect } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
-import { AuthState } from '../../../common/types';
 import { authActions } from '../../store/auth.actions';
+import { selectIsLoggedIn } from '../../store/auth.selectors';
 
 @Component({
   selector: 'app-log-in',
@@ -18,14 +19,26 @@ export class LogInComponent implements AfterViewInit {
     password: new FormControl('', Validators.required)
   });
 
-  constructor(private readonly authStore: Store<AuthState>) {}
+  $isLoggedIn: Signal<boolean> = this.store.selectSignal(selectIsLoggedIn);
+
+  constructor(
+    private readonly store: Store,
+    private readonly dialogRef: MatDialogRef<LogInComponent>
+  ) {
+    effect(() => {
+      // console.log(this.$isLoggedIn());
+      if (this.$isLoggedIn()) {
+        this.dialogRef.close();
+      }
+    });
+  }
 
   ngAfterViewInit(): void {
     this.usernameInput?.nativeElement.focus();
   }
 
   handleSubmission(): void {
-    this.authStore.dispatch(
+    this.store.dispatch(
       authActions.logIn({
         username: this.logInForm.value.username,
         password: this.logInForm.value.password
