@@ -10,7 +10,6 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { routes } from './app.routes';
 import { authLogIn } from './auth/store/auth.effects';
 import { authFeature } from './auth/store/auth.reducer';
-import { sessionCloseIfNeeded } from './session/store/session.effects';
 import { sessionFeature } from './session/store/session.reducer';
 import { wikiLoadExtract, wikiLoadRandomExtract, wikiLoadRelatedExtract } from './wiki/store/wiki.effects';
 import { wikiFeature } from './wiki/store/wiki.reducer';
@@ -42,7 +41,6 @@ export const appConfig: ApplicationConfig = {
       wikiLoadExtract,
       wikiLoadRelatedExtract,
       wikiLoadRandomExtract,
-      sessionCloseIfNeeded,
       authLogIn
     }),
     importProvidersFrom(TranslateModule.forRoot(provideTranslation())),

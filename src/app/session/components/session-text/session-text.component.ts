@@ -19,7 +19,7 @@ import { SessionChar, SessionState, SessionStatus } from '../../../common/types'
 import { newLine } from '../../../common/unicodes';
 import { sessionActions } from '../../store/session.actions';
 import { selectSessionState } from '../../store/session.selectors';
-import { isCorrect } from '../../utils/utils.session';
+import { isCorrect, lastSessionChar } from '../../utils/utils.session';
 
 @Component({
   selector: 'app-session-text',
@@ -57,7 +57,14 @@ export class SessionTextComponent implements OnChanges, AfterViewInit {
     }
     if (this.isNotStarted(this.$sessionState().start)) this.sessionStore.dispatch(sessionActions.start());
     this.sessionStore.dispatch(sessionActions.update({ event }));
-    this.sessionStore.dispatch(sessionActions.closeIfNeeded());
+    if (this.isSessionClosed()) this.sessionStore.dispatch(sessionActions.close());
+  }
+
+  private isSessionClosed(): boolean {
+    return (
+      this.$sessionState().sessionChars.length <= this.$sessionState().index &&
+      isCorrect(lastSessionChar(this.$sessionState().sessionChars))
+    );
   }
 
   formatTarget(target: string): string {
