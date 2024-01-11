@@ -1,10 +1,14 @@
 import { inject } from '@angular/core';
-import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { catchError, exhaustMap, map, of, tap } from 'rxjs';
-import { WikiState, WikiSummary } from '../../common/types';
+import { selectSessionCore } from '../../session/store/session.selectors';
 import { WikiService } from '../services/wiki.service';
 import { wikiActions } from './wiki.actions';
+import { selectWikiState } from './wiki.selectors';
+import { WikiState, WikiSummary } from '../models/wiki.types';
+import { SessionDto } from '../../session/models/session.types';
+import { SessionService } from '../../session/services/session.service';
 
 export const wikiLoadExtract = createEffect(
   (actions$ = inject(Actions), wikiService = inject(WikiService), wikiStore = inject(Store<WikiState>)) => {

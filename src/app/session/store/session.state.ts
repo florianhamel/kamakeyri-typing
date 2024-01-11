@@ -1,4 +1,4 @@
-import { SessionState } from '../../common/types';
+import { SessionState } from '../models/session.types';
 
 export const initialState: SessionState = {
   start: null,

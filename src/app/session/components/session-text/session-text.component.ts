@@ -15,11 +15,11 @@ import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { exists, isNull } from '../../../common/checks/common.checks';
 import { isEscape, isFunctional } from '../../../common/checks/keyboard-event.checks';
-import { SessionChar, SessionState, SessionStatus } from '../../../common/types';
 import { newLine } from '../../../common/unicodes';
 import { sessionActions } from '../../store/session.actions';
 import { selectSessionState } from '../../store/session.selectors';
 import { isCorrect, lastSessionChar } from '../../utils/utils.session';
+import { SessionChar, SessionState, SessionStatus } from '../../models/session.types';
 
 @Component({
   selector: 'app-session-text',

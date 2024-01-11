@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, map, tap } from 'rxjs';
-import { WikiData, WikiSummary } from '../../common/types';
+import { Observable, map } from 'rxjs';
+import { WikiData, WikiSummary } from '../models/wiki.types';
 
 @Injectable({
   providedIn: 'root'

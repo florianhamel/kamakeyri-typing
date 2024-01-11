@@ -1,5 +1,6 @@
 import { exists } from '../../common/checks/common.checks';
-import { SessionChar, SessionState, SessionStatus, Starter } from '../../common/types';
+import { Starter } from '../../common/types';
+import { SessionChar, SessionState, SessionStatus } from '../models/session.types';
 
 export function isCorrect(sessionChar: SessionChar): boolean {
   if (sessionChar.target === '\n') return sessionChar.input === 'Enter';

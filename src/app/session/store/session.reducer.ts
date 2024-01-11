@@ -5,7 +5,6 @@ import {
   usInternationalSequences,
   usInternationalStarters
 } from '../../common/layouts/us-international.layout';
-import { SessionChar, SessionState } from '../../common/types';
 import {
   processedBackspace,
   processedBackspaceSeq,
@@ -23,6 +22,7 @@ import {
 } from '../utils/utils.session';
 import { sessionActions } from './session.actions';
 import { initialState } from './session.state';
+import { SessionChar, SessionState } from '../models/session.types';
 
 export const sessionFeature = createFeature({
   name: 'session',

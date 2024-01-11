@@ -1,6 +1,7 @@
-import { SessionChar, SessionState, Starter } from '../../common/types';
+import { Starter } from '../../common/types';
 import { isUndefined } from '../../common/checks/common.checks';
 import { currentSessionChar, getStarter, isCorrect, moveBackward, moveForward, sessionCharAt } from './utils.session';
+import { SessionChar, SessionState } from '../models/session.types';
 
 /*** Sequence */
 export function processedBackspaceSeq(state: SessionState): SessionState {

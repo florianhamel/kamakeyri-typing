@@ -1,4 +1,4 @@
-import { WikiState } from '../../common/types';
+import { WikiState } from '../models/wiki.types';
 
 export const initialState: WikiState = {
   extract: null,

@@ -13,11 +13,12 @@ import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { wikiConst } from '../../../common/constants';
-import { SessionState, WikiState } from '../../../common/types';
 import { SessionDataComponent } from '../../../session/components/session-data/session-data.component';
 import { SessionTextComponent } from '../../../session/components/session-text/session-text.component';
+import { SessionState } from '../../../session/models/session.types';
 import { selectSessionState } from '../../../session/store/session.selectors';
 import { LoadingSvgComponent } from '../../../session/svgs/loading-svg/loading-svg.component';
+import { WikiState } from '../../models/wiki.types';
 import { wikiActions } from '../../store/wiki.actions';
 import { selectWikiState } from '../../store/wiki.selectors';
 
@@ -39,12 +40,15 @@ import { selectWikiState } from '../../store/wiki.selectors';
 export class WikiTypingComponent implements AfterViewInit {
   @ViewChild('wikiInput') wikiInput: ElementRef | undefined;
 
-  $wikiState: Signal<WikiState> = this.store.selectSignal(selectWikiState);
-  $sessionState: Signal<SessionState> = this.store.selectSignal(selectSessionState);
+  $wikiState: Signal<WikiState> = this.wikiStore.selectSignal(selectWikiState);
+  $sessionState: Signal<SessionState> = this.sessionStore.selectSignal(selectSessionState);
 
   input: string = '';
 
-  constructor(private readonly store: Store) {
+  constructor(
+    private readonly wikiStore: Store<WikiState>,
+    private readonly sessionStore: Store<SessionState>
+  ) {
     effect(() => {
       if (this.$sessionState().status === 'closed') {
         console.log('closed');
@@ -64,14 +68,14 @@ export class WikiTypingComponent implements AfterViewInit {
   }
 
   handleInput(): void {
-    this.store.dispatch(wikiActions.loadSearchSummary({ title: this.input }));
+    this.wikiStore.dispatch(wikiActions.loadSearchSummary({ title: this.input }));
   }
 
   handleRelated(): void {
-    this.store.dispatch(wikiActions.loadRelatedSummary({ title: this.$wikiState().title ?? this.input }));
+    this.wikiStore.dispatch(wikiActions.loadRelatedSummary({ title: this.$wikiState().title ?? this.input }));
   }
 
   handleRandom(): void {
-    this.store.dispatch(wikiActions.loadRandomSummary());
+    this.wikiStore.dispatch(wikiActions.loadRandomSummary());
   }
 }

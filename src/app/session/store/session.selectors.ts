@@ -1,6 +1,6 @@
 import { createSelector } from '@ngrx/store';
 import { exists } from '../../common/checks/common.checks';
-import { SessionCore } from '../../common/types';
+import { SessionRefined } from '../models/session.types';
 import { sessionFeature } from './session.reducer';
 
 export const {
@@ -14,7 +14,7 @@ export const {
   selectSessionState
 } = sessionFeature;
 
-export const selectSessionCore = createSelector(selectSessionState, (state): SessionCore => {
+export const selectSessionCore = createSelector(selectSessionState, (state): SessionRefined => {
   return {
     time: exists(state.start) && exists(state.end) ? state.end!.getTime() - state.start!.getTime() : 0,
     length: state.sessionChars.length,
