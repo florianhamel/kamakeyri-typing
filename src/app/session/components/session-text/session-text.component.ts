@@ -18,7 +18,7 @@ import { isEscape, isFunctional } from '../../../common/checks/keyboard-event.ch
 import { newLine } from '../../../common/unicodes';
 import { sessionActions } from '../../store/session.actions';
 import { selectSessionState } from '../../store/session.selectors';
-import { isCorrect, lastSessionChar } from '../../utils/utils.session';
+import { isCorrect, lastSessionChar } from '../../functions/common.session';
 import { SessionChar, SessionState, SessionStatus } from '../../models/session.types';
 
 @Component({

@@ -12,14 +12,14 @@ import {
   processedStandard,
   processedStarter,
   processedStarterSeq
-} from '../utils/text.session';
+} from '../functions/text.session';
 import {
   firstIndex,
   initSessionChars,
   isSequenceExtension,
   isStarter,
   resetSessionChars
-} from '../utils/utils.session';
+} from '../functions/common.session';
 import { sessionActions } from './session.actions';
 import { initialState } from './session.state';
 import { SessionChar, SessionState } from '../models/session.types';
@@ -56,7 +56,7 @@ export function updated(state: SessionState, event: KeyboardEvent): SessionState
     if (isStarter(event, usInternationalStarters)) return processedStarterSeq(state, event, usInternationalStarters);
     return processedExtensionSeq(state, event, usInternationalSequences);
   }
-  if (isBackspace(event)) return processedBackspace(state);
+  if (isBackspace(event)) return processedBackspace(state, event);
   if (isStarter(event, usInternationalStarters)) return processedStarter(state, event, usInternationalStarters);
   return processedStandard(state, event);
 }

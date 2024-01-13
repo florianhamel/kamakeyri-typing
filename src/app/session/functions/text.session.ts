@@ -1,7 +1,7 @@
-import { Starter } from '../../common/types';
 import { isUndefined } from '../../common/checks/common.checks';
-import { currentSessionChar, getStarter, isCorrect, moveBackward, moveForward, sessionCharAt } from './utils.session';
+import { Starter } from '../../common/types';
 import { SessionChar, SessionState } from '../models/session.types';
+import { currentSessionChar, getStarter, isCorrect, moveBackward, moveForward, sessionCharAt } from './common.session';
 
 /*** Sequence */
 export function processedBackspaceSeq(state: SessionState): SessionState {
@@ -91,7 +91,50 @@ function processedInvalidSeq(state: SessionState, event: KeyboardEvent): Session
 }
 
 /*** Not sequence */
-export function processedBackspace(state: SessionState): SessionState {
+
+// hello_ --> |
+// hello _ --> |
+// hello  _ --> hello|
+
+export function processedBackspace(state: SessionState, event: KeyboardEvent): SessionState {
+  if (event.altKey) return processedBackspaceWord(state);
+  return processedBackspaceChar(state);
+}
+
+function processedBackspaceWord(state: SessionState): SessionState {
+  const end: Date = new Date();
+  const index: number = wordIndex(state);
+  if (isUndefined(sessionCharAt(state, index))) return { ...state, end };
+  const sessionChars: ReadonlyArray<SessionChar> = deletedLastWord(state, index);
+  // console.log(sessionChars);
+  return {
+    ...state,
+    end,
+    sessionChars,
+    index
+  };
+}
+
+/** RULE: = 0|1 space -> del space + word |  > 1 space -> only del spaces
+ * to me a long time from now... state.index - index <= 2
+ * is the case where the cursor in on the char after a word + space
+ * example: hello _ (2), hello_ OR hell_ (1)
+ **/
+function wordIndex(state: SessionState): number {
+  let index: number = state.index === 0 ? state.index : state.index - 1;
+  while (0 < index && state.sessionChars[index].target === ' ') --index;
+  if (state.index - index <= 2) while (0 < index && state.sessionChars[index].target !== ' ') --index;
+  return index > 1 ? index + 1 : index;
+}
+
+function deletedLastWord(state: SessionState, index: number): ReadonlyArray<SessionChar> {
+  return state.sessionChars.map((sessionChar, i) => {
+    if (index <= i) return { ...sessionChar, input: null };
+    return { ...sessionChar };
+  });
+}
+
+function processedBackspaceChar(state: SessionState): SessionState {
   const end: Date = new Date();
   const index: number = moveBackward(state, 1);
   if (isUndefined(sessionCharAt(state, index))) return state;

@@ -1,5 +1,4 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
-import { empty } from 'rxjs';
 
 export const sessionActions = createActionGroup({
   source: 'session',
