@@ -1,21 +1,21 @@
-export type AuthState = Readonly<{
+export type AuthState = {
   username: string | null;
   exp: number | null;
-}>;
+};
 
-export type UserInfo = Readonly<{
+export type UserInfo = {
   username: string;
   exp: number;
-}>;
+};
 
-export type Credentials = Readonly<{
+export type Credentials = {
   username: string;
   password: string;
-}>;
+};
 
-export type Starter = Readonly<{
+export type Starter = {
   key: string;
   code: string;
   shiftKey: boolean;
   value: string;
-}>;
+};

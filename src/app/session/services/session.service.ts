@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { env } from '../../../environments/environment.development';
 import { SessionDto } from '../models/session.types';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class SessionService {
 
   constructor(private readonly http: HttpClient) {}
 
-  uploadSession(sessionDto: SessionDto): void {
-    this.http.post<void>(`${this.baseUrl}/sessions`, sessionDto);
+  uploadSession(sessionDto: SessionDto): Observable<void> {
+    return this.http.post<void>(`${this.baseUrl}/sessions`, sessionDto);
   }
 }

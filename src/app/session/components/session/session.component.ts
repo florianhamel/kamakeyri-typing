@@ -1,11 +1,12 @@
 import { CommonModule, NgTemplateOutlet } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input, OnChanges, Signal, SimpleChanges, effect } from '@angular/core';
-import { SessionMetaData, SessionStatus } from '../../models/session.types';
-import { SessionTextComponent } from '../session-text/session-text.component';
-import { TranslateModule } from '@ngx-translate/core';
+import { ChangeDetectionStrategy, Component, Input, Signal, effect } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { selectStatus } from '../../store/session.selectors';
+import { TranslateModule } from '@ngx-translate/core';
+import { SessionMetaData, SessionStatus } from '../../models/session.types';
 import { sessionActions } from '../../store/session.actions';
+import { selectStatus } from '../../store/session.selectors';
+import { SessionDataComponent } from '../session-data/session-data.component';
+import { SessionTextComponent } from '../session-text/session-text.component';
 
 export type SessionType = 'wiki' | 'training';
 
@@ -14,21 +15,24 @@ export type SessionType = 'wiki' | 'training';
   standalone: true,
   templateUrl: './session.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, NgTemplateOutlet, SessionTextComponent, TranslateModule]
+  imports: [CommonModule, NgTemplateOutlet, SessionTextComponent, TranslateModule, SessionDataComponent]
 })
-export class SessionComponent implements OnChanges {
+export class SessionComponent {
   @Input() content!: string;
   @Input() metaData!: SessionMetaData;
 
   $status: Signal<SessionStatus> = this.store.selectSignal(selectStatus);
 
   constructor(private readonly store: Store) {
-    effect(() => {
-      if (this.$status() === 'closed') this.store.dispatch(sessionActions.upload(this.metaData));
-    }, { allowSignalWrites: true });
+    effect(
+      () => {
+        if (this.$status() === 'closed') this.store.dispatch(sessionActions.upload(this.metaData));
+      },
+      { allowSignalWrites: true }
+    );
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log('metaData', this.metaData);
+  handleClick(): void {
+    this.store.dispatch(sessionActions.upload(this.metaData));
   }
 }

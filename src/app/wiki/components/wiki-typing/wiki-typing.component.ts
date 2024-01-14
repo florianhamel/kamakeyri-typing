@@ -50,8 +50,6 @@ export class WikiTypingComponent implements AfterViewInit {
 
   $sessionStatus: Signal<SessionStatus> = this.store.selectSignal(selectStatus);
 
-  input: string = '';
-  wikiPlaceholder: string = 'wiki.placeholder';
   $wikiMetaData: Signal<SessionMetaData> = computed(() => {
     return {
       mode: 'wiki',
@@ -60,7 +58,10 @@ export class WikiTypingComponent implements AfterViewInit {
     };
   });
 
-constructor(private readonly store: Store) {
+  input: string = '';
+  wikiPlaceholder: string = 'wiki.placeholder';
+
+  constructor(private readonly store: Store) {
     effect(() => {
       console.log(this.$sessionStatus());
     });

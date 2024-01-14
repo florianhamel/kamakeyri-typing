@@ -106,7 +106,6 @@ function processedBackspaceWord(state: SessionState): SessionState {
   const index: number = wordIndex(state);
   if (isUndefined(sessionCharAt(state, index))) return { ...state, end };
   const sessionChars: ReadonlyArray<SessionChar> = deletedLastWord(state, index);
-  // console.log(sessionChars);
   return {
     ...state,
     end,

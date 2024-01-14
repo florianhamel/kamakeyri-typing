@@ -1,11 +1,14 @@
-@switch (metaData.mode) {
-  @case ('wiki') {
-    <ng-container *ngTemplateOutlet="wikiTemplate" />
+<div class="flex flex-col gap-3">
+  @switch (metaData.mode) {
+    @case ('wiki') {
+      <ng-container *ngTemplateOutlet="wikiTemplate" />
+    }
+    @case ('training') {
+      <ng-container *ngTemplateOutlet="trainingTemplate" />
+    }
   }
-  @case ('training') {
-    <ng-container *ngTemplateOutlet="trainingTemplate" />
-  }
-}
+  <app-session-data />
+</div>
 
 <ng-template #wikiTemplate>
   <app-session-text [text]="content" />
