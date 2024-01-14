@@ -27,6 +27,7 @@ export class LogInComponent implements AfterViewInit {
   ) {
     effect(() => {
       if (this.$isLoggedIn()) this.dialogRef.close();
+      // TODO upload all sessions in sessionStorage when user is logged in
     });
   }
 
