@@ -1,4 +1,5 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
+import { SessionMetaData } from '../models/session.types';
 
 export const sessionActions = createActionGroup({
   source: 'session',
@@ -8,9 +9,7 @@ export const sessionActions = createActionGroup({
     update: props<{ event: KeyboardEvent }>(),
     reset: emptyProps(),
     close: emptyProps(),
-    updateTimer: emptyProps(),
     closeIfNeeded: emptyProps(),
-    save: emptyProps(),
-    upload: emptyProps()
+    upload: props<SessionMetaData>()
   }
 });

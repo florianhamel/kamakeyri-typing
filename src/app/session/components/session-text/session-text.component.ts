@@ -16,10 +16,10 @@ import { TranslateModule } from '@ngx-translate/core';
 import { exists, isNull } from '../../../common/checks/common.checks';
 import { isEscape, isFunctional } from '../../../common/checks/keyboard-event.checks';
 import { newLine } from '../../../common/unicodes';
-import { sessionActions } from '../../store/session.actions';
-import { selectSessionState } from '../../store/session.selectors';
 import { isCorrect, lastSessionChar } from '../../functions/common.session';
-import { SessionChar, SessionState, SessionStatus } from '../../models/session.types';
+import { SessionChar, SessionStatus } from '../../models/session.types';
+import { sessionActions } from '../../store/session.actions';
+import { selectIndex, selectSessionChars, selectStart, selectStatus } from '../../store/session.selectors';
 
 @Component({
   selector: 'app-session-text',
@@ -33,13 +33,16 @@ export class SessionTextComponent implements OnChanges, AfterViewInit {
 
   @ViewChild('textRef') textRef: ElementRef | undefined;
 
-  $sessionState: Signal<SessionState> = this.sessionStore.selectSignal(selectSessionState);
+  $status: Signal<SessionStatus> = this.store.selectSignal(selectStatus);
+  $start: Signal<Date | null> = this.store.selectSignal(selectStart);
+  $index_: Signal<number> = this.store.selectSignal(selectIndex);
+  $sessionChars: Signal<ReadonlyArray<SessionChar>> = this.store.selectSignal(selectSessionChars);
 
-  constructor(private readonly sessionStore: Store<SessionState>) {}
+  constructor(private readonly store: Store) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (Object.keys(changes).includes('text') && exists(this.text)) {
-      this.sessionStore.dispatch(sessionActions.init({ content: this.text! }));
+      this.store.dispatch(sessionActions.init({ content: this.text! }));
     }
   }
 
@@ -50,21 +53,18 @@ export class SessionTextComponent implements OnChanges, AfterViewInit {
   }
 
   handleKeyPressed(event: KeyboardEvent): void {
-    if (this.isIgnored(event, this.$sessionState().status)) return;
+    if (this.isIgnored(event, this.$status())) return;
     if (isEscape(event)) {
-      this.sessionStore.dispatch(sessionActions.reset());
+      this.store.dispatch(sessionActions.reset());
       return;
     }
-    if (this.isNotStarted(this.$sessionState().start)) this.sessionStore.dispatch(sessionActions.start());
-    this.sessionStore.dispatch(sessionActions.update({ event }));
-    if (this.isSessionClosed()) this.sessionStore.dispatch(sessionActions.close());
+    if (this.isNotStarted(this.$start())) this.store.dispatch(sessionActions.start());
+    this.store.dispatch(sessionActions.update({ event }));
+    if (this.isSessionClosed()) this.store.dispatch(sessionActions.close());
   }
 
   private isSessionClosed(): boolean {
-    return (
-      this.$sessionState().sessionChars.length <= this.$sessionState().index &&
-      isCorrect(lastSessionChar(this.$sessionState().sessionChars))
-    );
+    return this.$sessionChars().length <= this.$index_() && isCorrect(lastSessionChar(this.$sessionChars()));
   }
 
   formatTarget(target: string): string {

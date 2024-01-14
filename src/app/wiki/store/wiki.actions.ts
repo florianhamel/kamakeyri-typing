@@ -1,5 +1,5 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
-import { WikiMode, WikiSummary } from '../models/wiki.types';
+import { WikiOption, WikiSummary } from '../models/wiki.types';
 
 export const wikiActions = createActionGroup({
   source: 'wiki',
@@ -8,7 +8,7 @@ export const wikiActions = createActionGroup({
     loadSearchSummary: props<{ title: string }>(),
     loadRelatedSummary: props<{ title: string }>(),
     loadRandomSummary: emptyProps(),
-    loadSummarySuccess: props<WikiSummary & Readonly<{ mode: WikiMode }>>(),
+    loadSummarySuccess: props<WikiSummary & Readonly<{ option: WikiOption }>>(),
     loadSummaryError: emptyProps(),
     saveWikiSession: emptyProps()
   }

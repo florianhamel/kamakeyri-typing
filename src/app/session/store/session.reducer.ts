@@ -33,7 +33,6 @@ export const sessionFeature = createFeature({
     on(sessionActions.start, (state) => started(state)),
     on(sessionActions.reset, (state) => reset(state)),
     on(sessionActions.close, (state) => closed(state)),
-    on(sessionActions.updateTimer, (state) => ({ ...state, end: new Date() }))
   )
 });
 

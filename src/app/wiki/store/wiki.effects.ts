@@ -1,14 +1,10 @@
 import { inject } from '@angular/core';
-import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { catchError, exhaustMap, map, of, tap } from 'rxjs';
-import { selectSessionCore } from '../../session/store/session.selectors';
+import { WikiState, WikiSummary } from '../models/wiki.types';
 import { WikiService } from '../services/wiki.service';
 import { wikiActions } from './wiki.actions';
-import { selectWikiState } from './wiki.selectors';
-import { WikiState, WikiSummary } from '../models/wiki.types';
-import { SessionDto } from '../../session/models/session.types';
-import { SessionService } from '../../session/services/session.service';
 
 export const wikiLoadExtract = createEffect(
   (actions$ = inject(Actions), wikiService = inject(WikiService), wikiStore = inject(Store<WikiState>)) => {
@@ -17,7 +13,7 @@ export const wikiLoadExtract = createEffect(
       tap(() => wikiStore.dispatch(wikiActions.setIsLoading({ isLoading: true }))),
       exhaustMap(({ title }) =>
         wikiService.fetchSummary(title).pipe(
-          map((wikiSummary: WikiSummary) => wikiActions.loadSummarySuccess({ ...wikiSummary, mode: 'search' })),
+          map((wikiSummary: WikiSummary) => wikiActions.loadSummarySuccess({ ...wikiSummary, option: 'search' })),
           catchError(() => of(wikiActions.loadSummaryError()))
         )
       )
@@ -33,7 +29,7 @@ export const wikiLoadRelatedExtract = createEffect(
       tap(() => wikiStore.dispatch(wikiActions.setIsLoading({ isLoading: true }))),
       exhaustMap(({ title }) =>
         wikiService.fetchRelatedSummary(title).pipe(
-          map((wikiSummary: WikiSummary) => wikiActions.loadSummarySuccess({ ...wikiSummary, mode: 'related' })),
+          map((wikiSummary: WikiSummary) => wikiActions.loadSummarySuccess({ ...wikiSummary, option: 'related' })),
           catchError(() => of(wikiActions.loadSummaryError()))
         )
       )
@@ -49,7 +45,7 @@ export const wikiLoadRandomExtract = createEffect(
       tap(() => wikiStore.dispatch(wikiActions.setIsLoading({ isLoading: true }))),
       exhaustMap(() =>
         wikiService.fetchRandomSummary().pipe(
-          map((wikiSummary: WikiSummary) => wikiActions.loadSummarySuccess({ ...wikiSummary, mode: 'random' })),
+          map((wikiSummary: WikiSummary) => wikiActions.loadSummarySuccess({ ...wikiSummary, option: 'random' })),
           catchError(() => of(wikiActions.loadSummaryError()))
         )
       )

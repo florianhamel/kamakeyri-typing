@@ -1,4 +1,5 @@
 import { Type } from '@angular/core';
+import { WikiOption } from '../../wiki/models/wiki.types';
 
 export type SessionStatus = 'notStarted' | 'inProgress' | 'closed';
 
@@ -24,17 +25,23 @@ export type SessionDataItem = Readonly<{
   svgComponent?: Type<any>;
 }>;
 
-export type SessionType = 'wiki';
-
 export type SessionRefined = Readonly<{
   time: number;
   length: number;
   keystrokes: number;
   errors: number;
-}>
-
-export type SessionDto = Readonly<SessionRefined & {
-  type: SessionType;
-  label?: string;
-  mode?: string
 }>;
+
+export type SessionMetaData =
+  | Readonly<{
+      mode: 'wiki';
+      label: string | null;
+      option: WikiOption | null;
+    }>
+  | Readonly<{
+      mode: 'training';
+      label: string;
+      option: 'TrainingOption';
+    }>;
+
+export type SessionDto = Readonly<SessionRefined & SessionMetaData>;

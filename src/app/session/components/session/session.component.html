@@ -1,0 +1,16 @@
+@switch (metaData.mode) {
+  @case ('wiki') {
+    <ng-container *ngTemplateOutlet="wikiTemplate" />
+  }
+  @case ('training') {
+    <ng-container *ngTemplateOutlet="trainingTemplate" />
+  }
+}
+
+<ng-template #wikiTemplate>
+  <app-session-text [text]="content" />
+</ng-template>
+
+<ng-template #trainingTemplate>
+  <p>Training template</p>
+</ng-template>

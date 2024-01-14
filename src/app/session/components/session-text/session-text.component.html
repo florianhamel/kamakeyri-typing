@@ -1,7 +1,7 @@
 <div #textRef tabindex="0" (keydown)="handleKeyPressed($event)" class="kw-block w-fit focus:outline-none">
-  @for (sessionChar of $sessionState().sessionChars; track $index) {
+  @for (sessionChar of $sessionChars(); track $index) {
     <span
-      [ngStyle]="styleChar($index, $sessionState().index, sessionChar)"
+      [ngStyle]="styleChar($index, $index_(), sessionChar)"
       class="whitespace-pre-wrap font-mono text-2xl"
       >{{ formatTarget(sessionChar.target) }}</span
     >

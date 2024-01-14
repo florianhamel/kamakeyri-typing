@@ -1,11 +1,11 @@
 export type WikiState = Readonly<{
   title: string | null;
   extract: string | null;
-  mode: WikiMode | null;
+  option: WikiOption | null;
   isLoading: boolean;
 }>;
 
-export type WikiMode = 'search' | 'related' | 'random';
+export type WikiOption = 'search' | 'related' | 'random';
 
 export type WikiData = Readonly<{
   titles: { normalized: string };

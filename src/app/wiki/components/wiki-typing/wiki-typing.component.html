@@ -11,28 +11,17 @@
         type="text"
       />
     </div>
-    @if ($wikiState().title) {
+    @if ($wikiTitle()) {
       <div class="flex items-center gap-4">
-        <span class="text-2xl">{{ $wikiState().title }}</span>
+        <span class="text-2xl">{{ $wikiTitle() }}</span>
         <button (click)="handleRelated()" class="kw-btn">Related</button>
       </div>
     }
   </div>
-  @if ($wikiState().isLoading) {
+  @if ($wikiIsLoading()) {
     <app-loading-svg />
-  } @else if ($wikiState().extract) {
-    @if ($sessionState().status !== 'inProgress') {
-      <div class="mb-6 flex gap-6">
-        <span>{{ 'wiki.options.random' | translate }}</span>
-        <span>{{ 'wiki.options.related' | translate }}</span>
-      </div>
-    }
-    <div class="flex flex-col gap-6">
-      <app-session-text [text]="$wikiState().extract!" />
-      @if ($wikiState().extract) {
-        <app-session-data />
-      }
-    </div>
+  } @else if ($wikiExtract()) {
+    <app-session [content]="$wikiExtract()!" [metaData]="$wikiMetaData()"/>
   } @else {
     <span class="text-2xl">{{ 'wiki.placeholder' | translate }}</span>
   }

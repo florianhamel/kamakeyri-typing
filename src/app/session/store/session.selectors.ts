@@ -14,7 +14,7 @@ export const {
   selectSessionState
 } = sessionFeature;
 
-export const selectSessionCore = createSelector(selectSessionState, (state): SessionRefined => {
+export const selectSessionRefined = createSelector(selectSessionState, (state): SessionRefined => {
   return {
     time: exists(state.start) && exists(state.end) ? state.end!.getTime() - state.start!.getTime() : 0,
     length: state.sessionChars.length,
