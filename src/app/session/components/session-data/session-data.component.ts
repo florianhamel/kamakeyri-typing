@@ -7,8 +7,8 @@ import { TranslateModule } from '@ngx-translate/core';
 import { LogInComponent } from '../../../auth/components/log-in/log-in.component';
 import { selectIsLoggedIn } from '../../../auth/store/auth.selectors';
 import { exists } from '../../../common/checks/common.checks';
-import { selectSessionState } from '../../store/session.selectors';
 import { SessionDataItem, SessionState } from '../../models/session.types';
+import { selectSessionState } from '../../store/session.selectors';
 
 @Component({
   selector: 'app-session-data',
@@ -49,7 +49,7 @@ export class SessionDataComponent {
 
   private formatAccuracy(sessionState: SessionState): string {
     const accuracy: number | undefined =
-      sessionState.keystrokes > 0 ? 100 - (sessionState.errors * 100) / sessionState.keystrokes : undefined;
+      sessionState.keystrokes > 0 ? 100 - (sessionState.errors * 100) / sessionState.sessionChars.length : undefined;
     return `${accuracy?.toFixed(1) ?? '- '}%`;
   }
 }
