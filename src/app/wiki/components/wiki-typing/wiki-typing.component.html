@@ -21,7 +21,13 @@
   @if ($wikiIsLoading()) {
     <app-loading-svg />
   } @else if ($wikiExtract()) {
-    <app-session [content]="$wikiExtract()!" [metaData]="$wikiMetaData()"/>
+    @if ($sessionStatus() !== 'inProgress') {
+      <div class="mb-6 flex gap-6">
+        <span>{{ 'wiki.options.random' | translate }}</span>
+        <span>{{ 'wiki.options.related' | translate }}</span>
+      </div>
+    }
+    <app-session [content]="$wikiExtract()!" [metaData]="$wikiMetaData()" />
   } @else {
     <span class="text-2xl">{{ 'wiki.placeholder' | translate }}</span>
   }
