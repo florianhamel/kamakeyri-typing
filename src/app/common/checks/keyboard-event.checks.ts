@@ -24,16 +24,8 @@ export function isFunctional(event: KeyboardEvent): boolean {
   return functionals.has(event.key);
 }
 
-export function isDead(event: KeyboardEvent): boolean {
-  return event.key === 'Dead';
-}
-
-export function isQuote(event: KeyboardEvent): boolean {
-  return isDead(event) && event.code === 'Quote';
-}
-
-export function isBackquote(event: KeyboardEvent): boolean {
-  return isDead(event) && event.code === 'Backquote';
+export function isRepeat(event: KeyboardEvent): boolean {
+  return event.repeat && event.key !== 'Backspace';
 }
 
 export function isEscape(event: KeyboardEvent): boolean {

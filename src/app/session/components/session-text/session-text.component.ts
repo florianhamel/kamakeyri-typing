@@ -14,7 +14,7 @@ import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { exists, isNull } from '../../../common/checks/common.checks';
-import { isEscape, isFunctional } from '../../../common/checks/keyboard-event.checks';
+import { isEscape, isFunctional, isRepeat } from '../../../common/checks/keyboard-event.checks';
 import { newLine } from '../../../common/unicodes';
 import { isCorrect, lastSessionChar } from '../../functions/common.session';
 import { SessionChar, SessionStatus } from '../../models/session.types';
@@ -81,7 +81,7 @@ export class SessionTextComponent implements OnChanges, AfterViewInit {
   }
 
   private isIgnored(event: KeyboardEvent, status: SessionStatus): boolean {
-    return status === 'closed' || isFunctional(event);
+    return status === 'closed' || isFunctional(event) || isRepeat(event);
   }
 
   private isNotStarted(start: Date | null): boolean {
