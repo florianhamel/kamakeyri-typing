@@ -1,0 +1,9 @@
+<div class="bg-kw-white border border-kw-black rounded-xs">
+  <h2>Exercises</h2>
+  @for (exercise of $exercises(); track $index) {
+    <div>
+      <span>{{ exercise.label }}</span>
+      <span>{{ exercise.level }}</span>
+    </div>
+  }
+</div>
