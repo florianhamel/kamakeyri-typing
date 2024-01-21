@@ -15,18 +15,6 @@ export function isStarter(event: KeyboardEvent, starters: ReadonlyArray<Starter>
   return starters.some((starter) => eventMatchesStarter(event, starter));
 }
 
-export function isNotStarted(session: SessionStatus): boolean {
-  return session === 'notStarted';
-}
-
-export function isInProgress(session: SessionStatus): boolean {
-  return session === 'inProgress';
-}
-
-export function isClosed(session: SessionStatus): boolean {
-  return session === 'closed';
-}
-
 export function getStarter(event: KeyboardEvent, starters: ReadonlyArray<Starter>): string | undefined {
   return starters.find((starter) => eventMatchesStarter(event, starter))?.value;
 }
@@ -41,10 +29,6 @@ export function resetSessionChars(sessionChars: ReadonlyArray<SessionChar>): Rea
     input: null,
     enabled: sessionChar.enabled
   }));
-}
-
-export function updatedStatus(state: SessionState, index: number, sessionChar: SessionChar): SessionStatus {
-  return index === state.sessionChars.length && isCorrect(sessionChar) ? 'closed' : 'inProgress';
 }
 
 export function moveForward(state: SessionState, min: number): number {
