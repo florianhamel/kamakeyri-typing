@@ -1,9 +1,10 @@
-import { AfterViewInit, Component, ElementRef, Signal, ViewChild, effect } from '@angular/core';
+import { AfterViewInit, Component, effect, ElementRef, Signal, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { authActions } from '../../store/auth.actions';
 import { selectIsLoggedIn } from '../../store/auth.selectors';
+import { sessionActions } from '../../../session/store/session.actions';
 
 @Component({
   selector: 'app-log-in',
@@ -26,8 +27,10 @@ export class LogInComponent implements AfterViewInit {
     private readonly dialogRef: MatDialogRef<LogInComponent>
   ) {
     effect(() => {
-      if (this.$isLoggedIn()) this.dialogRef.close();
-      // TODO upload all sessions in sessionStorage when user is logged in
+      if (this.$isLoggedIn()) {
+        // this.store.dispatch(sessionActions.uploadAll());
+        this.dialogRef.close();
+      }
     });
   }
 

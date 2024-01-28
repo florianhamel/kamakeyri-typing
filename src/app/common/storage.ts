@@ -38,3 +38,9 @@ export function setSessionItem(key: string, item: any): void {
     window.sessionStorage.setItem(key, JSON.stringify(item));
   } catch {}
 }
+
+export function clearSessionItems(): void {
+  try {
+    window.sessionStorage.clear();
+  } catch {}
+}

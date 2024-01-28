@@ -10,6 +10,7 @@ export const sessionActions = createActionGroup({
     reset: emptyProps(),
     close: emptyProps(),
     save: props<SessionMetaData>(),
-    upload: props<SessionMetaData>()
+    upload: props<SessionMetaData>(),
+    uploadAll: emptyProps()
   }
 });
