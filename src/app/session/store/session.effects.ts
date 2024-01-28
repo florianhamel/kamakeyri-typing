@@ -16,8 +16,11 @@ export const sessionSave = createEffect(
       tap(([metaData, sessionRefined]) => {
         const sessionDto: SessionDto = { ...sessionRefined, ...metaData };
         const sessionDtos: SessionDto[] | null = getSessionItem<SessionDto[]>('sessions');
-        if (sessionDtos) setSessionItem('sessions', [...sessionDtos, sessionDto]);
-        else setSessionItem('sessions', [sessionDto]);
+        if (sessionDtos) {
+          setSessionItem('sessions', [...sessionDtos, sessionDto]);
+        } else {
+          setSessionItem('sessions', [sessionDto]);
+        }
       })
     );
   },
@@ -29,17 +32,20 @@ export const sessionUpload = createEffect(
     return actions$.pipe(
       ofType(sessionActions.upload),
       concatLatestFrom(() => [store.select(selectSessionRefined)]),
-      exhaustMap(([metaData, sessionRefined]) =>
-        sessionService.uploadSession({ ...metaData, ...sessionRefined }).pipe(
+      exhaustMap(([metaData, sessionRefined]) => {
+        const sessionDto: SessionDto = { ...metaData, ...sessionRefined };
+        return sessionService.uploadSession({ ...metaData, ...sessionRefined }).pipe(
           catchError(() => {
-            const sessionDto: SessionDto = { ...sessionRefined, ...metaData };
             const sessionDtos: SessionDto[] | null = getSessionItem<SessionDto[]>('sessions');
-            if (sessionDtos) setSessionItem('sessions', [...sessionDtos, sessionDto]);
-            else setSessionItem('sessions', [sessionDto]);
+            if (sessionDtos) {
+              setSessionItem('sessions', [...sessionDtos, sessionDto]);
+            } else {
+              setSessionItem('sessions', [sessionDto]);
+            }
             return of();
           })
-        )
-      )
+        );
+      })
     );
   },
   { functional: true, dispatch: false }
