@@ -7,7 +7,7 @@
 
   <div class="mr-20">
     @if ($isLoggedIn()) {
-      <span>Hello {{ $authState().username }} ✨</span>
+      <a (click)="logOut()" class="transition-colors hover:cursor-pointer hover:text-primary">Hello {{ $authState().username }} ✨</a>
     } @else {
       <a (click)="openDialog()" class="transition-colors hover:cursor-pointer hover:text-primary">{{
         navLogIn.name

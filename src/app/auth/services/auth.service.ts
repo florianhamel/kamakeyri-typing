@@ -13,6 +13,6 @@ export class AuthService {
   constructor(private readonly http: HttpClient) {}
 
   logIn(credentials: Credentials): Observable<UserInfo> {
-    return this.http.post<UserInfo>(this.baseUrl, credentials);
+    return this.http.post<UserInfo>(this.baseUrl, credentials, { withCredentials: true });
   }
 }

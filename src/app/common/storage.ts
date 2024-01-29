@@ -24,6 +24,18 @@ export function setLocalItem(key: string, item: any): void {
   } catch {}
 }
 
+export function removeLocalItem(key: string): void {
+  try {
+    window.localStorage.removeItem(key);
+  } catch {}
+}
+
+export function clearLocalItems(): void {
+  try {
+    window.sessionStorage.clear();
+  } catch {}
+}
+
 export function getSessionItem<T>(key: string): T | null {
   try {
     const item: string | null = window.sessionStorage.getItem(key);

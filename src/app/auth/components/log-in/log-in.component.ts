@@ -4,7 +4,6 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { authActions } from '../../store/auth.actions';
 import { selectIsLoggedIn } from '../../store/auth.selectors';
-import { sessionActions } from '../../../session/store/session.actions';
 
 @Component({
   selector: 'app-log-in',

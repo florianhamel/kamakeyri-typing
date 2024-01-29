@@ -6,6 +6,7 @@ import { Store } from '@ngrx/store';
 import { LogInComponent } from '../auth/components/log-in/log-in.component';
 import { selectAuthState, selectIsLoggedIn } from '../auth/store/auth.selectors';
 import { AuthState } from '../common/types';
+import { clearSessionItems, removeLocalItem } from '../common/storage';
 
 type NavItem = {
   name: string;
@@ -39,5 +40,9 @@ export class HeaderComponent {
 
   openDialog(): void {
     this.logInRef = this.dialog.open(LogInComponent);
+  }
+
+  logOut(): void {
+    removeLocalItem('authState');
   }
 }
