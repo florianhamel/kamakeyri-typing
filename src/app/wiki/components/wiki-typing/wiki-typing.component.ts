@@ -59,13 +59,10 @@ export class WikiTypingComponent implements AfterViewInit {
   });
 
   input: string = '';
-  wikiPlaceholder: string = 'wiki.placeholder';
 
-  constructor(private readonly store: Store) {
-    effect(() => {
-      console.log(this.$sessionStatus());
-    });
-  }
+  readonly wikiPlaceholder: string = 'wiki.placeholder';
+
+  constructor(private readonly store: Store) {}
 
   ngAfterViewInit(): void {
     this.wikiInput?.nativeElement.focus();

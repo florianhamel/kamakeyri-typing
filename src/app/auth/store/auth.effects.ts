@@ -1,13 +1,16 @@
 import { inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, exhaustMap, map, of } from 'rxjs';
+import { catchError, exhaustMap, map, of, tap } from 'rxjs';
 import { setLocalItem } from '../../common/storage';
 import { UserInfo } from '../../common/types';
 import { AuthService } from '../services/auth.service';
 import { authActions } from './auth.actions';
+import { Store } from '@ngrx/store';
+import { sessionActions } from '../../session/store/session.actions';
 
+// TODO test this effect & make this effect dispatch a sessionActions.uploadAll()
 export const authLogIn = createEffect(
-  (actions$ = inject(Actions), authService = inject(AuthService)) => {
+  (actions$ = inject(Actions), authService = inject(AuthService), store = inject(Store)) => {
     return actions$.pipe(
       ofType(authActions.logIn),
       exhaustMap((credentials) =>
@@ -16,7 +19,8 @@ export const authLogIn = createEffect(
             setLocalItem('authState', { username, exp });
             return authActions.logInSuccess({ username, exp });
           }),
-          catchError(() => of(authActions.logInError()))
+          tap(() => store.dispatch(sessionActions.uploadAll())),
+          catchError(() => of(authActions.logInError())),
         )
       )
     );

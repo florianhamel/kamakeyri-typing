@@ -29,6 +29,6 @@
     }
     <app-session [content]="$wikiExtract()!" [metaData]="$wikiMetaData()" />
   } @else {
-    <span class="text-2xl">{{ 'wiki.placeholder' | translate }}</span>
+    <span class="text-2xl">{{ wikiPlaceholder | translate }}</span>
   }
 </div>

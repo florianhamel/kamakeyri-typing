@@ -25,6 +25,7 @@ export class SessionComponent {
   $status: Signal<SessionStatus> = this.store.selectSignal(selectStatus);
   $isLoggedIn: Signal<boolean> = this.store.selectSignal(selectIsLoggedIn);
 
+  // TODO fix: a bonus session is uploaded because when a user logs in it triggers the effect
   constructor(private readonly store: Store) {
     effect(
       () => {
