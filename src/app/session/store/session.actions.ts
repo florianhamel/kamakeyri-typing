@@ -9,7 +9,6 @@ export const sessionActions = createActionGroup({
     update: props<{ event: KeyboardEvent }>(),
     reset: emptyProps(),
     close: emptyProps(),
-    save: props<SessionMetaData>(),
     upload: props<SessionMetaData>(),
     uploadAll: emptyProps()
   }

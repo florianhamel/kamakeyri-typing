@@ -1,7 +1,7 @@
 <div class="flex flex-col gap-3">
   @switch (metaData.mode) {
     @case ('wiki') {
-      <ng-container *ngComponentOutlet="SessionTextComponent; inputs: { text: content }" />
+      <app-session-text [text]="content" />
     }
     @case ('training') {
       <p>Training template</p>

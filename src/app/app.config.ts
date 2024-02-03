@@ -13,7 +13,7 @@ import { authFeature } from './auth/store/auth.reducer';
 import { sessionFeature } from './session/store/session.reducer';
 import { wikiLoadExtract, wikiLoadRandomExtract, wikiLoadRelatedExtract } from './wiki/store/wiki.effects';
 import { wikiFeature } from './wiki/store/wiki.reducer';
-import { sessionSave, sessionUpload, sessionUploadAll } from './session/store/session.effects';
+import { sessionUpload, sessionUploadAll } from './session/store/session.effects';
 import { trainingFeature } from './training/store/training.reducer';
 
 export function TranslateLoaderFactory(http: HttpClient): TranslateHttpLoader {
@@ -44,7 +44,6 @@ export const appConfig: ApplicationConfig = {
       wikiLoadExtract,
       wikiLoadRelatedExtract,
       wikiLoadRandomExtract,
-      sessionSave,
       sessionUpload,
       sessionUploadAll,
       authLogIn

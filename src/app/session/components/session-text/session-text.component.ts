@@ -63,10 +63,6 @@ export class SessionTextComponent implements OnChanges, AfterViewInit {
     if (this.isSessionClosed()) this.store.dispatch(sessionActions.close());
   }
 
-  private isSessionClosed(): boolean {
-    return this.$sessionChars().length <= this.$index_() && isCorrect(lastSessionChar(this.$sessionChars()));
-  }
-
   formatTarget(target: string): string {
     return target === '\n' ? `${newLine}\n` : target;
   }
@@ -78,6 +74,10 @@ export class SessionTextComponent implements OnChanges, AfterViewInit {
     if (this.hasUnderscore(index, currIndex)) return { borderBottom: '1px solid black' };
     if (this.isGreen(index, currIndex, sessionChar)) return { color: green };
     if (this.isRed(index, currIndex, sessionChar)) return { backgroundColor: `rgb(${red}, 0.3)`, color: `rgb(${red})` };
+  }
+
+  private isSessionClosed(): boolean {
+    return this.$sessionChars().length <= this.$index_() && isCorrect(lastSessionChar(this.$sessionChars()));
   }
 
   private isIgnored(event: KeyboardEvent, status: SessionStatus): boolean {

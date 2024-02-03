@@ -25,17 +25,10 @@ export class SessionComponent {
   $status: Signal<SessionStatus> = this.store.selectSignal(selectStatus);
   $isLoggedIn: Signal<boolean> = this.store.selectSignal(selectIsLoggedIn);
 
-  // TODO fix: a bonus session is uploaded because when a user logs in it triggers the effect
   constructor(private readonly store: Store) {
     effect(
       () => {
-        if (this.$status() === 'closed') {
-          if (this.$isLoggedIn()) {
-            this.store.dispatch(sessionActions.upload(this.metaData));
-          } else {
-            this.store.dispatch(sessionActions.save(this.metaData));
-          }
-        }
+        if (this.$status() === 'closed') this.store.dispatch(sessionActions.upload(this.metaData));
       },
       { allowSignalWrites: true }
     );
