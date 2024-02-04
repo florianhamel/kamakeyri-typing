@@ -16,7 +16,12 @@ import { TranslateModule } from '@ngx-translate/core';
 import { isCorrect, lastSessionChar } from '../../functions/common.session';
 import { SessionChar, SessionStatus } from '../../models/session.types';
 import { sessionActions } from '../../store/session.actions';
-import { selectIndex, selectSessionChars, selectStart, selectStatus } from '../../store/session.selectors';
+import {
+  selectIndex,
+  selectSessionChars,
+  selectStart,
+  selectStatus
+} from '../../store/session.selectors';
 import { exists, isNull } from '../../../../common/checks/common.checks';
 import { newLine } from '../../../../common/unicodes';
 import { isEscape, isFunctional, isRepeat } from '../../../../common/checks/keyboard-event.checks';
@@ -69,15 +74,23 @@ export class SessionTextComponent implements OnChanges, AfterViewInit {
 
   styleChar(index: number, currIndex: number, sessionChar: SessionChar): any {
     const red: string = '200, 100, 100';
-    const green: string = '#96f9c1';
+    const green: string = '#50C878';
     if (this.isDisabled(sessionChar)) return { backgroundColor: 'grey', color: 'lightgrey' };
     if (this.hasUnderscore(index, currIndex)) return { borderBottom: '1px solid black' };
     if (this.isGreen(index, currIndex, sessionChar)) return { color: green };
-    if (this.isRed(index, currIndex, sessionChar)) return { backgroundColor: `rgb(${red}, 0.3)`, color: `rgb(${red})` };
+    if (this.isRed(index, currIndex, sessionChar)) {
+      return {
+        backgroundColor: `rgb(${red}, 0.3)`,
+        color: `rgb(${red})`
+      };
+    }
   }
 
   private isSessionClosed(): boolean {
-    return this.$sessionChars().length <= this.$index_() && isCorrect(lastSessionChar(this.$sessionChars()));
+    return (
+      this.$sessionChars().length <= this.$index_() &&
+      isCorrect(lastSessionChar(this.$sessionChars()))
+    );
   }
 
   private isIgnored(event: KeyboardEvent, status: SessionStatus): boolean {

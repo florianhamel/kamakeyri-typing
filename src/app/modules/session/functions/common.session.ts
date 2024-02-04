@@ -15,15 +15,23 @@ export function isStarter(event: KeyboardEvent, starters: ReadonlyArray<Starter>
   return starters.some((starter) => eventMatchesStarter(event, starter));
 }
 
-export function getStarter(event: KeyboardEvent, starters: ReadonlyArray<Starter>): string | undefined {
+export function getStarter(
+  event: KeyboardEvent,
+  starters: ReadonlyArray<Starter>
+): string | undefined {
   return starters.find((starter) => eventMatchesStarter(event, starter))?.value;
 }
 
-export function initSessionChars(content: string, checker: (char: string) => boolean): ReadonlyArray<SessionChar> {
+export function initSessionChars(
+  content: string,
+  checker: (char: string) => boolean
+): ReadonlyArray<SessionChar> {
   return [...content].map((char) => ({ target: char, input: null, enabled: checker(char) }));
 }
 
-export function resetSessionChars(sessionChars: ReadonlyArray<SessionChar>): ReadonlyArray<SessionChar> {
+export function resetSessionChars(
+  sessionChars: ReadonlyArray<SessionChar>
+): ReadonlyArray<SessionChar> {
   return [...sessionChars].map((sessionChar) => ({
     target: sessionChar.target,
     input: null,
@@ -46,7 +54,7 @@ export function moveBackward(state: SessionState, min: number): number {
 export function firstIndex(sessionChars: ReadonlyArray<SessionChar>): number {
   let index: number = 0;
   while (index < sessionChars.length && !sessionChars[index].enabled) ++index;
-  return index
+  return index;
 }
 
 export function lastSessionChar(sessionChars: ReadonlyArray<SessionChar>): SessionChar {
@@ -64,5 +72,7 @@ export function sessionCharAt(state: SessionState, index: number): SessionChar |
 }
 
 function eventMatchesStarter(event: KeyboardEvent, starter: Starter): boolean {
-  return event.key === starter.key && event.code === starter.code && event.shiftKey === starter.shiftKey;
+  return (
+    event.key === starter.key && event.code === starter.code && event.shiftKey === starter.shiftKey
+  );
 }

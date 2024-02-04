@@ -9,6 +9,7 @@ import { selectIsLoggedIn } from '../../../auth/store/auth.selectors';
 import { SessionDataItem, SessionState } from '../../models/session.types';
 import { selectSessionState } from '../../store/session.selectors';
 import { exists } from '../../../../common/checks/common.checks';
+import { SessionUtils } from '../../functions/utils.session';
 
 @Component({
   selector: 'app-session-data',
@@ -38,18 +39,12 @@ export class SessionDataComponent {
   }
 
   private formatWpm(sessionState: SessionState): string {
-    const minutes: number =
-      exists(sessionState.start) && exists(sessionState.end)
-        ? (sessionState.end!.getTime() - sessionState.start!.getTime()) / (60 * 1000)
-        : 0;
-    const words: number = Math.round(sessionState.keystrokes / 5);
-    const wpm: number | undefined = minutes > 0 ? words / minutes : undefined;
-    return `${wpm?.toFixed(0) ?? '-'} wpm`;
+    const wpm: number = SessionUtils.wpm(sessionState);
+    return `${isNaN(wpm) ? '-' : wpm.toFixed(0)} wpm`;
   }
 
   private formatAccuracy(sessionState: SessionState): string {
-    const accuracy: number | undefined =
-      sessionState.keystrokes > 0 ? 100 - (sessionState.errors * 100) / sessionState.sessionChars.length : undefined;
-    return `${accuracy?.toFixed(1) ?? '- '}%`;
+    const accuracy: number = SessionUtils.accuracy(sessionState);
+    return `${isNaN(accuracy) ? '-' : accuracy?.toFixed(1)} %`;
   }
 }
