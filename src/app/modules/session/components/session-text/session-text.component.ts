@@ -13,13 +13,13 @@ import {
 import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
-import { exists, isNull } from '../../../common/checks/common.checks';
-import { isEscape, isFunctional, isRepeat } from '../../../common/checks/keyboard-event.checks';
-import { newLine } from '../../../common/unicodes';
 import { isCorrect, lastSessionChar } from '../../functions/common.session';
 import { SessionChar, SessionStatus } from '../../models/session.types';
 import { sessionActions } from '../../store/session.actions';
 import { selectIndex, selectSessionChars, selectStart, selectStatus } from '../../store/session.selectors';
+import { exists, isNull } from '../../../../common/checks/common.checks';
+import { newLine } from '../../../../common/unicodes';
+import { isEscape, isFunctional, isRepeat } from '../../../../common/checks/keyboard-event.checks';
 
 @Component({
   selector: 'app-session-text',

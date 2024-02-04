@@ -13,7 +13,6 @@ import { FormsModule } from '@angular/forms';
 import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
-import { wikiConst } from '../../../common/constants';
 import { SessionDataComponent } from '../../../session/components/session-data/session-data.component';
 import { SessionTextComponent } from '../../../session/components/session-text/session-text.component';
 import { SessionComponent } from '../../../session/components/session/session.component';
@@ -23,6 +22,7 @@ import { LoadingSvgComponent } from '../../../session/svgs/loading-svg/loading-s
 import { WikiOption } from '../../models/wiki.types';
 import { wikiActions } from '../../store/wiki.actions';
 import { selectExtract, selectIsLoading, selectOption, selectTitle } from '../../store/wiki.selectors';
+import { wikiConst } from '../../../../common/constants';
 
 @Component({
   selector: 'app-wiki-typing',

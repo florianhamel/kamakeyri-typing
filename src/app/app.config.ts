@@ -8,13 +8,13 @@ import { provideStore } from '@ngrx/store';
 import { TranslateLoader, TranslateModule, TranslateModuleConfig } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { routes } from './app.routes';
-import { authLogIn } from './auth/store/auth.effects';
-import { authFeature } from './auth/store/auth.reducer';
-import { sessionFeature } from './session/store/session.reducer';
-import { wikiLoadExtract, wikiLoadRandomExtract, wikiLoadRelatedExtract } from './wiki/store/wiki.effects';
-import { wikiFeature } from './wiki/store/wiki.reducer';
-import { sessionUpload, sessionUploadAll } from './session/store/session.effects';
-import { trainingFeature } from './training/store/training.reducer';
+import { sessionFeature } from './modules/session/store/session.reducer';
+import { wikiFeature } from './modules/wiki/store/wiki.reducer';
+import { authFeature } from './modules/auth/store/auth.reducer';
+import { trainingFeature } from './modules/training/store/training.reducer';
+import { wikiLoadExtract, wikiLoadRandomExtract, wikiLoadRelatedExtract } from './modules/wiki/store/wiki.effects';
+import { sessionUpload, sessionUploadAll } from './modules/session/store/session.effects';
+import { authLogIn } from './modules/auth/store/auth.effects';
 
 export function TranslateLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http);

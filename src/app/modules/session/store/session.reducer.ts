@@ -1,10 +1,4 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
-import { isBackspace } from '../../common/checks/keyboard-event.checks';
-import {
-  isUsInternational,
-  usInternationalSequences,
-  usInternationalStarters
-} from '../../common/layouts/us-international.layout';
 import {
   processedBackspace,
   processedBackspaceSeq,
@@ -23,6 +17,12 @@ import {
 import { sessionActions } from './session.actions';
 import { initialState } from './session.state';
 import { SessionChar, SessionState } from '../models/session.types';
+import {
+  isUsInternational,
+  usInternationalSequences,
+  usInternationalStarters
+} from '../../../common/layouts/us-international.layout';
+import { isBackspace } from '../../../common/checks/keyboard-event.checks';
 
 export const sessionFeature = createFeature({
   name: 'session',

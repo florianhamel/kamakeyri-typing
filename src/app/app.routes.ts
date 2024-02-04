@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
-import { WikiComponent } from './wiki/components/wiki/wiki.component';
-import { LogInComponent } from './auth/components/log-in/log-in.component';
-import { TrainingComponent } from './training/components/training/training.component';
+import { WikiComponent } from './modules/wiki/components/wiki/wiki.component';
+import { TrainingComponent } from './modules/training/components/training/training.component';
+import { LogInComponent } from './modules/auth/components/log-in/log-in.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },

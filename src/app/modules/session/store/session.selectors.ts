@@ -1,7 +1,7 @@
 import { createSelector } from '@ngrx/store';
-import { exists } from '../../common/checks/common.checks';
 import { SessionRefined } from '../models/session.types';
 import { sessionFeature } from './session.reducer';
+import { exists } from '../../../common/checks/common.checks';
 
 export const {
   selectStart,

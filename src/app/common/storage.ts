@@ -1,6 +1,6 @@
 import { ActionCreator, ActionReducer, ReducerTypes, createReducer } from '@ngrx/store';
 
-export function createHydrateReducer<S>(
+export function createRehydrateReducer<S>(
   stateKey: string,
   initialState: S,
   ...ons: ReducerTypes<S, readonly ActionCreator[]>[]

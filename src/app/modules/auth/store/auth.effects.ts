@@ -1,12 +1,12 @@
 import { inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, exhaustMap, map, of, tap } from 'rxjs';
-import { setLocalItem } from '../../common/storage';
-import { UserInfo } from '../../common/types';
 import { AuthService } from '../services/auth.service';
 import { authActions } from './auth.actions';
 import { Store } from '@ngrx/store';
 import { sessionActions } from '../../session/store/session.actions';
+import { UserInfo } from '../../../common/types';
+import { setLocalItem } from '../../../common/storage';
 
 // TODO test this effect & make this effect dispatch a sessionActions.uploadAll()
 export const authLogIn = createEffect(

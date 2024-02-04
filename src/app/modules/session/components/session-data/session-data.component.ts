@@ -6,9 +6,9 @@ import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { LogInComponent } from '../../../auth/components/log-in/log-in.component';
 import { selectIsLoggedIn } from '../../../auth/store/auth.selectors';
-import { exists } from '../../../common/checks/common.checks';
 import { SessionDataItem, SessionState } from '../../models/session.types';
 import { selectSessionState } from '../../store/session.selectors';
+import { exists } from '../../../../common/checks/common.checks';
 
 @Component({
   selector: 'app-session-data',

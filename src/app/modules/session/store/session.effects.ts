@@ -2,12 +2,12 @@ import { inject } from '@angular/core';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { catchError, exhaustMap, Observable, of, tap } from 'rxjs';
-import { clearSessionItems, getSessionItem, setSessionItem } from '../../common/storage';
 import { SessionDto } from '../models/session.types';
 import { SessionService } from '../services/session.service';
 import { sessionActions } from './session.actions';
 import { selectSessionRefined } from './session.selectors';
 import { selectIsLoggedIn } from '../../auth/store/auth.selectors';
+import { clearSessionItems, getSessionItem, setSessionItem } from '../../../common/storage';
 
 export const sessionUpload = createEffect(
   (actions$ = inject(Actions), sessionService = inject(SessionService), store = inject(Store)) => {

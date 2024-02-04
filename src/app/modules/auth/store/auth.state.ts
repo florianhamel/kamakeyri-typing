@@ -1,4 +1,4 @@
-import { AuthState } from '../../common/types';
+import { AuthState } from '../../../common/types';
 
 export const initialState: AuthState = {
   username: null,
