@@ -17,7 +17,9 @@ export const sessionUpload = createEffect(
       exhaustMap(([metaData, sessionRefined, isLoggedIn]) => {
         const { type, ...sessionDto } = { ...sessionRefined, ...metaData };
         return isLoggedIn
-          ? sessionService.uploadSessions([sessionDto]).pipe(catchError(() => saveSession(sessionDto)))
+          ? sessionService
+              .uploadSessions([sessionDto])
+              .pipe(catchError(() => saveSession(sessionDto)))
           : saveSession(sessionDto);
       })
     );
@@ -39,7 +41,7 @@ export const sessionUploadAll = createEffect(
   { functional: true, dispatch: false }
 );
 
-function saveSession(sessionDto: SessionDto): Observable<void> {
+export function saveSession(sessionDto: SessionDto): Observable<void> {
   const sessionDtos: SessionDto[] | null = getSessionItem<SessionDto[]>('sessions');
   setSessionItem('sessions', sessionDtos ? [...sessionDtos, sessionDto] : [sessionDto]);
   return of(undefined);

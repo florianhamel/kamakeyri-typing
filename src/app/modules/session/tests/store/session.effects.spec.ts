@@ -1,4 +1,4 @@
-import { sessionSave, sessionUpload, sessionUploadAll } from '../../store/session.effects';
+import { saveSession, sessionUpload, sessionUploadAll } from '../../store/session.effects';
 import { of, throwError } from 'rxjs';
 import { sessionActions } from '../../store/session.actions';
 import { SessionDto, SessionMetaData, SessionRefined } from '../../models/session.types';
@@ -7,13 +7,15 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { initialState } from '../../store/session.state';
 import { SessionService } from '../../services/session.service';
 import { selectSessionRefined } from '../../store/session.selectors';
-import { MockSessionStorageService } from '../../../mocks/mock-session-storage.service';
-import { clearSessionItems, getSessionItem, setSessionItem } from '../../../common/storage';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { MockSessionStorageService } from '../../../../mocks/mock-session-storage.service';
+import { clearSessionItems, getSessionItem, setSessionItem } from '../../../../common/storage';
+import { selectIsLoggedIn } from '../../../auth/store/auth.selectors';
 
 describe('session effects', () => {
   const sessionRefined: SessionRefined = generateSessionRefined();
   let mockStore: MockStore;
+  let sessionService: SessionService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -21,12 +23,17 @@ describe('session effects', () => {
       providers: [
         provideMockStore({
           initialState,
-          selectors: [{ selector: selectSessionRefined, value: sessionRefined }]
+          selectors: [
+            { selector: selectSessionRefined, value: sessionRefined },
+            { selector: selectIsLoggedIn, value: false }
+          ]
         }),
+        { provide: SessionService, useValue: {}},
         { provide: window.sessionStorage, useClass: MockSessionStorageService }
       ]
     });
     mockStore = TestBed.inject(MockStore);
+    sessionService = TestBed.inject(SessionService);
     clearSessionItems();
   });
 
@@ -35,10 +42,10 @@ describe('session effects', () => {
     const sessionDto: SessionDto = generateSessionDto();
     setSessionItem('sessions', [sessionDto]);
     const metaData: SessionMetaData = { mode: 'wiki', label: 'coffee', option: 'search' };
-    const actions$ = of(sessionActions.save(metaData));
+    const actions$ = of(sessionActions.upload(metaData));
 
     // when
-    sessionSave(actions$, mockStore).subscribe();
+    sessionUpload(actions$, sessionService, mockStore).subscribe();
 
     // then
     const items: Array<SessionDto> | null = getSessionItem('sessions');
@@ -51,7 +58,9 @@ describe('session effects', () => {
     const metaData: SessionMetaData = { mode: 'wiki', label: 'coffee', option: 'search' };
     const actions$ = of(sessionActions.upload(metaData));
     const mockSessionService = {
-      uploadSessions: jest.fn().mockImplementation(() => throwError(() => new Error('upload session error')))
+      uploadSessions: jest
+        .fn()
+        .mockImplementation(() => throwError(() => new Error('upload session error')))
     };
 
     // when

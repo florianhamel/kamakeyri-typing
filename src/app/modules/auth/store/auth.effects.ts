@@ -1,26 +1,26 @@
 import { inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { Store } from '@ngrx/store';
 import { catchError, exhaustMap, map, of, tap } from 'rxjs';
+import { setLocalItem } from '../../../common/storage';
+import { Credentials, UserInfo } from '../../../common/types';
+import { sessionActions } from '../../session/store/session.actions';
 import { AuthService } from '../services/auth.service';
 import { authActions } from './auth.actions';
-import { Store } from '@ngrx/store';
-import { sessionActions } from '../../session/store/session.actions';
-import { UserInfo } from '../../../common/types';
-import { setLocalItem } from '../../../common/storage';
 
-// TODO test this effect & make this effect dispatch a sessionActions.uploadAll()
+// TODO test this effect
 export const authLogIn = createEffect(
   (actions$ = inject(Actions), authService = inject(AuthService), store = inject(Store)) => {
     return actions$.pipe(
       ofType(authActions.logIn),
-      exhaustMap((credentials) =>
-        authService.logIn(credentials).pipe(
-          map(({ username, exp }: UserInfo) => {
+      exhaustMap(({ username, password }: Credentials) =>
+        authService.logIn({ username, password }).pipe(
+          tap(({ username, exp }: UserInfo) => {
             setLocalItem('authState', { username, exp });
-            return authActions.logInSuccess({ username, exp });
+            store.dispatch(sessionActions.uploadAll());
           }),
-          tap(() => store.dispatch(sessionActions.uploadAll())),
-          catchError(() => of(authActions.logInError())),
+          map(({ username, exp }: UserInfo) => authActions.logInSuccess({ username, exp })),
+          catchError(() => of(authActions.logInError()))
         )
       )
     );

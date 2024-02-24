@@ -15,8 +15,8 @@ export class LogInComponent implements AfterViewInit {
   @ViewChild('usernameInput') usernameInput: ElementRef | undefined;
 
   logInForm: FormGroup = new FormGroup({
-    username: new FormControl('', Validators.required),
-    password: new FormControl('', Validators.required)
+    username: new FormControl<string>('', Validators.required),
+    password: new FormControl<string>('', Validators.required)
   });
 
   $isLoggedIn: Signal<boolean> = this.store.selectSignal(selectIsLoggedIn);
