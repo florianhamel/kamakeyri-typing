@@ -11,7 +11,7 @@ export class AuthService {
   constructor(private readonly http: HttpClient) {}
 
   logIn(credentials: Credentials): Observable<UserInfo> {
-    return this.http.post<UserInfo>(`${env.apiUrl}/log-in`, credentials, {
+    return this.http.post<UserInfo>(`${env.apiUrl}/auth/log-in`, credentials, {
       withCredentials: true
     });
   }
