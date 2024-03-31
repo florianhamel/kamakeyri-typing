@@ -41,7 +41,7 @@ export const sessionUploadAll = createEffect(
   { functional: true, dispatch: false }
 );
 
-export function saveSession(sessionDto: SessionDto): Observable<void> {
+function saveSession(sessionDto: SessionDto): Observable<void> {
   const sessionDtos: SessionDto[] | null = getSessionItem<SessionDto[]>('sessions');
   setSessionItem('sessions', sessionDtos ? [...sessionDtos, sessionDto] : [sessionDto]);
   return of(undefined);

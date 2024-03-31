@@ -1,4 +1,4 @@
-import { saveSession, sessionUpload, sessionUploadAll } from '../../store/session.effects';
+import { sessionUpload, sessionUploadAll } from '../../store/session.effects';
 import { of, throwError } from 'rxjs';
 import { sessionActions } from '../../store/session.actions';
 import { SessionDto, SessionMetaData, SessionRefined } from '../../models/session.types';
@@ -28,7 +28,7 @@ describe('session effects', () => {
             { selector: selectIsLoggedIn, value: false }
           ]
         }),
-        { provide: SessionService, useValue: {}},
+        { provide: SessionService, useValue: {} },
         { provide: window.sessionStorage, useClass: MockSessionStorageService }
       ]
     });

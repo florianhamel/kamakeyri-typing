@@ -1,5 +1,12 @@
 import { CommonModule, NgTemplateOutlet } from '@angular/common';
-import { ChangeDetectionStrategy, Component, effect, Input, Signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  effect,
+  Input,
+  OnDestroy,
+  Signal
+} from '@angular/core';
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { SessionMetaData, SessionStatus } from '../../models/session.types';
@@ -8,29 +15,36 @@ import { selectStatus } from '../../store/session.selectors';
 import { SessionDataComponent } from '../session-data/session-data.component';
 import { SessionTextComponent } from '../session-text/session-text.component';
 import { selectIsLoggedIn } from '../../../auth/store/auth.selectors';
+import { Observable, Subscription } from 'rxjs';
+import { toObservable } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-session',
   standalone: true,
   templateUrl: './session.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, NgTemplateOutlet, SessionTextComponent, TranslateModule, SessionDataComponent]
+  imports: [
+    CommonModule,
+    NgTemplateOutlet,
+    SessionTextComponent,
+    TranslateModule,
+    SessionDataComponent
+  ]
 })
-export class SessionComponent {
+export class SessionComponent implements OnDestroy {
   @Input() content!: string;
   @Input() metaData!: SessionMetaData;
 
-  protected readonly SessionTextComponent = SessionTextComponent;
-
-  $status: Signal<SessionStatus> = this.store.selectSignal(selectStatus);
-  $isLoggedIn: Signal<boolean> = this.store.selectSignal(selectIsLoggedIn);
+  status$: Observable<SessionStatus> = this.store.select(selectStatus);
+  statusSubscription: Subscription = new Subscription();
 
   constructor(private readonly store: Store) {
-    effect(
-      () => {
-        if (this.$status() === 'closed') this.store.dispatch(sessionActions.upload(this.metaData));
-      },
-      { allowSignalWrites: true }
-    );
+    this.statusSubscription = this.status$.subscribe(status => {
+      if (status === 'closed') this.store.dispatch(sessionActions.upload(this.metaData));
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.statusSubscription.unsubscribe();
   }
 }

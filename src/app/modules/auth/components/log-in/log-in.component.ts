@@ -1,9 +1,8 @@
-import { AfterViewInit, Component, effect, ElementRef, Signal, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { authActions } from '../../store/auth.actions';
-import { selectIsLoggedIn } from '../../store/auth.selectors';
 
 @Component({
   selector: 'app-log-in',
@@ -19,18 +18,11 @@ export class LogInComponent implements AfterViewInit {
     password: new FormControl<string>('', Validators.required)
   });
 
-  $isLoggedIn: Signal<boolean> = this.store.selectSignal(selectIsLoggedIn);
-
+  // TODO close dialog when log-in successful
   constructor(
     private readonly store: Store,
     private readonly dialogRef: MatDialogRef<LogInComponent>
-  ) {
-    effect(() => {
-      if (this.$isLoggedIn()) {
-        this.dialogRef.close();
-      }
-    });
-  }
+  ) {}
 
   ngAfterViewInit(): void {
     this.usernameInput?.nativeElement.focus();
