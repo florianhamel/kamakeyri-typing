@@ -1,10 +1,13 @@
 <div class="flex flex-col gap-3">
   @switch (metaData.mode) {
-    @case ('wiki') {
+    @case('wiki') {
       <app-session-text [text]="content" />
     }
-    @case ('training') {
+    @case('training') {
       <p>Training template</p>
+    }
+    @default {
+      <p>A mode needs to be selected</p>
     }
   }
   <app-session-data />

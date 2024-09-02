@@ -25,22 +25,23 @@ import {
 import { exists, isNull } from '../../../../common/checks/common.checks';
 import { newLine } from '../../../../common/unicodes';
 import { isEscape, isFunctional, isRepeat } from '../../../../common/checks/keyboard-event.checks';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-session-text',
   standalone: true,
-  imports: [CommonModule, NgTemplateOutlet, TranslateModule, LetDirective, NgStyle],
+  imports: [CommonModule, NgTemplateOutlet, TranslateModule, LetDirective, NgStyle, FormsModule],
   templateUrl: './session-text.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SessionTextComponent implements OnChanges, AfterViewInit {
   @Input() text!: string;
 
-  @ViewChild('textRef') textRef: ElementRef | undefined;
+  @ViewChild('textAreaRef') textAreaRef: ElementRef | undefined;
 
   $status: Signal<SessionStatus> = this.store.selectSignal(selectStatus);
   $start: Signal<Date | null> = this.store.selectSignal(selectStart);
-  $index_: Signal<number> = this.store.selectSignal(selectIndex);
+  $index: Signal<number> = this.store.selectSignal(selectIndex);
   $sessionChars: Signal<ReadonlyArray<SessionChar>> = this.store.selectSignal(selectSessionChars);
 
   constructor(private readonly store: Store) {}
@@ -52,12 +53,21 @@ export class SessionTextComponent implements OnChanges, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    this.focusTextArea();
+  }
+
+  focusTextArea() {
     if (exists(this.text)) {
-      this.textRef?.nativeElement.focus();
+      this.textAreaRef?.nativeElement.focus();
     }
   }
 
-  handleKeyPressed(event: KeyboardEvent): void {
+  handleBeforeinput(event: InputEvent) {
+    console.log('InputEvent', event);
+  }
+
+  handleKeydown(event: KeyboardEvent): void {
+    console.log('KeyboardEvent:', event);
     if (this.isIgnored(event, this.$status())) return;
     if (isEscape(event)) {
       this.store.dispatch(sessionActions.reset());
@@ -68,11 +78,11 @@ export class SessionTextComponent implements OnChanges, AfterViewInit {
     if (this.isSessionClosed()) this.store.dispatch(sessionActions.close());
   }
 
-  formatTarget(target: string): string {
+  getFormattedTarget(target: string): string {
     return target === '\n' ? `${newLine}\n` : target;
   }
 
-  styleChar(index: number, currIndex: number, sessionChar: SessionChar): any {
+  getStyleForChar(index: number, currIndex: number, sessionChar: SessionChar): any {
     const red: string = '200, 100, 100';
     const green: string = '#50C878';
     if (this.isDisabled(sessionChar)) return { backgroundColor: 'grey', color: 'lightgrey' };
@@ -88,7 +98,7 @@ export class SessionTextComponent implements OnChanges, AfterViewInit {
 
   private isSessionClosed(): boolean {
     return (
-      this.$sessionChars().length <= this.$index_() &&
+      this.$sessionChars().length <= this.$index() &&
       isCorrect(lastSessionChar(this.$sessionChars()))
     );
   }
