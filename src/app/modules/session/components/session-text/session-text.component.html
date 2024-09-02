@@ -1,9 +1,16 @@
-<div #textRef tabindex="0" (keydown)="handleKeyPressed($event)" class="kw-block w-fit focus:outline-none">
-  @for (sessionChar of $sessionChars(); track $index) {
+<div (click)="focusTextArea()" class="kw-block w-fit focus:outline-none">
+  @for (sessionChar of $sessionChars(); let currentIndex = $index; track currentIndex) {
     <span
-      [ngStyle]="styleChar($index, $index_(), sessionChar)"
+      [ngStyle]="getStyleForChar(currentIndex, $index(), sessionChar)"
       class="whitespace-pre-wrap font-mono text-2xl"
-      >{{ formatTarget(sessionChar.target) }}</span
+      >{{ getFormattedTarget(sessionChar.target) }}</span
     >
   }
 </div>
+<textarea
+  #textAreaRef
+  tabindex="0"
+  (beforeinput)="handleBeforeinput($event)"
+  (keydown)="handleKeydown($event)"
+  class="w-0 h-0"
+></textarea>
