@@ -2,6 +2,7 @@ import { sessionFeature } from '../../store/session.reducer';
 import { initialState } from '../../store/session.state';
 import { sessionActions } from '../../store/session.actions';
 import { SessionState } from '../../models/session.types';
+import { InputEventSanitized } from '../../../../common/types';
 
 describe('session action: initialize', () => {
   it('should initialize session with standard content', () => {
@@ -44,16 +45,16 @@ describe('session action: start', () => {
 
 describe('session action: update', () => {
   it('should process standard input', () => {
-    // given
+    // Given
     let state: SessionState = initialState;
     state = sessionFeature.reducer(state, sessionActions.init({ content: 'Hello World!' }));
     state = sessionFeature.reducer(state, sessionActions.start());
-    const event: KeyboardEvent = new KeyboardEvent('keydown', { key: 'H', shiftKey: true });
+    const event = { inputType: 'insertText', isComposing: false, data: 'H' } as InputEventSanitized;
 
-    // when
+    // When
     state = sessionFeature.reducer(state, sessionActions.update({ event }));
 
-    // then
+    // Then
     expect(state.start).not.toBe(null);
     expect(state.end).not.toBe(null);
     expect(state.index).toBe(1);
@@ -62,7 +63,32 @@ describe('session action: update', () => {
     expect(state.errors).toBe(0);
     expect(state.status).toBe('inProgress');
   });
-  // TODO test delete & sequences
+
+  it('should process a simple backspace', () => {
+    // Given
+    let state: SessionState = initialState;
+    state = sessionFeature.reducer(state, sessionActions.init({ content: 'Hello World!' }));
+    state = sessionFeature.reducer(state, sessionActions.start());
+    state = sessionFeature.reducer(
+      state,
+      sessionActions.update({
+        event: {
+          inputType: 'insertText',
+          isComposing: false,
+          data: 'H'
+        } as InputEventSanitized
+      })
+    );
+    const event = {
+      event: {
+        inputType: 'deleteContentBackward',
+        isComposing: false,
+        data: 'H'
+      } as InputEventSanitized
+    };
+
+    // When
+  });
 });
 
 describe('session action: close', () => {

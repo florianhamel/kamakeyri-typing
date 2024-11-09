@@ -11,6 +11,7 @@ export type SessionState = {
   keystrokes: number;
   errors: number;
   status: SessionStatus;
+  isComposing: boolean;
 };
 
 export type SessionChar = {

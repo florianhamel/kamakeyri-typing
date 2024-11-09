@@ -3,11 +3,10 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  computed,
   ElementRef,
   Signal,
-  ViewChild,
-  computed,
-  effect
+  ViewChild
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { LetDirective } from '@ngrx/component';
@@ -21,7 +20,12 @@ import { selectStatus } from '../../../session/store/session.selectors';
 import { LoadingSvgComponent } from '../../../session/svgs/loading-svg/loading-svg.component';
 import { WikiOption } from '../../models/wiki.types';
 import { wikiActions } from '../../store/wiki.actions';
-import { selectExtract, selectIsLoading, selectOption, selectTitle } from '../../store/wiki.selectors';
+import {
+  selectExtract,
+  selectIsLoading,
+  selectOption,
+  selectTitle
+} from '../../store/wiki.selectors';
 import { wikiConst } from '../../../../common/constants';
 
 @Component({

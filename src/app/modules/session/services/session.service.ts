@@ -10,7 +10,6 @@ import { ApiUri } from '../../../common/api';
 })
 export class SessionService {
   // TODO create a file for api urls/uris
-
   private readonly baseUrl = `${env.apiUrl}/${ApiUri.session}`;
   constructor(private readonly http: HttpClient) {}
 

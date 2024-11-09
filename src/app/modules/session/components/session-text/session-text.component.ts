@@ -13,19 +13,21 @@ import {
 import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
-import { isCorrect, lastSessionChar } from '../../functions/common.session';
+import { isCorrect, lastSessionChar } from '../../functions/session-common';
 import { SessionChar, SessionStatus } from '../../models/session.types';
 import { sessionActions } from '../../store/session.actions';
 import {
   selectIndex,
+  selectIsComposing,
   selectSessionChars,
   selectStart,
   selectStatus
 } from '../../store/session.selectors';
-import { exists, isNull } from '../../../../common/checks/common.checks';
+import { exists, isNull } from '../../../../common/checks/common.check';
 import { newLine } from '../../../../common/unicodes';
-import { isEscape, isFunctional, isRepeat } from '../../../../common/checks/keyboard-event.checks';
+import { isEscape, isFunctional, isRepeat } from '../../../../common/checks/keyboard-event.check';
 import { FormsModule } from '@angular/forms';
+import { InputEventSanitized } from '../../../../common/types';
 
 @Component({
   selector: 'app-session-text',
@@ -43,6 +45,7 @@ export class SessionTextComponent implements OnChanges, AfterViewInit {
   $start: Signal<Date | null> = this.store.selectSignal(selectStart);
   $index: Signal<number> = this.store.selectSignal(selectIndex);
   $sessionChars: Signal<ReadonlyArray<SessionChar>> = this.store.selectSignal(selectSessionChars);
+  $isComposing: Signal<boolean> = this.store.selectSignal(selectIsComposing);
 
   constructor(private readonly store: Store) {}
 
@@ -62,20 +65,31 @@ export class SessionTextComponent implements OnChanges, AfterViewInit {
     }
   }
 
-  handleBeforeinput(event: InputEvent) {
-    console.log('InputEvent', event);
+  handleInputEvent(event: InputEvent) {
+    const sanitizedEvent: InputEventSanitized = this.sanitizeInputEvent(event);
+    console.log('sanitizedEvent', sanitizedEvent);
+    if (this.isNotStarted(this.$start())) {
+      this.store.dispatch(sessionActions.start());
+    }
+    this.store.dispatch(sessionActions.update({ event: sanitizedEvent }));
+    if (this.isSessionClosed()) {
+      this.store.dispatch(sessionActions.close());
+    }
   }
 
-  handleKeydown(event: KeyboardEvent): void {
-    console.log('KeyboardEvent:', event);
-    if (this.isIgnored(event, this.$status())) return;
-    if (isEscape(event)) {
-      this.store.dispatch(sessionActions.reset());
+  handleKeyboardEvent(event: KeyboardEvent): void {
+    // console.log('KeyboardEvent:', event);
+    if (this.isIgnored(event, this.$status())) {
+      event.preventDefault();
       return;
     }
-    if (this.isNotStarted(this.$start())) this.store.dispatch(sessionActions.start());
-    this.store.dispatch(sessionActions.update({ event }));
-    if (this.isSessionClosed()) this.store.dispatch(sessionActions.close());
+    if (isEscape(event)) {
+      this.store.dispatch(sessionActions.reset());
+      if (this.textAreaRef) {
+        this.textAreaRef!.nativeElement.value = '';
+      }
+      return;
+    }
   }
 
   getFormattedTarget(target: string): string {
@@ -85,15 +99,31 @@ export class SessionTextComponent implements OnChanges, AfterViewInit {
   getStyleForChar(index: number, currIndex: number, sessionChar: SessionChar): any {
     const red: string = '200, 100, 100';
     const green: string = '#50C878';
-    if (this.isDisabled(sessionChar)) return { backgroundColor: 'grey', color: 'lightgrey' };
-    if (this.hasUnderscore(index, currIndex)) return { borderBottom: '1px solid black' };
-    if (this.isGreen(index, currIndex, sessionChar)) return { color: green };
-    if (this.isRed(index, currIndex, sessionChar)) {
-      return {
-        backgroundColor: `rgb(${red}, 0.3)`,
-        color: `rgb(${red})`
-      };
+    if (this.isDisabled(sessionChar)) {
+      return { backgroundColor: 'grey', color: 'lightgrey' };
     }
+    if (this.isPrevious(index, currIndex) && this.$isComposing()) {
+      return { backgroundColor: 'orange' };
+    }
+    if (this.isCurrent(index, currIndex)) {
+      return { borderBottom: '1px solid black' };
+    }
+    if (this.isCorrect(index, currIndex, sessionChar)) {
+      return { color: green };
+    }
+    if (this.isIncorrect(index, currIndex, sessionChar)) {
+      return { backgroundColor: `rgb(${red}, 0.3)`, color: `rgb(${red})` };
+    }
+  }
+
+  private sanitizeInputEvent(event: InputEvent): InputEventSanitized {
+    if (event.data === '. ') {
+      event.preventDefault();
+      if (this.textAreaRef) {
+        this.textAreaRef.nativeElement.value += ' ';
+      }
+    }
+    return event as InputEventSanitized;
   }
 
   private isSessionClosed(): boolean {
@@ -115,15 +145,19 @@ export class SessionTextComponent implements OnChanges, AfterViewInit {
     return !sessionChar.enabled;
   }
 
-  private hasUnderscore(index: number, currIndex: number): boolean {
+  private isPrevious(index: number, currIndex: number): boolean {
+    return index === currIndex - 1;
+  }
+
+  private isCurrent(index: number, currIndex: number): boolean {
     return index === currIndex;
   }
 
-  private isGreen(index: number, currIndex: number, sessionChar: SessionChar): boolean {
+  private isCorrect(index: number, currIndex: number, sessionChar: SessionChar): boolean {
     return index < currIndex && isCorrect(sessionChar);
   }
 
-  private isRed(index: number, currIndex: number, sessionChar: SessionChar): boolean {
+  private isIncorrect(index: number, currIndex: number, sessionChar: SessionChar): boolean {
     return index < currIndex && !isCorrect(sessionChar);
   }
 }

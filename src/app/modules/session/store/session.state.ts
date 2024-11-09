@@ -7,5 +7,6 @@ export const initialState: SessionState = {
   sessionChars: [],
   keystrokes: 0,
   errors: 0,
-  status: 'notStarted'
+  status: 'notStarted',
+  isComposing: false
 };

@@ -8,7 +8,11 @@ export const wikiFeature = createFeature({
   reducer: createReducer(
     initialState,
     on(wikiActions.setIsLoading, (state, { isLoading }) => ({ ...state, isLoading })),
-    on(wikiActions.loadSummarySuccess, (_, wikiInfo) => ({ ...wikiInfo, isLoading: false })),
+    on(wikiActions.loadSummarySuccess, (_, wikiInfo) => ({
+      ...wikiInfo,
+      extract: wikiInfo.extract.trim(),
+      isLoading: false
+    })),
     on(wikiActions.loadSummaryError, (state) => loadedExtractError(state))
   )
 });
@@ -16,7 +20,7 @@ export const wikiFeature = createFeature({
 function loadedExtractError(state: WikiState): WikiState {
   return {
     ...state,
-    extract: 'のののOh の\nan error has occurredののの',
+    extract: 'Oh  éé hey の\nan    error has occurredの'.trim(),
     title: null,
     option: null,
     isLoading: false

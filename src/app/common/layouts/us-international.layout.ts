@@ -1,5 +1,5 @@
 import { Starter } from '../types';
-import { isAscii } from '../checks/common.checks';
+import { isAscii } from '../checks/common.check';
 
 export const usInternationalStarters: ReadonlyArray<Starter> = getStarters();
 export const usInternationalSequences: ReadonlyMap<string, string> = getSequences();
