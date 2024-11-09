@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { provideMockStore } from '@ngrx/store/testing';
 import { SessionChar } from '../../models/session.types';
-import { firstIndex, initSessionChars } from '../../functions/common.session';
-import { isUsInternational } from '../../../common/layouts/us-international.layout';
+import { firstIndex, initSessionChars } from '../../functions/session-common';
+import { isUsInternational } from '../../../../common/layouts/us-international.layout';
 
 describe('text session', () => {
   beforeEach(() => {
@@ -19,11 +19,5 @@ describe('text session', () => {
         }
       })
     });
-  });
-
-  it('should process standard input', () => {
-    // given
-    // when
-    // then
   });
 });

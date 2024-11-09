@@ -10,7 +10,6 @@
 <textarea
   #textAreaRef
   tabindex="0"
-  (beforeinput)="handleBeforeinput($event)"
-  (keydown)="handleKeydown($event)"
-  class="w-0 h-0"
+  (beforeinput)="handleInputEvent($event)"
+  (keydown)="handleKeyboardEvent($event)"
 ></textarea>

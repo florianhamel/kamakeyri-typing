@@ -1,7 +1,7 @@
 import { createSelector } from '@ngrx/store';
 import { SessionRefined } from '../models/session.types';
 import { sessionFeature } from './session.reducer';
-import { exists } from '../../../common/checks/common.checks';
+import { exists } from '../../../common/checks/common.check';
 
 export const {
   selectStart,
@@ -11,7 +11,8 @@ export const {
   selectKeystrokes,
   selectErrors,
   selectStatus,
-  selectSessionState
+  selectSessionState,
+  selectIsComposing
 } = sessionFeature;
 
 export const selectSessionRefined = createSelector(selectSessionState, (state): SessionRefined => {

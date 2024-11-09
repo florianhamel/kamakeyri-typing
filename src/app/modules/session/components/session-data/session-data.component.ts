@@ -8,8 +8,7 @@ import { LogInComponent } from '../../../auth/components/log-in/log-in.component
 import { selectIsLoggedIn } from '../../../auth/store/auth.selectors';
 import { SessionDataItem, SessionState } from '../../models/session.types';
 import { selectSessionState } from '../../store/session.selectors';
-import { exists } from '../../../../common/checks/common.checks';
-import { SessionUtils } from '../../functions/utils.session';
+import { computeAccuracy, computeWpm } from '../../functions/session-analysis';
 
 @Component({
   selector: 'app-session-data',
@@ -39,12 +38,12 @@ export class SessionDataComponent {
   }
 
   private formatWpm(sessionState: SessionState): string {
-    const wpm: number = SessionUtils.wpm(sessionState);
+    const wpm: number = computeWpm(sessionState);
     return `${isNaN(wpm) ? '-' : wpm.toFixed(0)} wpm`;
   }
 
   private formatAccuracy(sessionState: SessionState): string {
-    const accuracy: number = SessionUtils.accuracy(sessionState);
+    const accuracy: number = computeAccuracy(sessionState);
     return `${isNaN(accuracy) ? '-' : accuracy?.toFixed(1)} %`;
   }
 }
