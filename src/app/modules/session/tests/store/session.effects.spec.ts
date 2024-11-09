@@ -11,11 +11,14 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MockSessionStorageService } from '../../../../mocks/mock-session-storage.service';
 import { clearSessionItems, getSessionItem, setSessionItem } from '../../../../common/storage';
 import { selectIsLoggedIn } from '../../../auth/store/auth.selectors';
+import { generateMock } from '../../../../mocks/mocking.tools';
+import { generateSessionDto, generateSessionRefined } from '../../../../mocks/factories.tools';
 
 describe('session effects', () => {
   const sessionRefined: SessionRefined = generateSessionRefined();
+  const sessionServiceMock: jest.Mocked<SessionService> =
+    generateMock<SessionService>('uploadSessions');
   let mockStore: MockStore;
-  let sessionService: SessionService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -28,12 +31,11 @@ describe('session effects', () => {
             { selector: selectIsLoggedIn, value: false }
           ]
         }),
-        { provide: SessionService, useValue: {} },
+        { provide: SessionService, useValue: sessionServiceMock },
         { provide: window.sessionStorage, useClass: MockSessionStorageService }
       ]
     });
     mockStore = TestBed.inject(MockStore);
-    sessionService = TestBed.inject(SessionService);
     clearSessionItems();
   });
 
@@ -45,9 +47,10 @@ describe('session effects', () => {
     const actions$ = of(sessionActions.upload(metaData));
 
     // when
-    sessionUpload(actions$, sessionService, mockStore).subscribe();
+    sessionUpload(actions$, sessionServiceMock, mockStore).subscribe();
 
     // then
+    expect(sessionServiceMock.uploadSessions).not.toHaveBeenCalled();
     const items: Array<SessionDto> | null = getSessionItem('sessions');
     expect(items?.length).toBe(2);
     expect(items).toEqual([{ ...sessionDto }, { ...sessionRefined, ...metaData }]);
@@ -57,14 +60,12 @@ describe('session effects', () => {
     // given
     const metaData: SessionMetaData = { mode: 'wiki', label: 'coffee', option: 'search' };
     const actions$ = of(sessionActions.upload(metaData));
-    const mockSessionService = {
-      uploadSessions: jest
-        .fn()
-        .mockImplementation(() => throwError(() => new Error('upload session error')))
-    };
+    sessionServiceMock.uploadSessions.mockImplementation(() =>
+      throwError(() => new Error('upload session error'))
+    );
 
     // when
-    sessionUpload(actions$, mockSessionService as unknown as SessionService, mockStore).subscribe();
+    sessionUpload(actions$, sessionServiceMock as unknown as SessionService, mockStore).subscribe();
 
     // then
     const items: Array<SessionDto> | null = getSessionItem('sessions');
@@ -89,22 +90,4 @@ describe('session effects', () => {
     const items: Array<SessionDto> | null = getSessionItem('sessions');
     expect(items).toBeNull();
   });
-
-  function generateSessionRefined(): SessionRefined {
-    return {
-      time: Math.floor(Math.random() * 100 + 100),
-      length: Math.floor(Math.random() * 100 + 100),
-      keystrokes: Math.floor(Math.random() * 100 + 100),
-      errors: Math.floor(Math.random() * 100 + 100)
-    };
-  }
-
-  function generateSessionDto(): SessionDto {
-    return {
-      ...generateSessionRefined(),
-      mode: 'wiki',
-      label: 'coffee',
-      option: 'search'
-    };
-  }
 });
