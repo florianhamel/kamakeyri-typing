@@ -7,12 +7,13 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { initialState } from '../../store/session.state';
 import { SessionService } from '../../services/session.service';
 import { selectSessionRefined } from '../../store/session.selectors';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { MockSessionStorageService } from '../../../../mocks/mock-session-storage.service';
 import { clearSessionItems, getSessionItem, setSessionItem } from '../../../../common/storage';
 import { selectIsLoggedIn } from '../../../auth/store/auth.selectors';
 import { generateMock } from '../../../../mocks/mocking.tools';
 import { generateSessionDto, generateSessionRefined } from '../../../../mocks/factories.tools';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('session effects', () => {
   const sessionRefined: SessionRefined = generateSessionRefined();
@@ -22,19 +23,21 @@ describe('session effects', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [
+    imports: [],
+    providers: [
         provideMockStore({
-          initialState,
-          selectors: [
-            { selector: selectSessionRefined, value: sessionRefined },
-            { selector: selectIsLoggedIn, value: false }
-          ]
+            initialState,
+            selectors: [
+                { selector: selectSessionRefined, value: sessionRefined },
+                { selector: selectIsLoggedIn, value: false }
+            ]
         }),
         { provide: SessionService, useValue: sessionServiceMock },
-        { provide: window.sessionStorage, useClass: MockSessionStorageService }
-      ]
-    });
+        { provide: window.sessionStorage, useClass: MockSessionStorageService },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting()
+    ]
+});
     mockStore = TestBed.inject(MockStore);
     clearSessionItems();
   });
