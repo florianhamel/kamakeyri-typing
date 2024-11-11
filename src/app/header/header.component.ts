@@ -28,7 +28,7 @@ export class HeaderComponent {
   readonly navItems: NavItem[] = [
     { name: 'Kamakeyri', route: '' },
     { name: 'Wiki Typing', route: 'wiki' },
-    { name: 'Training', route: 'training' }
+    // { name: 'Training', route: 'training' }
   ];
 
   readonly navLogIn: NavItem = { name: 'Log in', route: 'log-in' };
