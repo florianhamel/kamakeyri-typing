@@ -13,7 +13,8 @@ module.exports = {
         'tertiary-light': '#fef7f2',
         primary: '#c196f9',
         secondary: '#96f9c1',
-        tertiary: '#f9c196'
+        tertiary: '#f9c196',
+        peace: '#f4f7e6'
       },
       fontSize: {
         typing: ['2rem', '2.6rem']

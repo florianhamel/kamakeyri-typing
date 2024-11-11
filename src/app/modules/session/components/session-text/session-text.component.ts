@@ -13,8 +13,8 @@ import {
 import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
-import { isCorrect, lastSessionChar } from '../../functions/session-common';
-import { SessionChar, SessionStatus } from '../../models/session.types';
+import { isCorrect, lastSessionChar } from '../../functions/session-common.functions';
+import { InputEventSanitized, SessionChar, SessionStatus } from '../../models/session.types';
 import { sessionActions } from '../../store/session.actions';
 import {
   selectIndex,
@@ -23,11 +23,11 @@ import {
   selectStart,
   selectStatus
 } from '../../store/session.selectors';
-import { exists, isNull } from '../../../../common/checks/common.check';
-import { newLine } from '../../../../common/unicodes';
-import { isEscape, isFunctional, isRepeat } from '../../../../common/checks/keyboard-event.check';
 import { FormsModule } from '@angular/forms';
-import { InputEventSanitized } from '../../../../common/types';
+import { newLine } from '../../../../common/models/unicode.constants';
+import { isForbidden } from '../../functions/input-event.functions';
+import { isEscape, isFunctional, isRepeat } from '../../functions/keyboard-event.functions';
+import { exists, isNull } from '../../../../common/functions/common.functions';
 
 @Component({
   selector: 'app-session-text',
@@ -68,6 +68,10 @@ export class SessionTextComponent implements OnChanges, AfterViewInit {
   handleInputEvent(event: InputEvent) {
     const sanitizedEvent: InputEventSanitized = this.sanitizeInputEvent(event);
     console.log('sanitizedEvent', sanitizedEvent);
+    if (isForbidden(sanitizedEvent)) {
+      event.preventDefault();
+      return;
+    }
     if (this.isNotStarted(this.$start())) {
       this.store.dispatch(sessionActions.start());
     }
@@ -78,17 +82,16 @@ export class SessionTextComponent implements OnChanges, AfterViewInit {
   }
 
   handleKeyboardEvent(event: KeyboardEvent): void {
-    // console.log('KeyboardEvent:', event);
-    if (this.isIgnored(event, this.$status())) {
+    console.log('KeyboardEvent:', event);
+    if (this.$status() === 'closed' || this.isIgnoredKey(event)) {
       event.preventDefault();
-      return;
-    }
-    if (isEscape(event)) {
-      this.store.dispatch(sessionActions.reset());
-      if (this.textAreaRef) {
-        this.textAreaRef!.nativeElement.value = '';
+    } else {
+      if (isEscape(event)) {
+        this.store.dispatch(sessionActions.reset());
+        if (this.textAreaRef) {
+          this.textAreaRef!.nativeElement.value = '';
+        }
       }
-      return;
     }
   }
 
@@ -127,14 +130,11 @@ export class SessionTextComponent implements OnChanges, AfterViewInit {
   }
 
   private isSessionClosed(): boolean {
-    return (
-      this.$sessionChars().length <= this.$index() &&
-      isCorrect(lastSessionChar(this.$sessionChars()))
-    );
+    return this.$sessionChars().length <= this.$index() && isCorrect(lastSessionChar(this.$sessionChars()));
   }
 
-  private isIgnored(event: KeyboardEvent, status: SessionStatus): boolean {
-    return status === 'closed' || isFunctional(event) || isRepeat(event);
+  private isIgnoredKey(event: KeyboardEvent): boolean {
+    return isFunctional(event) || isRepeat(event);
   }
 
   private isNotStarted(start: Date | null): boolean {

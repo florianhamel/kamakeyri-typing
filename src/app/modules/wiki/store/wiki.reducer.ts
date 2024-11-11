@@ -20,7 +20,7 @@ export const wikiFeature = createFeature({
 function loadedExtractError(state: WikiState): WikiState {
   return {
     ...state,
-    extract: 'Oh  éé hey の\nan    error has occurredの'.trim(),
+    extract: 'Oh の  éé hey の\nan    error has occurredの'.trim(),
     title: null,
     option: null,
     isLoading: false

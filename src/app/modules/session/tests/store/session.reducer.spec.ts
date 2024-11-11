@@ -1,19 +1,18 @@
 import { sessionFeature } from '../../store/session.reducer';
 import { initialState } from '../../store/session.state';
 import { sessionActions } from '../../store/session.actions';
-import { SessionState } from '../../models/session.types';
-import { InputEventSanitized } from '../../../../common/types';
+import { InputEventSanitized, SessionState } from '../../models/session.types';
 
 describe('session action: initialize', () => {
   it('should initialize session with standard content', () => {
-    // given
+    // Given
     let state: SessionState = initialState;
     const content: string = 'Hello World!';
 
-    // when
+    // When
     state = sessionFeature.reducer(state, sessionActions.init({ content }));
 
-    // then
+    // Then
     expect(state.start).toBe(null);
     expect(state.end).toBe(null);
     expect(state.index).toBe(0);
@@ -26,13 +25,13 @@ describe('session action: initialize', () => {
 
 describe('session action: start', () => {
   it('should start a session', () => {
-    // given
+    // Given
     let state: SessionState = initialState;
 
-    // when
+    // When
     state = sessionFeature.reducer(state, sessionActions.start());
 
-    // then
+    // Then
     expect(state.start).not.toBe(null);
     expect(state.end).not.toBe(null);
     expect(state.index).toBe(0);
@@ -69,39 +68,50 @@ describe('session action: update', () => {
     let state: SessionState = initialState;
     state = sessionFeature.reducer(state, sessionActions.init({ content: 'Hello World!' }));
     state = sessionFeature.reducer(state, sessionActions.start());
-    state = sessionFeature.reducer(
-      state,
-      sessionActions.update({
-        event: {
-          inputType: 'insertText',
-          isComposing: false,
-          data: 'H'
-        } as InputEventSanitized
-      })
-    );
-    const event = {
-      event: {
-        inputType: 'deleteContentBackward',
-        isComposing: false,
-        data: 'H'
-      } as InputEventSanitized
-    };
+    state.index = 1;
+    state.sessionChars = state.sessionChars.with(1, { ...state.sessionChars[0], input: 'H' });
+
+    const event = { inputType: 'deleteContentBackward' } as InputEventSanitized;
 
     // When
+    state = sessionFeature.reducer(state, sessionActions.update({ event }));
+
+    // Then
+    expect(state.index).toBe(0);
+    expect(state.sessionChars[0].input).toBe(null);
+  });
+
+  it('should process a word backspace', () => {
+    // Given
+    let state: SessionState = initialState;
+    state = sessionFeature.reducer(state, sessionActions.init({ content: 'Hello World!' }));
+    state = sessionFeature.reducer(state, sessionActions.start());
+    state.index = 6;
+    state.sessionChars = state.sessionChars.map((sessionChar, i) =>
+      i < 6 ? { ...sessionChar, input: sessionChar.target } : sessionChar
+    );
+    const event = { inputType: 'deleteWordBackward' } as InputEventSanitized;
+
+    // When
+    state = sessionFeature.reducer(state, sessionActions.update({ event }));
+
+    // Then
+    expect(state.index).toBe(0);
+    state.sessionChars.forEach((sessionChar) => expect(sessionChar.input).toBe(null));
   });
 });
 
 describe('session action: close', () => {
   it('should close session', () => {
-    // given
+    // Given
     let state: SessionState = initialState;
     state = sessionFeature.reducer(state, sessionActions.init({ content: 'Hello World!' }));
     state = sessionFeature.reducer(state, sessionActions.start());
 
-    // when
+    // When
     state = sessionFeature.reducer(state, sessionActions.close());
 
-    // then
+    // Then
     expect(state.status).toBe('closed');
   });
 });

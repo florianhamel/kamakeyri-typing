@@ -1,13 +1,13 @@
 import { SessionState } from '../models/session.types';
-import { exists } from '../../../common/checks/common.check';
-import { isCorrect } from './session-common';
+import { isCorrect } from './session-common.functions';
+import { exists } from '../../../common/functions/common.functions';
 
 export function computeWpm(sessionState: SessionState): number {
   const words: number = Math.round((sessionState.keystrokes - computeMismatches(sessionState)) / 5);
   const minutes: number =
-    exists(sessionState.start) && exists(sessionState.end)
-      ? (sessionState.end!.getTime() - sessionState.start!.getTime()) / (60 * 1000)
-      : 0;
+    exists(sessionState.start) && exists(sessionState.end) ?
+      (sessionState.end!.getTime() - sessionState.start!.getTime()) / (60 * 1000)
+    : 0;
   return minutes > 0 ? words / minutes : NaN;
 }
 

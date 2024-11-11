@@ -3,14 +3,15 @@ import { Injectable } from '@angular/core';
 import { SessionDto } from '../models/session.types';
 import { Observable } from 'rxjs';
 import { env } from '../../../../environments/environment.development';
-import { ApiUri } from '../../../common/api';
+import { apiUri } from '../../../common/models/api.constants';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SessionService {
   // TODO create a file for api urls/uris
-  private readonly baseUrl = `${env.apiUrl}/${ApiUri.session}`;
+  private readonly baseUrl = `${env.apiUrl}/${apiUri.session}`;
+
   constructor(private readonly http: HttpClient) {}
 
   uploadSessions(sessionDtos: Array<SessionDto>): Observable<void> {

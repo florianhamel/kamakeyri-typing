@@ -3,10 +3,10 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { catchError, exhaustMap, map, of, tap } from 'rxjs';
 import { setLocalItem } from '../../../common/storage';
-import { Credentials, UserInfo } from '../../../common/types';
 import { sessionActions } from '../../session/store/session.actions';
 import { AuthService } from '../services/auth.service';
 import { authActions } from './auth.actions';
+import { Credentials, UserInfo } from '../models/auth.types';
 
 // TODO test this effect
 export const authLogIn = createEffect(

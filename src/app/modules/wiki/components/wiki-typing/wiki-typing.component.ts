@@ -26,7 +26,7 @@ import {
   selectOption,
   selectTitle
 } from '../../store/wiki.selectors';
-import { wikiConst } from '../../../../common/constants';
+import { wikiConstant } from '../../models/wiki.constants';
 
 @Component({
   selector: 'app-wiki-typing',
@@ -74,8 +74,8 @@ export class WikiTypingComponent implements AfterViewInit {
 
   handlePostSession(event: KeyboardEvent): void {
     if (this.$sessionStatus() !== 'inProgress') {
-      if (event.key === wikiConst.randomKey) this.handleRandom();
-      if (event.key === wikiConst.relatedKey) this.handleRelated();
+      if (event.key === wikiConstant.randomKey) this.handleRandom();
+      if (event.key === wikiConstant.relatedKey) this.handleRelated();
     }
   }
 

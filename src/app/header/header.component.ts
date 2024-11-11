@@ -3,10 +3,10 @@ import { Component, Signal } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { RouterLink } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { AuthState } from '../common/types';
 import { removeLocalItem } from '../common/storage';
 import { selectAuthState, selectIsLoggedIn } from '../modules/auth/store/auth.selectors';
 import { LogInComponent } from '../modules/auth/components/log-in/log-in.component';
+import { AuthState } from '../modules/auth/models/auth.types';
 
 type NavItem = {
   name: string;
