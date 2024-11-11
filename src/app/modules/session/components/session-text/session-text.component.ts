@@ -43,7 +43,7 @@ export class SessionTextComponent implements OnChanges, AfterViewInit {
 
   $status: Signal<SessionStatus> = this.store.selectSignal(selectStatus);
   $start: Signal<Date | null> = this.store.selectSignal(selectStart);
-  $index: Signal<number> = this.store.selectSignal(selectIndex);
+  $sessionIndex: Signal<number> = this.store.selectSignal(selectIndex);
   $sessionChars: Signal<ReadonlyArray<SessionChar>> = this.store.selectSignal(selectSessionChars);
   $isComposing: Signal<boolean> = this.store.selectSignal(selectIsComposing);
 
@@ -130,7 +130,7 @@ export class SessionTextComponent implements OnChanges, AfterViewInit {
   }
 
   private isSessionClosed(): boolean {
-    return this.$sessionChars().length <= this.$index() && isCorrect(lastSessionChar(this.$sessionChars()));
+    return this.$sessionChars().length <= this.$sessionIndex() && isCorrect(lastSessionChar(this.$sessionChars()));
   }
 
   private isIgnoredKey(event: KeyboardEvent): boolean {

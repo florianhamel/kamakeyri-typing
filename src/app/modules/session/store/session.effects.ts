@@ -1,5 +1,5 @@
 import { inject } from '@angular/core';
-import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { catchError, exhaustMap, Observable, of, tap } from 'rxjs';
 import { SessionDto } from '../models/session.types';
@@ -8,6 +8,7 @@ import { sessionActions } from './session.actions';
 import { selectSessionRefined } from './session.selectors';
 import { selectIsLoggedIn } from '../../auth/store/auth.selectors';
 import { clearSessionItems, getSessionItem, setSessionItem } from '../../../common/storage';
+import { concatLatestFrom } from '@ngrx/operators';
 
 export const sessionUpload = createEffect(
   (actions$ = inject(Actions), sessionService = inject(SessionService), store = inject(Store)) => {
@@ -16,10 +17,8 @@ export const sessionUpload = createEffect(
       concatLatestFrom(() => [store.select(selectSessionRefined), store.select(selectIsLoggedIn)]),
       exhaustMap(([metaData, sessionRefined, isLoggedIn]) => {
         const { type, ...sessionDto } = { ...sessionRefined, ...metaData };
-        return isLoggedIn
-          ? sessionService
-              .uploadSessions([sessionDto])
-              .pipe(catchError(() => saveSession(sessionDto)))
+        return isLoggedIn ?
+            sessionService.uploadSessions([sessionDto]).pipe(catchError(() => saveSession(sessionDto)))
           : saveSession(sessionDto);
       })
     );
