@@ -1,11 +1,15 @@
-import { Starter } from '../types';
-import { isAscii } from '../checks/common.check';
+import { Starter } from '../models/common.types';
+import { isAscii } from '../functions/common.functions';
 
 export const usInternationalStarters: ReadonlyArray<Starter> = getStarters();
 export const usInternationalSequences: ReadonlyMap<string, string> = getSequences();
 
 export function isUsInternational(char: string) {
   return isAscii(char) || [...usInternationalSequences.values()].includes(char);
+}
+
+export function isUsInternationalNoWhitespace(char: string) {
+  return /^[!-~]$/.test(char) || [...usInternationalSequences.values()].includes(char);
 }
 
 function getStarters(): ReadonlyArray<Starter> {

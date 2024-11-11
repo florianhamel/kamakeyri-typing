@@ -1,6 +1,5 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
-import { SessionMetaData } from '../models/session.types';
-import { InputEventSanitized } from '../../../common/types';
+import { InputEventSanitized, SessionMetaData } from '../models/session.types';
 
 export const sessionActions = createActionGroup({
   source: 'session',

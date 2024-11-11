@@ -1,16 +1,15 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
-import { initSessionChars, resetSessionChars } from '../functions/session-common';
+import { initSessionChars, resetSessionChars } from '../functions/session-common.functions';
 import { sessionActions } from './session.actions';
 import { initialState } from './session.state';
-import { SessionChar, SessionState } from '../models/session.types';
-import { isUsInternational } from '../../../common/layouts/us-international.layout';
-import { InputEventSanitized } from '../../../common/types';
+import { InputEventSanitized, SessionChar, SessionState } from '../models/session.types';
+import { isUsInternational } from '../../../common/layouts/us-international-layout';
 import {
-  processBackspaceChar,
+  processBackspaceChar, processBackspaceWord,
   processComposition,
   processStandard
-} from '../functions/session-functions';
-import { isBackspace } from '../../../common/checks/input-event.check';
+} from '../functions/session.functions';
+import { isBackspace, isBackspaceWord, isComposing } from '../functions/input-event.functions';
 
 export const sessionFeature = createFeature({
   name: 'session',
@@ -36,23 +35,14 @@ export function updated(state: SessionState, event: InputEventSanitized): Sessio
   if (isBackspace(event)) {
     return processBackspaceChar(state);
   }
-  if (event.isComposing) {
+  if (isBackspaceWord(event)) {
+    return processBackspaceWord(state);
+  }
+  if (isComposing(event)) {
     return processComposition(state, event);
   }
-  // TODO case4: delete last word
   return processStandard(state, event);
 }
-
-// export function updated(state: SessionState, event: KeyboardEvent): SessionState {
-//   if (isSequenceExtension(state)) {
-//     if (isBackspace(event)) return processedBackspaceSeq(state);
-//     if (isStarter(event, usInternationalStarters)) return processedStarterSeq(state, event, usInternationalStarters);
-//     return processedExtensionSeq(state, event, usInternationalSequences);
-//   }
-//   if (isBackspace(event)) return processedBackspace(state, event);
-//   if (isStarter(event, usInternationalStarters)) return processedStarter(state, event, usInternationalStarters);
-//   return processedStandard(state, event);
-// }
 
 export function started(state: SessionState): SessionState {
   return { ...state, start: new Date(), end: new Date(), status: 'inProgress' };

@@ -8,7 +8,7 @@ import { LogInComponent } from '../../../auth/components/log-in/log-in.component
 import { selectIsLoggedIn } from '../../../auth/store/auth.selectors';
 import { SessionDataItem, SessionState } from '../../models/session.types';
 import { selectSessionState } from '../../store/session.selectors';
-import { computeAccuracy, computeWpm } from '../../functions/session-analysis';
+import { computeAccuracy, computeWpm } from '../../functions/session-analysis.functions';
 
 @Component({
   selector: 'app-session-data',

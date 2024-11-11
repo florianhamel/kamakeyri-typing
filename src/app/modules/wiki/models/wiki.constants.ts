@@ -1,4 +1,4 @@
-export const wikiConst = {
+export const wikiConstant = {
   randomKey: 'ArrowLeft',
   relatedKey: 'ArrowRight'
 };

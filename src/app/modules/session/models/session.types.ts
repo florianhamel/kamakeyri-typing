@@ -14,6 +14,11 @@ export type SessionState = {
   isComposing: boolean;
 };
 
+export type SessionCharsIndex = {
+  sessionChars: ReadonlyArray<SessionChar>;
+  index: number;
+}
+
 export type SessionChar = {
   target: string;
   input: string | null;
@@ -46,3 +51,53 @@ export type SessionMetaData =
     };
 
 export type SessionDto = SessionRefined & SessionMetaData;
+
+export type InputEventSanitized = InputEvent & { readonly inputType: InputType };
+
+export type InputType =
+  | 'insertText'
+  | 'insertReplacementText'
+  | 'insertLineBreak'
+  | 'insertParagraph'
+  | 'insertOrderedList'
+  | 'insertUnorderedList'
+  | 'insertHorizontalRule'
+  | 'insertFromYank'
+  | 'insertFromDrop'
+  | 'insertFromPaste'
+  | 'insertFromPasteAsQuotation'
+  | 'insertTranspose'
+  | 'insertCompositionText'
+  | 'insertLink'
+  | 'deleteWordBackward'
+  | 'deleteWordForward'
+  | 'deleteSoftLineBackward'
+  | 'deleteSoftLineForward'
+  | 'deleteEntireSoftLine'
+  | 'deleteHardLineBackward'
+  | 'deleteHardLineForward'
+  | 'deleteByDrag'
+  | 'deleteByCut'
+  | 'deleteContent'
+  | 'deleteContentBackward'
+  | 'deleteContentForward'
+  | 'historyUndo'
+  | 'historyRedo'
+  | 'formatBold'
+  | 'formatItalic'
+  | 'formatUnderline'
+  | 'formatStrikeThrough'
+  | 'formatSuperscript'
+  | 'formatSubscript'
+  | 'formatJustifyFull'
+  | 'formatJustifyCenter'
+  | 'formatJustifyRight'
+  | 'formatJustifyLeft'
+  | 'formatIndent'
+  | 'formatOutdent'
+  | 'formatRemove'
+  | 'formatSetBlockTextDirection'
+  | 'formatSetInlineTextDirection'
+  | 'formatBackColor'
+  | 'formatFontColor'
+  | 'formatFontName';
