@@ -13,13 +13,4 @@ describe('text session', () => {
       providers: [provideMockStore({ initialState: { ...initialState, sessionChars } })]
     });
   });
-
-  it('should delete word', () => {
-    // Given
-
-
-    // When
-
-    // Then
-  });
 });
