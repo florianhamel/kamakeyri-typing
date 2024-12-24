@@ -29,20 +29,19 @@ import {
 import { wikiConstant } from '../../models/wiki.constants';
 
 @Component({
-  selector: 'app-wiki-typing',
-  standalone: true,
-  templateUrl: './wiki-typing.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    CommonModule,
-    LetDirective,
-    LoadingSvgComponent,
-    SessionTextComponent,
-    SessionDataComponent,
-    TranslateModule,
-    FormsModule,
-    SessionComponent
-  ]
+    selector: 'app-wiki-typing',
+    templateUrl: './wiki-typing.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        CommonModule,
+        LetDirective,
+        LoadingSvgComponent,
+        SessionTextComponent,
+        SessionDataComponent,
+        TranslateModule,
+        FormsModule,
+        SessionComponent
+    ]
 })
 export class WikiTypingComponent implements AfterViewInit {
   @ViewChild('wikiInput') wikiInput: ElementRef | undefined;

@@ -5,10 +5,9 @@ import { Store } from '@ngrx/store';
 import { authActions } from '../../store/auth.actions';
 
 @Component({
-  selector: 'app-log-in',
-  standalone: true,
-  imports: [ReactiveFormsModule],
-  templateUrl: './log-in.component.html'
+    selector: 'app-log-in',
+    imports: [ReactiveFormsModule],
+    templateUrl: './log-in.component.html'
 })
 export class LogInComponent implements AfterViewInit {
   @ViewChild('usernameInput') usernameInput: ElementRef | undefined;

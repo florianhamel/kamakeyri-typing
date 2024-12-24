@@ -10,17 +10,16 @@ import { SessionTextComponent } from '../session-text/session-text.component';
 import { Observable, Subscription } from 'rxjs';
 
 @Component({
-  selector: 'app-session',
-  standalone: true,
-  templateUrl: './session.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    CommonModule,
-    NgTemplateOutlet,
-    SessionTextComponent,
-    TranslateModule,
-    SessionDataComponent
-  ]
+    selector: 'app-session',
+    templateUrl: './session.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        CommonModule,
+        NgTemplateOutlet,
+        SessionTextComponent,
+        TranslateModule,
+        SessionDataComponent
+    ]
 })
 export class SessionComponent implements OnInit, OnDestroy {
   @Input() content!: string;

@@ -11,11 +11,10 @@ import { selectSessionState } from '../../store/session.selectors';
 import { computeAccuracy, computeWpm } from '../../functions/session-analysis.functions';
 
 @Component({
-  selector: 'app-session-data',
-  standalone: true,
-  imports: [CommonModule, LetDirective, TranslateModule],
-  templateUrl: './session-data.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-session-data',
+    imports: [CommonModule, LetDirective, TranslateModule],
+    templateUrl: './session-data.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SessionDataComponent {
   $sessionState: Signal<SessionState> = this.store.selectSignal(selectSessionState);

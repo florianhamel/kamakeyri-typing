@@ -4,10 +4,9 @@ import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './header/header.component';
 
 @Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [CommonModule, RouterOutlet, HeaderComponent],
-  templateUrl: './app.component.html'
+    selector: 'app-root',
+    imports: [CommonModule, RouterOutlet, HeaderComponent],
+    templateUrl: './app.component.html'
 })
 export class AppComponent {
   title: string = 'kamakeyri-session';

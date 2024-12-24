@@ -14,10 +14,9 @@ type NavItem = {
 };
 
 @Component({
-  selector: 'app-header',
-  standalone: true,
-  imports: [RouterLink, NgIf],
-  templateUrl: './header.component.html'
+    selector: 'app-header',
+    imports: [RouterLink, NgIf],
+    templateUrl: './header.component.html'
 })
 export class HeaderComponent {
   $authState: Signal<AuthState> = this.store.selectSignal(selectAuthState);

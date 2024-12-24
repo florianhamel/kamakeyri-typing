@@ -4,10 +4,9 @@ import { Exercise } from '../../models/training.types';
 import { selectExercises } from '../../store/training.selectors';
 
 @Component({
-  selector: 'app-training',
-  standalone: true,
-  imports: [],
-  templateUrl: './training.component.html'
+    selector: 'app-training',
+    imports: [],
+    templateUrl: './training.component.html'
 })
 export class TrainingComponent {
   $exercises: Signal<ReadonlyArray<Exercise>> = this.store.selectSignal(selectExercises);
