@@ -6,7 +6,7 @@ import { setLocalItem } from '../../../common/storage';
 import { sessionActions } from '../../session/store/session.actions';
 import { AuthService } from '../services/auth.service';
 import { authActions } from './auth.actions';
-import { Credentials, UserInfo } from '../models/auth.types';
+import { Credentials, AuthInfo } from '../models/auth.types';
 
 // TODO test this effect
 export const authLogIn = createEffect(
@@ -15,11 +15,11 @@ export const authLogIn = createEffect(
       ofType(authActions.logIn),
       exhaustMap(({ username, password }: Credentials) =>
         authService.logIn({ username, password }).pipe(
-          tap(({ username, exp }: UserInfo) => {
+          tap(({ username, exp }: AuthInfo) => {
             setLocalItem('authState', { username, exp });
             store.dispatch(sessionActions.uploadAll());
           }),
-          map(({ username, exp }: UserInfo) => authActions.logInSuccess({ username, exp })),
+          map(({ username, exp }: AuthInfo) => authActions.logInSuccess({ username, exp })),
           catchError(() => of(authActions.logInError()))
         )
       )

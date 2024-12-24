@@ -30,10 +30,11 @@ import { isEscape, isFunctional, isRepeat } from '../../functions/keyboard-event
 import { exists, isNull } from '../../../../common/functions/common.functions';
 
 @Component({
-    selector: 'app-session-text',
-    imports: [CommonModule, NgTemplateOutlet, TranslateModule, LetDirective, NgStyle, FormsModule],
-    templateUrl: './session-text.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  standalone: true,
+  selector: 'app-session-text',
+  imports: [CommonModule, TranslateModule, NgStyle, FormsModule],
+  templateUrl: './session-text.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SessionTextComponent implements OnChanges, AfterViewInit {
   @Input() text!: string;
@@ -66,7 +67,6 @@ export class SessionTextComponent implements OnChanges, AfterViewInit {
 
   handleInputEvent(event: InputEvent) {
     const sanitizedEvent: InputEventSanitized = this.sanitizeInputEvent(event);
-    console.log('sanitizedEvent', sanitizedEvent);
     if (isForbidden(sanitizedEvent)) {
       event.preventDefault();
       return;
@@ -81,7 +81,6 @@ export class SessionTextComponent implements OnChanges, AfterViewInit {
   }
 
   handleKeyboardEvent(event: KeyboardEvent): void {
-    console.log('KeyboardEvent:', event);
     if (this.$status() === 'closed' || this.isIgnoredKey(event)) {
       event.preventDefault();
     } else {
