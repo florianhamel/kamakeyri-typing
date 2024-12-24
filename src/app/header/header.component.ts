@@ -14,9 +14,10 @@ type NavItem = {
 };
 
 @Component({
-    selector: 'app-header',
-    imports: [RouterLink, NgIf],
-    templateUrl: './header.component.html'
+  standalone: true,
+  selector: 'app-header',
+  imports: [RouterLink],
+  templateUrl: './header.component.html'
 })
 export class HeaderComponent {
   $authState: Signal<AuthState> = this.store.selectSignal(selectAuthState);
@@ -26,7 +27,7 @@ export class HeaderComponent {
 
   readonly navItems: NavItem[] = [
     { name: 'Kamakeyri', route: '' },
-    { name: 'Wiki Typing', route: 'wiki' },
+    { name: 'Wiki Typing', route: 'wiki' }
     // { name: 'Training', route: 'training' }
   ];
 
@@ -35,7 +36,7 @@ export class HeaderComponent {
   constructor(
     private readonly store: Store,
     private readonly dialog: MatDialog
-  ) { }
+  ) {}
 
   openDialog(): void {
     this.logInRef = this.dialog.open(LogInComponent);

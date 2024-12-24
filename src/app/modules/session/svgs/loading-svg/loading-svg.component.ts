@@ -1,9 +1,12 @@
-import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-    selector: 'app-loading-svg',
-    imports: [],
-    templateUrl: './loading-svg.component.svg'
+  standalone: true,
+  selector: 'app-loading-svg',
+  imports: [CommonModule],
+  templateUrl: './loading-svg.component.svg',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoadingSvgComponent {
   readonly firstColor: string = '#000000';

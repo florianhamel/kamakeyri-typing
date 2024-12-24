@@ -12,7 +12,7 @@ export function createRehydrateReducer<S>(
 export function getLocalItem<T>(key: string): T | null {
   try {
     const item: string | null = window.localStorage.getItem(key);
-    return (item && JSON.parse(item)) ?? null;
+    return (item && JSON.parse(item)) as T ?? null;
   } catch {
     return null;
   }

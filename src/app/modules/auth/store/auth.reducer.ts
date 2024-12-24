@@ -9,6 +9,6 @@ export const authFeature = createFeature({
   reducer: createRehydrateReducer<AuthState>(
     'authState',
     initialState,
-    on(authActions.logInSuccess, (_, userInfo) => ({ ...userInfo }))
+    on(authActions.logInSuccess, (_, authInfo) => ({ ...authInfo }))
   )
 });

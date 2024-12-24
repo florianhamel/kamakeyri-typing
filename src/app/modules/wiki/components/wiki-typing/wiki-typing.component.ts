@@ -9,39 +9,23 @@ import {
   ViewChild
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
-import { SessionDataComponent } from '../../../session/components/session-data/session-data.component';
-import { SessionTextComponent } from '../../../session/components/session-text/session-text.component';
 import { SessionComponent } from '../../../session/components/session/session.component';
 import { SessionMetaData, SessionStatus } from '../../../session/models/session.types';
 import { selectStatus } from '../../../session/store/session.selectors';
 import { LoadingSvgComponent } from '../../../session/svgs/loading-svg/loading-svg.component';
 import { WikiOption } from '../../models/wiki.types';
 import { wikiActions } from '../../store/wiki.actions';
-import {
-  selectExtract,
-  selectIsLoading,
-  selectOption,
-  selectTitle
-} from '../../store/wiki.selectors';
+import { selectExtract, selectIsLoading, selectOption, selectTitle } from '../../store/wiki.selectors';
 import { wikiConstant } from '../../models/wiki.constants';
 
 @Component({
-    selector: 'app-wiki-typing',
-    templateUrl: './wiki-typing.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        CommonModule,
-        LetDirective,
-        LoadingSvgComponent,
-        SessionTextComponent,
-        SessionDataComponent,
-        TranslateModule,
-        FormsModule,
-        SessionComponent
-    ]
+  standalone: true,
+  selector: 'app-wiki-typing',
+  templateUrl: './wiki-typing.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [CommonModule, LoadingSvgComponent, TranslateModule, FormsModule, SessionComponent]
 })
 export class WikiTypingComponent implements AfterViewInit {
   @ViewChild('wikiInput') wikiInput: ElementRef | undefined;

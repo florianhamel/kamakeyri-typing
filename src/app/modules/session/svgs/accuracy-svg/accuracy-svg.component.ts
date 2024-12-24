@@ -2,8 +2,8 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-  selector: 'app-accuracy-svg',
   standalone: true,
+  selector: 'app-accuracy-svg',
   imports: [CommonModule],
   templateUrl: './accuracy-svg.component.svg',
   changeDetection: ChangeDetectionStrategy.OnPush

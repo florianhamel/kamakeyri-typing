@@ -1,13 +1,22 @@
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  ViewChild
+} from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { authActions } from '../../store/auth.actions';
+import { selectAuthState } from '../../store/auth.selectors';
 
 @Component({
-    selector: 'app-log-in',
-    imports: [ReactiveFormsModule],
-    templateUrl: './log-in.component.html'
+  standalone: true,
+  selector: 'app-log-in',
+  imports: [ReactiveFormsModule],
+  templateUrl: './log-in.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LogInComponent implements AfterViewInit {
   @ViewChild('usernameInput') usernameInput: ElementRef | undefined;
