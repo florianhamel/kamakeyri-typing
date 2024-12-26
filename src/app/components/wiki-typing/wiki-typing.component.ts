@@ -12,20 +12,20 @@ import { FormsModule } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { LoadingSvgComponent } from '../svgs/loading-svg/loading-svg.component';
-import { SessionComponent } from '../session/session.component';
 import { selectExtract, selectIsLoading, selectOption, selectTitle } from '../../state/selectors/wiki.selectors';
 import { SessionMetaData, SessionStatus, TypingOption } from '../../domain/types/session.types';
 import { selectStatus } from '../../state/selectors/session.selectors';
 import { wikiConstant } from '../../domain/constants/wiki.constants';
 import { wikiActions } from '../../state/actions/wiki.actions';
 import { isNull } from '../../domain/functions/common.functions';
+import { SessionTextComponent } from '../session-text/session-text.component';
 
 @Component({
   standalone: true,
   selector: 'app-wiki-typing',
   templateUrl: './wiki-typing.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, LoadingSvgComponent, TranslateModule, FormsModule, SessionComponent]
+  imports: [CommonModule, LoadingSvgComponent, TranslateModule, FormsModule, SessionTextComponent]
 })
 export class WikiTypingComponent implements AfterViewInit {
   @ViewChild('wikiInput') wikiInput: ElementRef | undefined;
