@@ -27,7 +27,9 @@ export class SessionComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.statusSubscription = this.status$.subscribe((status) => {
-      if (status === 'closed') this.store.dispatch(sessionActions.uploadOrSave(this.metaData));
+      if (status === 'closed') {
+        this.store.dispatch(sessionActions.uploadOrSave(this.metaData));
+      }
     });
   }
 

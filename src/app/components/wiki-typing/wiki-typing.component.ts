@@ -63,11 +63,11 @@ export class WikiTypingComponent implements AfterViewInit {
   }
 
   handleInput(): void {
-    this.store.dispatch(wikiActions.loadSearchSummary({ title: this.input }));
+    this.store.dispatch(wikiActions.loadSearchSummary({ label: this.input }));
   }
 
   handleRelated(): void {
-    this.store.dispatch(wikiActions.loadRelatedSummary({ title: this.$wikiTitle() ?? this.input }));
+    this.store.dispatch(wikiActions.loadRelatedSummary({ label: this.$wikiTitle() ?? this.input }));
   }
 
   handleRandom(): void {

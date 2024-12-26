@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, map } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { WikiData, WikiSummary } from '../../domain/types/wiki.types';
 
 @Injectable({
@@ -11,13 +11,13 @@ export class WikiService {
 
   constructor(private http: HttpClient) {}
 
-  fetchSummary(title: string): Observable<WikiSummary> {
-    return this.http.get<WikiData>(`${this.baseUrl}/summary/${title}`).pipe(map((value) => this.normalizedData(value)));
+  fetchSummary(label: string): Observable<WikiSummary> {
+    return this.http.get<WikiData>(`${this.baseUrl}/summary/${label}`).pipe(map((value) => this.normalizedData(value)));
   }
 
-  fetchRelatedSummary(title: string): Observable<WikiSummary> {
+  fetchRelatedSummary(label: string): Observable<WikiSummary> {
     return this.http
-      .get<{ pages: WikiData[] }>(`${this.baseUrl}/related/${title}`)
+      .get<{ pages: WikiData[] }>(`${this.baseUrl}/related/${label}`)
       .pipe(map((value) => this.normalizedData(value.pages[Math.floor(Math.random() * 20)])));
   }
 

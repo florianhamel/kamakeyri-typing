@@ -11,8 +11,8 @@ export const wikiLoadExtract = createEffect(
     return actions$.pipe(
       ofType(wikiActions.loadSearchSummary),
       tap(() => wikiStore.dispatch(wikiActions.setIsLoading({ isLoading: true }))),
-      exhaustMap(({ title }) =>
-        wikiService.fetchSummary(title).pipe(
+      exhaustMap(({ label }) =>
+        wikiService.fetchSummary(label).pipe(
           map((wikiSummary: WikiSummary) => wikiActions.loadSummarySuccess({ ...wikiSummary, option: 'SEARCH' })),
           catchError(() => of(wikiActions.loadSummaryError()))
         )
@@ -27,8 +27,8 @@ export const wikiLoadRelatedExtract = createEffect(
     return actions$.pipe(
       ofType(wikiActions.loadRelatedSummary),
       tap(() => wikiStore.dispatch(wikiActions.setIsLoading({ isLoading: true }))),
-      exhaustMap(({ title }) =>
-        wikiService.fetchRelatedSummary(title).pipe(
+      exhaustMap(({ label }) =>
+        wikiService.fetchRelatedSummary(label).pipe(
           map((wikiSummary: WikiSummary) => wikiActions.loadSummarySuccess({ ...wikiSummary, option: 'RELATED' })),
           catchError(() => of(wikiActions.loadSummaryError()))
         )
