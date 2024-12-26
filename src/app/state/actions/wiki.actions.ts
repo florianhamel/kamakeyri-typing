@@ -6,9 +6,10 @@ export const wikiActions = createActionGroup({
   source: 'wiki',
   events: {
     setIsLoading: props<{ isLoading: boolean }>(),
-    loadSearchSummary: props<{ title: string }>(),
-    loadRelatedSummary: props<{ title: string }>(),
+    loadSearchSummary: props<{ label: string }>(),
+    loadRelatedSummary: props<{ label: string }>(),
     loadRandomSummary: emptyProps(),
+    loadSummary: props<{ mode: TypingOption, label: string | null }>(),
     loadSummarySuccess: props<WikiSummary & Readonly<{ option: TypingOption }>>(),
     loadSummaryError: emptyProps(),
     saveWikiSession: emptyProps()
