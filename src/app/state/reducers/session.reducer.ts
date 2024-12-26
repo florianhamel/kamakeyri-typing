@@ -10,6 +10,7 @@ import {
   processComposition,
   processStandard
 } from '../../domain/functions/session.functions';
+import { wikiActions } from '../actions/wiki.actions';
 
 export const initialState: SessionState = {
   start: null,
@@ -29,7 +30,13 @@ export const sessionFeature = createFeature({
     on(sessionActions.init, (_, { content }) => initialized(content)),
     on(sessionActions.update, (state, { event }) => updated(state, event)),
     on(sessionActions.start, (state) => started(state)),
-    on(sessionActions.reset, (state) => reset(state)),
+    on(
+      sessionActions.reset,
+      wikiActions.loadSearchSummary,
+      wikiActions.loadRelatedSummary,
+      wikiActions.loadRandomSummary,
+      (state) => reset(state)
+    ),
     on(sessionActions.close, (state) => closed(state))
   )
 });
