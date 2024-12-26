@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { env } from '../../../environments/environment.development';
 import { apiUri } from '../../domain/constants/api.constants';
-import { SessionDto } from '../DTOs/session.dto';
+import { SessionDTO } from '../DTOs/session.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +14,7 @@ export class SessionService {
 
   constructor(private readonly http: HttpClient) {}
 
-  uploadSessions(sessionDtos: Array<SessionDto>): Observable<void> {
+  uploadSessions(sessionDtos: Array<SessionDTO>): Observable<void> {
     return this.http.post<void>(this.baseUrl, sessionDtos, { withCredentials: true });
   }
 }

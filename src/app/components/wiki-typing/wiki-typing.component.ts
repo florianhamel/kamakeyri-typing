@@ -13,16 +13,12 @@ import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { LoadingSvgComponent } from '../svgs/loading-svg/loading-svg.component';
 import { SessionComponent } from '../session/session.component';
-import {
-  selectExtract,
-  selectIsLoading,
-  selectOption,
-  selectTitle
-} from '../../state/selectors/wiki.selectors';
+import { selectExtract, selectIsLoading, selectOption, selectTitle } from '../../state/selectors/wiki.selectors';
 import { SessionMetaData, SessionStatus, TypingOption } from '../../domain/types/session.types';
 import { selectStatus } from '../../state/selectors/session.selectors';
 import { wikiConstant } from '../../domain/constants/wiki.constants';
 import { wikiActions } from '../../state/actions/wiki.actions';
+import { isNull } from '../../domain/functions/common.functions';
 
 @Component({
   standalone: true,
@@ -37,17 +33,17 @@ export class WikiTypingComponent implements AfterViewInit {
   $wikiTitle: Signal<string | null> = this.store.selectSignal(selectTitle);
   $wikiExtract: Signal<string | null> = this.store.selectSignal(selectExtract);
   $wikiOption: Signal<TypingOption | null> = this.store.selectSignal(selectOption);
-  $wikiIsLoading: Signal<boolean> = this.store.selectSignal(selectIsLoading);
-
-  $sessionStatus: Signal<SessionStatus> = this.store.selectSignal(selectStatus);
-
-  $wikiMetaData: Signal<SessionMetaData> = computed(() => {
-    return {
-      mode: 'WIKI',
-      label: this.$wikiTitle(),
-      option: this.$wikiOption()
-    };
+  $wikiMetaData: Signal<SessionMetaData | null> = computed(() => {
+    return !isNull(this.$wikiOption()) ?
+        {
+          mode: 'WIKI',
+          label: this.$wikiTitle(),
+          option: this.$wikiOption()!!
+        }
+      : null;
   });
+  $wikiIsLoading: Signal<boolean> = this.store.selectSignal(selectIsLoading);
+  $sessionStatus: Signal<SessionStatus> = this.store.selectSignal(selectStatus);
 
   input: string = '';
 
