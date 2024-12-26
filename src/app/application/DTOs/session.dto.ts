@@ -1,6 +1,6 @@
 import { TypingMode, TypingOption } from '../../domain/types/session.types';
 
-export type SessionDto = {
+export type SessionDTO = {
   time: number;
   length: number;
   keystrokes: number;

@@ -9,7 +9,7 @@ export const initialState: WikiState = {
   isLoading: false
 };
 
-export const wikiFeature = createFeature({
+export const wikiFeature = createFeature<'wiki', WikiState>({
   name: 'wiki',
   reducer: createReducer(
     initialState,

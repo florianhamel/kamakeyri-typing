@@ -1,6 +1,6 @@
-import { SessionInfo, SessionRefined } from '../../domain/types/session.types';
+import { Session, SessionData } from '../../domain/types/session.types';
 
-export function generateSessionRefined(): SessionRefined {
+export function generateSessionRefined(): SessionData {
   return {
     time: Math.floor(Math.random() * 100 + 100),
     length: Math.floor(Math.random() * 100 + 100),
@@ -9,7 +9,7 @@ export function generateSessionRefined(): SessionRefined {
   };
 }
 
-export function generateSessionDto(): SessionInfo {
+export function generateSessionDto(): Session {
   return {
     ...generateSessionRefined(),
     mode: 'WIKI',
