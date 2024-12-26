@@ -8,13 +8,16 @@ import { provideStore } from '@ngrx/store';
 import { TranslateLoader, TranslateModule, TranslateModuleConfig } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { routes } from './app.routes';
-import { sessionFeature } from './modules/session/store/session.reducer';
-import { wikiFeature } from './modules/wiki/store/wiki.reducer';
-import { authFeature } from './modules/auth/store/auth.reducer';
-import { trainingFeature } from './modules/training/store/training.reducer';
-import { wikiLoadExtract, wikiLoadRandomExtract, wikiLoadRelatedExtract } from './modules/wiki/store/wiki.effects';
-import { sessionUpload, sessionUploadAll } from './modules/session/store/session.effects';
-import { authLogIn } from './modules/auth/store/auth.effects';
+import { authFeature } from './state/reducers/auth.reducer';
+import { authLogIn } from './state/effects/auth.effects';
+import { sessionFeature } from './state/reducers/session.reducer';
+import { wikiFeature } from './state/reducers/wiki.reducer';
+import {
+  wikiLoadExtract,
+  wikiLoadRandomExtract,
+  wikiLoadRelatedExtract
+} from './state/effects/wiki.effects';
+import { sessionUploadAllSaved, sessionUploadOrSave } from './state/effects/session.effects';
 
 export function TranslateLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http);
@@ -38,14 +41,13 @@ export const appConfig: ApplicationConfig = {
       session: sessionFeature.reducer,
       wiki: wikiFeature.reducer,
       auth: authFeature.reducer,
-      training: trainingFeature.reducer
     }),
     provideEffects({
       wikiLoadExtract,
       wikiLoadRelatedExtract,
       wikiLoadRandomExtract,
-      sessionUpload,
-      sessionUploadAll,
+      sessionUpload: sessionUploadOrSave,
+      sessionUploadAll: sessionUploadAllSaved,
       authLogIn
     }),
     importProvidersFrom(TranslateModule.forRoot(provideTranslation())),

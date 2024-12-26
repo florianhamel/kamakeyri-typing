@@ -15,7 +15,7 @@ export function app(): express.Express {
   const commonEngine = new CommonEngine();
 
   server.set('view engine', 'html');
-  server.set('views', browserDistFolder);
+  server.set('components', browserDistFolder);
 
   // Example Express Rest API endpoints
   // server.get('/api/**', (req, res) => { });
