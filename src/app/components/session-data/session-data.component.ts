@@ -22,9 +22,9 @@ export class SessionDataComponent {
 
   logInRef?: MatDialogRef<LogInComponent>;
 
-  readonly sessionData: SessionDataItem[] = [
-    { transl: 'typing.speed', formatter: this.formatWpm },
-    { transl: 'typing.accuracy', formatter: this.formatAccuracy }
+  readonly sessionDataItems: SessionDataItem[] = [
+    { translation: 'typing.speed', formatter: this.formatWpm },
+    { translation: 'typing.accuracy', formatter: this.formatAccuracy }
   ];
 
   constructor(

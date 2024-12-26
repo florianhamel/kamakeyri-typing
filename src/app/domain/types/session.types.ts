@@ -2,6 +2,10 @@ import { Type } from '@angular/core';
 
 export type SessionStatus = 'notStarted' | 'inProgress' | 'closed';
 
+export type TypingMode = 'WIKI' | 'TRAINING';
+
+export type TypingOption = 'SEARCH' | 'RELATED' | 'RANDOM';
+
 export type SessionState = {
   start: Date | null;
   end: Date | null;
@@ -25,21 +29,17 @@ export type SessionChar = {
 };
 
 export type SessionDataItem = {
-  transl: string;
+  translation: string;
   formatter: (sessionState: SessionState) => string;
   svgComponent?: Type<any>;
 };
 
-export type SessionRefined = {
+export type SessionData = {
   time: number;
   length: number;
   keystrokes: number;
   errors: number;
 };
-
-export type TypingMode = 'WIKI' | 'TRAINING';
-
-export type TypingOption = 'SEARCH' | 'RELATED' | 'RANDOM';
 
 export type SessionMetaData = {
   mode: TypingMode;
@@ -47,7 +47,7 @@ export type SessionMetaData = {
   option: TypingOption;
 };
 
-export type SessionInfo = SessionRefined & SessionMetaData;
+export type Session = SessionData & SessionMetaData;
 
 export type InputEventSanitized = InputEvent & { readonly inputType: InputType };
 

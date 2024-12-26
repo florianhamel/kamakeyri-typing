@@ -5,20 +5,18 @@ import { catchError, exhaustMap, Observable, of, tap } from 'rxjs';
 import { concatLatestFrom } from '@ngrx/operators';
 import { SessionService } from '../../application/services/session.service';
 import { sessionActions } from '../actions/session.actions';
-import { selectSessionRefined } from '../selectors/session.selectors';
+import { selectSessionData } from '../selectors/session.selectors';
 import { selectIsLoggedIn } from '../selectors/auth.selectors';
-import { SessionInfo } from '../../domain/types/session.types';
-import {
-  clearSessionItems,
-  getSessionItem,
-  setSessionItem
-} from '../../application/helpers/storage.helper';
+import { Session, TypingMode, TypingOption } from '../../domain/types/session.types';
+import { clearSessionItems, getSessionItem, setSessionItem } from '../../application/helpers/storage.helper';
+import { SessionDTO } from '../../application/DTOs/session.dto';
+import { toSessionDTO } from '../../application/mappers/session.mapper';
 
 export const sessionUploadOrSave = createEffect(
   (actions$ = inject(Actions), sessionService = inject(SessionService), store = inject(Store)) => {
     return actions$.pipe(
       ofType(sessionActions.uploadOrSave),
-      concatLatestFrom(() => [store.select(selectSessionRefined), store.select(selectIsLoggedIn)]),
+      concatLatestFrom(() => [store.select(selectSessionData), store.select(selectIsLoggedIn)]),
       exhaustMap(([metaData, sessionRefined, isLoggedIn]) => {
         const { type, ...sessionDto } = { ...sessionRefined, ...metaData };
         return isLoggedIn ?
@@ -35,8 +33,8 @@ export const sessionUploadAllSaved = createEffect(
     return actions$.pipe(
       ofType(sessionActions.uploadAllSaved),
       exhaustMap(() => {
-        const sessionDtos: Array<SessionInfo> | null = getSessionItem<Array<SessionInfo>>('sessions');
-        return sessionDtos ? sessionService.uploadSessions(sessionDtos) : of(undefined);
+        const sessions = getSessionItem<Array<Session>>('sessions');
+        return sessions ? sessionService.uploadSessions(sessions.map((s) => toSessionDTO(s))) : of(undefined);
       }),
       tap(() => clearSessionItems())
     );
@@ -44,8 +42,8 @@ export const sessionUploadAllSaved = createEffect(
   { functional: true, dispatch: false }
 );
 
-function saveSession(sessionDto: SessionInfo): Observable<void> {
-  const sessionDtos: SessionInfo[] | null = getSessionItem<SessionInfo[]>('sessions');
+function saveSession(sessionDto: Session): Observable<void> {
+  const sessionDtos = getSessionItem<Session[]>('sessions');
   setSessionItem('sessions', sessionDtos ? [...sessionDtos, sessionDto] : [sessionDto]);
   return of(undefined);
 }

@@ -1,6 +1,6 @@
 import { createSelector } from '@ngrx/store';
 import { sessionFeature } from '../reducers/session.reducer';
-import { SessionRefined } from '../../domain/types/session.types';
+import { SessionData } from '../../domain/types/session.types';
 import { exists } from '../../domain/functions/common.functions';
 
 export const {
@@ -15,7 +15,7 @@ export const {
   selectIsComposing
 } = sessionFeature;
 
-export const selectSessionRefined = createSelector(selectSessionState, (state): SessionRefined => {
+export const selectSessionData = createSelector(selectSessionState, (state): SessionData => {
   return {
     time: exists(state.start) && exists(state.end) ? state.end!.getTime() - state.start!.getTime() : 0,
     length: state.sessionChars.length,
