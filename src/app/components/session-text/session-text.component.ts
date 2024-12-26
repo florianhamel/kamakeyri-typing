@@ -12,7 +12,12 @@ import {
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
-import { InputEventSanitized, SessionChar, SessionStatus } from '../../domain/types/session.types';
+import {
+  InputEventSanitized,
+  SessionChar,
+  SessionMetaData,
+  SessionStatus
+} from '../../domain/types/session.types';
 import {
   selectIndex, selectIsComposing,
   selectSessionChars,
@@ -25,16 +30,18 @@ import { isEscape, isFunctional, isRepeat } from '../../domain/functions/keyboar
 import { newLine } from '../../domain/constants/unicode.constants';
 import { isCorrect, lastSessionChar } from '../../domain/functions/session-common.functions';
 import { isForbidden } from '../../domain/functions/input-event.functions';
+import { SessionDataComponent } from '../session-data/session-data.component';
 
 @Component({
   standalone: true,
   selector: 'app-session-text',
-  imports: [CommonModule, TranslateModule, NgStyle],
+  imports: [CommonModule, TranslateModule, NgStyle, SessionDataComponent],
   templateUrl: './session-text.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SessionTextComponent implements OnChanges, AfterViewInit {
   @Input() text!: string;
+  @Input() metaData!: SessionMetaData;
 
   @ViewChild('textAreaRef') textAreaRef: ElementRef | undefined;
 
@@ -72,8 +79,8 @@ export class SessionTextComponent implements OnChanges, AfterViewInit {
       this.store.dispatch(sessionActions.start());
     }
     this.store.dispatch(sessionActions.update({ event: sanitizedEvent }));
-    if (this.isSessionClosed()) {
-      this.store.dispatch(sessionActions.close());
+    if (this.shouldSessionBeClosed()) {
+      this.store.dispatch(sessionActions.uploadOrSave(this.metaData));
     }
   }
 
@@ -124,7 +131,7 @@ export class SessionTextComponent implements OnChanges, AfterViewInit {
     return event as InputEventSanitized;
   }
 
-  private isSessionClosed(): boolean {
+  private shouldSessionBeClosed(): boolean {
     return this.$sessionChars().length <= this.$sessionIndex() && isCorrect(lastSessionChar(this.$sessionChars()));
   }
 
