@@ -1,5 +1,5 @@
-import { InputEventSanitized } from '../../modules/session/models/session.types';
 import { isBackspace, isMacosAutoDot } from './input-event.functions';
+import { InputEventSanitized } from '../types/event.types';
 
 describe('input event checks', () => {
   it.each([

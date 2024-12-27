@@ -9,6 +9,7 @@ export type SessionChar = {
   target: string;
   input: string | null;
   enabled: boolean;
+  isComposing: boolean;
 };
 
 export type SessionCharsIndex = {

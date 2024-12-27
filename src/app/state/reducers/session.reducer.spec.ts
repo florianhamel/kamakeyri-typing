@@ -1,6 +1,7 @@
-import { InputEventSanitized, SessionState } from '../../domain/types/session.types';
-import { initialState, sessionFeature } from './session.reducer';
 import { sessionActions } from '../actions/session.actions';
+import { initialState, SessionState } from '../states/session.state';
+import { sessionFeature } from './session.reducer';
+import { InputEventSanitized } from '../../domain/types/event.types';
 
 describe('session action: initialize', () => {
   it('should initialize session with standard content', () => {
