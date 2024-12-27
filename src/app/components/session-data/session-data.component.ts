@@ -3,11 +3,13 @@ import { ChangeDetectionStrategy, Component, Signal } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
-import { SessionDataItem, SessionState } from '../../domain/types/session.types';
+import { SessionDataItem } from '../../domain/types/session.types';
 import { selectSessionState } from '../../state/selectors/session.selectors';
 import { selectIsLoggedIn } from '../../state/selectors/auth.selectors';
 import { LogInComponent } from '../log-in/log-in.component';
 import { computeAccuracy, computeWpm } from '../../domain/functions/session-analysis.functions';
+import { dialogActions } from '../../state/actions/dialog.actions';
+import { SessionState } from '../../state/states/session.state';
 
 @Component({
   standalone: true,
@@ -34,6 +36,7 @@ export class SessionDataComponent {
 
   openDialog(): void {
     this.logInRef = this.dialog.open(LogInComponent);
+    this.store.dispatch(dialogActions.openLogIn()) // TODO implement effect and reducer
   }
 
   private formatWpm(sessionState: SessionState): string {

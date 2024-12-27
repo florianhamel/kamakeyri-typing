@@ -7,12 +7,12 @@ import {
 } from './session-common.functions';
 import { isMacosAutoDot } from './input-event.functions';
 import {
-  InputEventSanitized,
   SessionChar,
   SessionCharsIndex,
-  SessionState
 } from '../types/session.types';
 import { exists, isNewline, isSpace, isUndefined, isWord } from './common.functions';
+import { SessionState } from '../../state/states/session.state';
+import { InputEventSanitized } from '../types/event.types';
 
 export function processBackspaceChar(state: SessionState): SessionState {
   const end = new Date();

@@ -13,7 +13,6 @@ import {
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
 import {
-  InputEventSanitized,
   SessionChar,
   SessionMetaData,
   SessionStatus
@@ -31,6 +30,7 @@ import { newLine } from '../../domain/constants/unicode.constants';
 import { isCorrect, lastSessionChar } from '../../domain/functions/session-common.functions';
 import { isForbidden } from '../../domain/functions/input-event.functions';
 import { SessionDataComponent } from '../session-data/session-data.component';
+import { InputEventSanitized } from '../../domain/types/event.types';
 
 @Component({
   standalone: true,

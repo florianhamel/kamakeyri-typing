@@ -1,5 +1,5 @@
 import { SessionDTO } from '../DTOs/session.dto';
-import { Session, TypingMode, TypingOption } from '../../domain/types/session.types';
+import { Session } from '../../domain/types/session.types';
 
 export function toSessionDTO(sessionInfo: Session): SessionDTO {
   return {
@@ -7,8 +7,8 @@ export function toSessionDTO(sessionInfo: Session): SessionDTO {
     length: sessionInfo.length,
     keystrokes: sessionInfo.keystrokes,
     errors: sessionInfo.errors,
-    mode: sessionInfo.mode.toUpperCase() as TypingMode,
+    mode: sessionInfo.mode,
     label: sessionInfo.label,
-    option: sessionInfo.option.toUpperCase() as TypingOption
+    option: sessionInfo.option
   };
 }
