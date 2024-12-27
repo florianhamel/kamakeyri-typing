@@ -14,7 +14,7 @@ import { wikiActions } from '../actions/wiki.actions';
 import { SessionState, initialState } from '../states/session.state';
 import { InputEventSanitized } from '../../domain/types/event.types';
 
-export const sessionFeature = createFeature({
+export const sessionFeature = createFeature<'session', SessionState>({
   name: 'session',
   reducer: createReducer(
     initialState,

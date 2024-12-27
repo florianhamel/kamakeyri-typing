@@ -1,12 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Signal } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { SessionDataItem } from '../../domain/types/session.types';
 import { selectSessionState } from '../../state/selectors/session.selectors';
 import { selectIsLoggedIn } from '../../state/selectors/auth.selectors';
-import { LogInComponent } from '../log-in/log-in.component';
 import { computeAccuracy, computeWpm } from '../../domain/functions/session-analysis.functions';
 import { dialogActions } from '../../state/actions/dialog.actions';
 import { SessionState } from '../../state/states/session.state';
@@ -22,21 +20,15 @@ export class SessionDataComponent {
   $sessionState: Signal<SessionState> = this.store.selectSignal(selectSessionState);
   $isLoggedIn: Signal<boolean> = this.store.selectSignal(selectIsLoggedIn);
 
-  logInRef?: MatDialogRef<LogInComponent>;
-
   readonly sessionDataItems: SessionDataItem[] = [
     { translation: 'typing.speed', formatter: this.formatWpm },
     { translation: 'typing.accuracy', formatter: this.formatAccuracy }
   ];
 
-  constructor(
-    private readonly store: Store,
-    private readonly dialog: MatDialog
-  ) {}
+  constructor(private readonly store: Store) {}
 
   openDialog(): void {
-    this.logInRef = this.dialog.open(LogInComponent);
-    this.store.dispatch(dialogActions.openLogIn()) // TODO implement effect and reducer
+    this.store.dispatch(dialogActions.openLogIn());
   }
 
   private formatWpm(sessionState: SessionState): string {

@@ -25,5 +25,5 @@ export const authLogIn = createEffect(
       )
     );
   },
-  { functional: true }
+  { functional: true, dispatch: true }
 );
