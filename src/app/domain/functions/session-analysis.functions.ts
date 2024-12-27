@@ -1,6 +1,6 @@
 import { isCorrect } from './session-common.functions';
-import { SessionState } from '../types/session.types';
 import { exists } from './common.functions';
+import { SessionState } from '../../state/states/session.state';
 
 export function computeWpm(sessionState: SessionState): number {
   const words: number = Math.round((sessionState.keystrokes - computeMismatches(sessionState)) / 5);

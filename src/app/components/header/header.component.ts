@@ -3,9 +3,9 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { RouterLink } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { removeLocalItem } from '../../application/helpers/storage.helper';
-import { AuthState } from '../../domain/types/auth.types';
 import { selectAuthState, selectIsLoggedIn } from '../../state/selectors/auth.selectors';
 import { LogInComponent } from '../log-in/log-in.component';
+import { AuthState } from '../../state/states/auth.state';
 
 type NavItem = {
   name: string;

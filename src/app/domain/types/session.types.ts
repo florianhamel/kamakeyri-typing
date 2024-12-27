@@ -1,31 +1,19 @@
 import { Type } from '@angular/core';
+import { SessionState } from '../../state/states/session.state';
+import { SessionMode } from '../enums/session-mode.enum';
+import { SessionOption } from '../enums/session-option.enum';
 
 export type SessionStatus = 'notStarted' | 'inProgress' | 'closed';
-
-export type TypingMode = 'WIKI' | 'TRAINING';
-
-export type TypingOption = 'SEARCH' | 'RELATED' | 'RANDOM';
-
-export type SessionState = {
-  start: Date | null;
-  end: Date | null;
-  index: number;
-  sessionChars: ReadonlyArray<SessionChar>;
-  keystrokes: number;
-  errors: number;
-  status: SessionStatus;
-  isComposing: boolean;
-};
-
-export type SessionCharsIndex = {
-  sessionChars: ReadonlyArray<SessionChar>;
-  index: number;
-};
 
 export type SessionChar = {
   target: string;
   input: string | null;
   enabled: boolean;
+};
+
+export type SessionCharsIndex = {
+  sessionChars: ReadonlyArray<SessionChar>;
+  index: number;
 };
 
 export type SessionDataItem = {
@@ -42,59 +30,9 @@ export type SessionData = {
 };
 
 export type SessionMetaData = {
-  mode: TypingMode;
+  mode: SessionMode;
   label: string | null;
-  option: TypingOption;
+  option: SessionOption;
 };
 
 export type Session = SessionData & SessionMetaData;
-
-export type InputEventSanitized = InputEvent & { readonly inputType: InputType };
-
-export type InputType =
-  | 'insertText'
-  | 'insertReplacementText'
-  | 'insertLineBreak'
-  | 'insertParagraph'
-  | 'insertOrderedList'
-  | 'insertUnorderedList'
-  | 'insertHorizontalRule'
-  | 'insertFromYank'
-  | 'insertFromDrop'
-  | 'insertFromPaste'
-  | 'insertFromPasteAsQuotation'
-  | 'insertTranspose'
-  | 'insertCompositionText'
-  | 'insertLink'
-  | 'deleteWordBackward'
-  | 'deleteWordForward'
-  | 'deleteSoftLineBackward'
-  | 'deleteSoftLineForward'
-  | 'deleteEntireSoftLine'
-  | 'deleteHardLineBackward'
-  | 'deleteHardLineForward'
-  | 'deleteByDrag'
-  | 'deleteByCut'
-  | 'deleteContent'
-  | 'deleteContentBackward'
-  | 'deleteContentForward'
-  | 'historyUndo'
-  | 'historyRedo'
-  | 'formatBold'
-  | 'formatItalic'
-  | 'formatUnderline'
-  | 'formatStrikeThrough'
-  | 'formatSuperscript'
-  | 'formatSubscript'
-  | 'formatJustifyFull'
-  | 'formatJustifyCenter'
-  | 'formatJustifyRight'
-  | 'formatJustifyLeft'
-  | 'formatIndent'
-  | 'formatOutdent'
-  | 'formatRemove'
-  | 'formatSetBlockTextDirection'
-  | 'formatSetInlineTextDirection'
-  | 'formatBackColor'
-  | 'formatFontColor'
-  | 'formatFontName';

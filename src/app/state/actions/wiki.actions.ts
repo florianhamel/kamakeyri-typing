@@ -1,6 +1,6 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 import { WikiSummary } from '../../domain/types/wiki.types';
-import { TypingOption } from '../../domain/types/session.types';
+import { SessionOption } from '../../domain/enums/session-option.enum';
 
 export const wikiActions = createActionGroup({
   source: 'wiki',
@@ -9,8 +9,8 @@ export const wikiActions = createActionGroup({
     loadSearchSummary: props<{ label: string }>(),
     loadRelatedSummary: props<{ label: string }>(),
     loadRandomSummary: emptyProps(),
-    loadSummary: props<{ mode: TypingOption, label: string | null }>(),
-    loadSummarySuccess: props<WikiSummary & Readonly<{ option: TypingOption }>>(),
+    loadSummary: props<{ mode: SessionOption, label: string | null }>(),
+    loadSummarySuccess: props<WikiSummary & Readonly<{ option: SessionOption }>>(),
     loadSummaryError: emptyProps(),
     saveWikiSession: emptyProps()
   }

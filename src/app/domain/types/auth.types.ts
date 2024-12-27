@@ -1,8 +1,3 @@
-export type AuthState = {
-  username: string | null;
-  exp: string | null;
-};
-
 export type AuthInfo = {
   username: string;
   exp: string;

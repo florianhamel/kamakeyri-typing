@@ -1,5 +1,5 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
-import { InputEventSanitized, SessionChar, SessionState } from '../../domain/types/session.types';
+import { SessionChar } from '../../domain/types/session.types';
 import { sessionActions } from '../actions/session.actions';
 import { initSessionChars, resetSessionChars } from '../../domain/functions/session-common.functions';
 import { isUsInternational } from '../../domain/layouts/us-international.layout';
@@ -11,17 +11,8 @@ import {
   processStandard
 } from '../../domain/functions/session.functions';
 import { wikiActions } from '../actions/wiki.actions';
-
-export const initialState: SessionState = {
-  start: null,
-  end: null,
-  index: 0,
-  sessionChars: [],
-  keystrokes: 0,
-  errors: 0,
-  status: 'notStarted',
-  isComposing: false
-};
+import { SessionState, initialState } from '../states/session.state';
+import { InputEventSanitized } from '../../domain/types/event.types';
 
 export const sessionFeature = createFeature({
   name: 'session',
