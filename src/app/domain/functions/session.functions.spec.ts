@@ -1,16 +1,23 @@
-import { TestBed } from '@angular/core/testing';
-import { provideMockStore } from '@ngrx/store/testing';
-import { SessionChar } from '../../models/session.types';
-import { initSessionChars } from '../../functions/session-common.functions';
-import { isUsInternational } from '../../../../common/layouts/us-international-layout';
-import { initialState } from '../../store/session.state';
+import { SessionChar } from '../types/session.types';
+import { initSessionChars } from './session-common.functions';
+import { isUsInternational } from '../layouts/us-international.layout';
 
-describe('text session', () => {
-  beforeEach(() => {
-    const sessionChars: ReadonlyArray<SessionChar> = initSessionChars('Hello World!', isUsInternational);
-    const sessionState = { ...initialState, sessionChars };
-    TestBed.configureTestingModule({
-      providers: [provideMockStore({ initialState: { ...initialState, sessionChars } })]
-    });
+describe('session functions', () => {
+  it('should init session chars', () => {
+    // given
+    const specialChar = '†';
+    const content = 'Hi!' + specialChar;
+
+    // when
+    const sessionChars: ReadonlyArray<SessionChar> = initSessionChars(content, isUsInternational);
+
+    // then
+    expect(sessionChars.length).toBe(content.length);
+    for (let i = 0; i < content.length; ++i) {
+      expect(sessionChars[i].target).toBe(content[i]);
+      expect(sessionChars[i].input).toBeNull();
+      expect(sessionChars[i].enabled).toBe(content[i] !== specialChar);
+      expect(sessionChars[i].isComposing).toBe(false);
+    }
   });
 });

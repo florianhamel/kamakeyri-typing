@@ -1,6 +1,8 @@
 import { Session, SessionData } from '../../domain/types/session.types';
+import { SessionMode } from '../../domain/enums/session-mode.enum';
+import { SessionOption } from '../../domain/enums/session-option.enum';
 
-export function generateSessionRefined(): SessionData {
+export function generateSessionData(): SessionData {
   return {
     time: Math.floor(Math.random() * 100 + 100),
     length: Math.floor(Math.random() * 100 + 100),
@@ -11,9 +13,9 @@ export function generateSessionRefined(): SessionData {
 
 export function generateSessionDto(): Session {
   return {
-    ...generateSessionRefined(),
-    mode: 'WIKI',
+    ...generateSessionData(),
+    mode: SessionMode.Wiki,
     label: 'coffee',
-    option: 'SEARCH'
+    option: SessionOption.Search
   };
 }
