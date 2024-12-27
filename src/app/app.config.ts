@@ -12,12 +12,10 @@ import { authFeature } from './state/reducers/auth.reducer';
 import { authLogIn } from './state/effects/auth.effects';
 import { sessionFeature } from './state/reducers/session.reducer';
 import { wikiFeature } from './state/reducers/wiki.reducer';
-import {
-  wikiLoadExtract,
-  wikiLoadRandomExtract,
-  wikiLoadRelatedExtract
-} from './state/effects/wiki.effects';
+import { wikiLoadExtract, wikiLoadRandomExtract, wikiLoadRelatedExtract } from './state/effects/wiki.effects';
 import { sessionUploadAllSaved, sessionUploadOrSave } from './state/effects/session.effects';
+import { dialogFeature } from './state/reducers/dialog.reducer';
+import { closeLogInDialog, openLogIn } from './state/effects/dialog.effects';
 
 export function TranslateLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http);
@@ -41,13 +39,16 @@ export const appConfig: ApplicationConfig = {
       session: sessionFeature.reducer,
       wiki: wikiFeature.reducer,
       auth: authFeature.reducer,
+      dialog: dialogFeature.reducer
     }),
     provideEffects({
       wikiLoadExtract,
       wikiLoadRelatedExtract,
       wikiLoadRandomExtract,
-      sessionUpload: sessionUploadOrSave,
-      sessionUploadAll: sessionUploadAllSaved,
+      sessionUploadOrSave,
+      sessionUploadAllSaved,
+      closeLogInDialog,
+      openLogIn,
       authLogIn
     }),
     importProvidersFrom(TranslateModule.forRoot(provideTranslation())),

@@ -1,11 +1,12 @@
 import { Component, Signal } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 import { RouterLink } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { removeLocalItem } from '../../application/helpers/storage.helper';
 import { selectAuthState, selectIsLoggedIn } from '../../state/selectors/auth.selectors';
 import { LogInComponent } from '../log-in/log-in.component';
 import { AuthState } from '../../state/states/auth.state';
+import { dialogActions } from '../../state/actions/dialog.actions';
 
 type NavItem = {
   name: string;
@@ -33,11 +34,10 @@ export class HeaderComponent {
 
   constructor(
     private readonly store: Store,
-    private readonly dialog: MatDialog
   ) {}
 
   openDialog(): void {
-    this.logInRef = this.dialog.open(LogInComponent);
+    this.store.dispatch(dialogActions.openLogIn());
   }
 
   logOut(): void {
