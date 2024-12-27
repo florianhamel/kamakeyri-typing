@@ -1,8 +1,9 @@
-import { createActionGroup, emptyProps } from '@ngrx/store';
+import { createActionGroup, emptyProps, props } from '@ngrx/store';
 
 export const dialogActions = createActionGroup({
   source: 'dialog',
   events: {
-    openLogIn: emptyProps()
+    openLogIn: emptyProps(),
+    updateLogInDialogId: props<{ logInDialogId: string | null }>(),
   }
-})
+});
