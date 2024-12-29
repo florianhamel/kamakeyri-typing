@@ -1,5 +1,6 @@
 export enum Route {
   Home = '',
   Wiki = 'wiki',
-  LogIn = 'log-in'
+  LogIn = 'log-in',
+  Words = 'words'
 }

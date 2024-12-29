@@ -21,13 +21,14 @@ import { isNull } from '../../domain/functions/common.functions';
 import { SessionTextComponent } from '../session-text/session-text.component';
 import { SessionOption } from '../../domain/enums/session-option.enum';
 import { SessionMode } from '../../domain/enums/session-mode.enum';
+import { SessionDataComponent } from '../session-data/session-data.component';
 
 @Component({
   standalone: true,
   selector: 'app-wiki-typing',
   templateUrl: './wiki-typing.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, LoadingSvgComponent, TranslateModule, FormsModule, SessionTextComponent]
+  imports: [CommonModule, LoadingSvgComponent, TranslateModule, FormsModule, SessionTextComponent, SessionDataComponent]
 })
 export class WikiTypingComponent implements AfterViewInit {
   @ViewChild('wikiInput') wikiInput: ElementRef | undefined;

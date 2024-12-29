@@ -1,0 +1,31 @@
+{
+  "kamakeyri": {
+    "experience": "Kamakeyri Typing, c'est top."
+  },
+  "wiki": {
+    "title": "📚 Wiki Typing",
+    "description": "Tapez n'importe quel Wiki.",
+    "input": "Recherchez Wikipedia...",
+    "placeholder": "Trouvez un Wiki et commencez à taper !",
+    "options": {
+      "random": "Appuyer sur ⬅\uFE0F pour Aléatoire",
+      "related": "Appuyer sur ➡\uFE0F pour Relatif"
+    }
+  },
+  "typing": {
+    "speed": "\uD83D\uDE80 Vitesse",
+    "accuracy": "\uD83C\uDFAF Précision"
+  },
+  "session": {
+    "status": {
+      "notStarted": "\uD83C\uDFC1 Pas commencé",
+      "inProgress": "\u23F3 En cours",
+      "closed": "\u2705 Fermé"
+    },
+    "saveProgress": "Log in pour sauvegarder votre progression!"
+  },
+  "words": {
+    "title": "⏱️ Mots Communs",
+    "description": "Tapez le plus de mots possible !"
+  }
+}

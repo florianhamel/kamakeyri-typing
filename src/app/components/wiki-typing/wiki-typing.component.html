@@ -1,3 +1,7 @@
+<div class="mb-6">
+  <h1 class="flex text-2xl">{{ 'wiki.title' | translate }}</h1>
+  <p>{{ 'wiki.description' | translate }}</p>
+</div>
 <div (keydown)="handlePostSession($event)" tabindex="0" class="focus:outline-none">
   <div class="mb-6 flex flex-1 items-center justify-between gap-4">
     <div class="flex items-center gap-4">
@@ -28,6 +32,7 @@
       </div>
     }
     <app-session-text [text]="$wikiExtract()!" [metaData]="$wikiMetaData()!" />
+    <app-session-data/>
   } @else {
     <span class="text-2xl">{{ wikiPlaceholder | translate }}</span>
   }

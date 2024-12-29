@@ -9,7 +9,7 @@ import { selectSessionData } from '../selectors/session.selectors';
 import { selectIsLoggedIn } from '../selectors/auth.selectors';
 import { Session } from '../../domain/types/session.types';
 import { clearSessionItems, getSessionItem, setSessionItem } from '../../application/helpers/storage.helper';
-import { toSessionDTO } from '../../application/mappers/session.mapper';
+import { toSessionDTO } from '../../application/mappers/session.mappers';
 
 export const sessionUploadOrSave = createEffect(
   (actions$ = inject(Actions), sessionService = inject(SessionService), store = inject(Store)) => {

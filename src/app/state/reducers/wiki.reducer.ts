@@ -2,7 +2,6 @@ import { createFeature, createReducer, on } from '@ngrx/store';
 import { wikiActions } from '../actions/wiki.actions';
 import { initialState, WikiState } from '../states/wiki.state';
 
-
 export const wikiFeature = createFeature<'wiki', WikiState>({
   name: 'wiki',
   reducer: createReducer(
