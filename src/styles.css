@@ -22,7 +22,17 @@
   .kw-input {
     @apply transition-colors h-fit rounded-xs border border-black bg-kw-white p-1 focus:border-primary focus:outline-none;
   }
+
+  .kw-gradient {
+    @apply bg-gradient-to-br from-peace from-40% to-fun;
+  }
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}

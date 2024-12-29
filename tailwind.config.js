@@ -14,7 +14,8 @@ module.exports = {
         primary: '#c196f9',
         secondary: '#96f9c1',
         tertiary: '#f9c196',
-        peace: '#f4f7e6'
+        peace: '#f4f7e6',
+        fun: 'rgba(193, 150, 249, 0.40)'
       },
       fontSize: {
         typing: ['2rem', '2.6rem']

@@ -1,6 +1,5 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { authActions } from '../../state/actions/auth.actions';
 
@@ -9,7 +8,7 @@ import { authActions } from '../../state/actions/auth.actions';
   selector: 'app-log-in',
   imports: [ReactiveFormsModule],
   templateUrl: './log-in.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LogInComponent implements AfterViewInit {
   @ViewChild('usernameInput') usernameInput: ElementRef | undefined;
@@ -19,11 +18,7 @@ export class LogInComponent implements AfterViewInit {
     password: new FormControl<string>('', Validators.required)
   });
 
-  // TODO close dialog when log-in successful
-  constructor(
-    private readonly store: Store,
-    private readonly dialogRef: MatDialogRef<LogInComponent>
-  ) {}
+  constructor(private readonly store: Store) {}
 
   ngAfterViewInit(): void {
     this.usernameInput?.nativeElement.focus();
