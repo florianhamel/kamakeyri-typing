@@ -16,6 +16,8 @@ import { wikiLoadExtract, wikiLoadRandomExtract, wikiLoadRelatedExtract } from '
 import { sessionUploadAllSaved, sessionUploadOrSave } from './state/effects/session.effects';
 import { dialogFeature } from './state/reducers/dialog.reducer';
 import { closeLogInDialog, openLogIn } from './state/effects/dialog.effects';
+import { loadCommonWords } from './state/effects/words.effects';
+import { wordsFeature } from './state/reducers/words.reducer';
 
 export function TranslateLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http);
@@ -39,7 +41,8 @@ export const appConfig: ApplicationConfig = {
       session: sessionFeature.reducer,
       wiki: wikiFeature.reducer,
       auth: authFeature.reducer,
-      dialog: dialogFeature.reducer
+      dialog: dialogFeature.reducer,
+      words: wordsFeature.reducer
     }),
     provideEffects({
       wikiLoadExtract,
@@ -48,6 +51,7 @@ export const appConfig: ApplicationConfig = {
       sessionUploadOrSave,
       sessionUploadAllSaved,
       closeLogInDialog,
+      loadCommonWords,
       openLogIn,
       authLogIn
     }),

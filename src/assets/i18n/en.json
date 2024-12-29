@@ -3,7 +3,7 @@
     "experience": "Kamakeyri Typing, the ultimate typing experience."
   },
   "wiki": {
-    "title": "Wiki Typing",
+    "title": "📚 Wiki Typing",
     "description": "Type any Wikipedia summary.",
     "input": "Search Wikipedia...",
     "placeholder": "Find a Wikipedia summary and start typing!",
@@ -23,5 +23,9 @@
       "closed": "\u2705 Closed"
     },
     "saveProgress": "Log in and save your progress!"
+  },
+  "words": {
+    "title": "⏱️ Common Words",
+    "description": "Type as many words as you can!"
   }
 }
