@@ -1,6 +1,7 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
 import { wikiActions } from '../actions/wiki.actions';
 import { initialState, WikiState } from '../states/wiki.state';
+import { SessionOption } from '../../domain/enums/session-option.enum';
 
 export const wikiFeature = createFeature<'wiki', WikiState>({
   name: 'wiki',
@@ -12,16 +13,16 @@ export const wikiFeature = createFeature<'wiki', WikiState>({
       extract: wikiInfo.extract.trim(),
       isLoading: false
     })),
-    on(wikiActions.loadSummaryError, (state) => loadedExtractError(state))
+    on(wikiActions.loadSummaryError, (state) => loadExtractError(state))
   )
 });
 
-function loadedExtractError(state: WikiState): WikiState {
+function loadExtractError(state: WikiState): WikiState {
   return {
     ...state,
-    extract: 'Oh の  éé hey の\nan    error has occurredの'.trim(),
-    title: null,
-    option: null,
+    extract: 'Vašíček の  éé hey の\nan    error has occurredの'.trim(),
+    title: 'Error wtf?!',
+    option: SessionOption.Search,
     isLoading: false
   };
 }

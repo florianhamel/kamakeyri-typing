@@ -158,8 +158,9 @@ function endCompositionFailure(state: SessionState, event: InputEventSanitized) 
 
 function endCompositionSuccess(state: SessionState, event: InputEventSanitized) {
   const end = new Date();
-  const sessionChars = state.sessionChars.with(state.index - 1, {
-    ...sessionCharAt(state.sessionChars, state.index - 1)!,
+  const indexLast = moveBackwardFrom(state.sessionChars, state.index);
+  const sessionChars = state.sessionChars.with(indexLast, {
+    ...sessionCharAt(state.sessionChars, indexLast)!,
     input: event.data
   });
   const isComposing = false;
