@@ -1,4 +1,4 @@
-<div (click)="focusTextArea()" class="kw-block w-fit focus:outline-none">
+<div (click)="focusHiddenTextArea()" class="kw-block w-fit focus:outline-none">
   @for (sessionChar of $sessionChars(); let currentIndex = $index; track currentIndex) {
     <span
       [ngStyle]="getStyleForChar(currentIndex, $sessionIndex(), sessionChar)"
@@ -9,7 +9,7 @@
 </div>
 
 <textarea
-  #textAreaRef
+  #hiddenTextArea
   tabindex="0"
   (beforeinput)="handleInputEvent($event)"
   (keydown)="handleKeyboardEvent($event)"

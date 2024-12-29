@@ -8,8 +8,16 @@ export function isNull(obj: any): boolean {
   return obj === null;
 }
 
+export function isEmpty(arr: ReadonlyArray<any>): boolean {
+  return arr.length === 0;
+}
+
 export function exists(obj: any): boolean {
   return !isUndefined(obj) && !isNull(obj);
+}
+
+export function isTruthy(obj: any): boolean {
+  return !!obj;
 }
 
 export function isAscii(char: string): boolean {
