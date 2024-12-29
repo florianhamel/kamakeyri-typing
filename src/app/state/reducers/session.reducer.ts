@@ -18,9 +18,9 @@ export const sessionFeature = createFeature<'session', SessionState>({
   name: 'session',
   reducer: createReducer(
     initialState,
-    on(sessionActions.init, (_, { content }) => initialized(content)),
-    on(sessionActions.update, (state, { event }) => updated(state, event)),
-    on(sessionActions.start, (state) => started(state)),
+    on(sessionActions.init, (_, { content }) => init(content)),
+    on(sessionActions.update, (state, { event }) => update(state, event)),
+    on(sessionActions.start, (state) => start(state)),
     on(
       sessionActions.reset,
       wikiActions.loadSearchSummary,
@@ -28,11 +28,11 @@ export const sessionFeature = createFeature<'session', SessionState>({
       wikiActions.loadRandomSummary,
       (state) => reset(state)
     ),
-    on(sessionActions.close, (state) => closed(state))
+    on(sessionActions.close, (state) => close(state))
   )
 });
 
-export function initialized(content: string): SessionState {
+function init(content: string): SessionState {
   const sessionChars: ReadonlyArray<SessionChar> = initSessionChars(content, isUsInternational);
   return {
     ...initialState,
@@ -40,7 +40,7 @@ export function initialized(content: string): SessionState {
   };
 }
 
-export function updated(state: SessionState, event: InputEventSanitized): SessionState {
+function update(state: SessionState, event: InputEventSanitized): SessionState {
   if (isBackspace(event)) {
     return processBackspaceChar(state);
   }
@@ -53,14 +53,14 @@ export function updated(state: SessionState, event: InputEventSanitized): Sessio
   return processStandard(state, event);
 }
 
-export function started(state: SessionState): SessionState {
+function start(state: SessionState): SessionState {
   return { ...state, start: new Date(), end: new Date(), status: 'inProgress' };
 }
 
-export function reset(state: SessionState): SessionState {
+function reset(state: SessionState): SessionState {
   return { ...initialState, sessionChars: resetSessionChars(state.sessionChars) };
 }
 
-export function closed(state: SessionState): SessionState {
+function close(state: SessionState): SessionState {
   return { ...state, end: new Date(), status: 'closed' };
 }

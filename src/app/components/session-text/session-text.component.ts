@@ -43,7 +43,7 @@ export class SessionTextComponent implements OnChanges, AfterViewInit {
   @Input() text!: string;
   @Input() metaData!: SessionMetaData;
 
-  @ViewChild('textAreaRef') textAreaRef: ElementRef | undefined;
+  @ViewChild('hiddenTextArea') hiddenTextAreaRef: ElementRef | undefined;
 
   $status: Signal<SessionStatus> = this.store.selectSignal(selectStatus);
   $start: Signal<Date | null> = this.store.selectSignal(selectStart);
@@ -60,12 +60,12 @@ export class SessionTextComponent implements OnChanges, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.focusTextArea();
+    this.focusHiddenTextArea();
   }
 
-  focusTextArea() {
+  focusHiddenTextArea() {
     if (exists(this.text)) {
-      this.textAreaRef?.nativeElement.focus();
+      this.hiddenTextAreaRef?.nativeElement.focus();
     }
   }
 
@@ -90,8 +90,8 @@ export class SessionTextComponent implements OnChanges, AfterViewInit {
     } else {
       if (isEscape(event)) {
         this.store.dispatch(sessionActions.reset());
-        if (this.textAreaRef) {
-          this.textAreaRef!.nativeElement.value = '';
+        if (this.hiddenTextAreaRef) {
+          this.hiddenTextAreaRef!.nativeElement.value = '';
         }
       }
     }
@@ -103,7 +103,7 @@ export class SessionTextComponent implements OnChanges, AfterViewInit {
 
   getStyleForChar(index: number, currIndex: number, sessionChar: SessionChar): any {
     const red: string = '200, 100, 100';
-    const green: string = '#50C878';
+    const green: string = `rgb(75, 180, 50)`;
     if (this.isDisabled(sessionChar)) {
       return { backgroundColor: 'grey', color: 'lightgrey' };
     }
@@ -124,8 +124,8 @@ export class SessionTextComponent implements OnChanges, AfterViewInit {
   private sanitizeInputEvent(event: InputEvent): InputEventSanitized {
     if (event.data === '. ') {
       event.preventDefault();
-      if (this.textAreaRef) {
-        this.textAreaRef.nativeElement.value += ' ';
+      if (this.hiddenTextAreaRef) {
+        this.hiddenTextAreaRef.nativeElement.value += ' ';
       }
     }
     return event as InputEventSanitized;
