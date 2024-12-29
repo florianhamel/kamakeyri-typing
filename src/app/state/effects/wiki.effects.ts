@@ -23,7 +23,7 @@ export const wikiLoadExtract = createEffect(
       )
     );
   },
-  { functional: true }
+  { functional: true, dispatch: true }
 );
 
 export const wikiLoadRelatedExtract = createEffect(
@@ -41,7 +41,7 @@ export const wikiLoadRelatedExtract = createEffect(
       )
     );
   },
-  { functional: true }
+  { functional: true, dispatch: true }
 );
 
 export const wikiLoadRandomExtract = createEffect(
@@ -59,5 +59,5 @@ export const wikiLoadRandomExtract = createEffect(
       )
     );
   },
-  { functional: true }
+  { functional: true, dispatch: true }
 );

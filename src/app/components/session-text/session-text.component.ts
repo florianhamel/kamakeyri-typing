@@ -12,13 +12,10 @@ import {
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
+import { SessionChar, SessionMetaData, SessionStatus } from '../../domain/types/session.types';
 import {
-  SessionChar,
-  SessionMetaData,
-  SessionStatus
-} from '../../domain/types/session.types';
-import {
-  selectIndex, selectIsComposing,
+  selectIndex,
+  selectIsComposing,
   selectSessionChars,
   selectStart,
   selectStatus
@@ -29,13 +26,12 @@ import { isEscape, isFunctional, isRepeat } from '../../domain/functions/keyboar
 import { newLine } from '../../domain/constants/unicode.constants';
 import { isCorrect, lastSessionChar } from '../../domain/functions/session-common.functions';
 import { isForbidden } from '../../domain/functions/input-event.functions';
-import { SessionDataComponent } from '../session-data/session-data.component';
 import { InputEventSanitized } from '../../domain/types/event.types';
 
 @Component({
   standalone: true,
   selector: 'app-session-text',
-  imports: [CommonModule, TranslateModule, NgStyle, SessionDataComponent],
+  imports: [CommonModule, TranslateModule, NgStyle],
   templateUrl: './session-text.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -101,6 +97,7 @@ export class SessionTextComponent implements OnChanges, AfterViewInit {
     return target === '\n' ? `${newLine}\n` : target;
   }
 
+  // TODO investigate pipes to see if there is a way to do the same thing with less recomputing
   getStyleForChar(index: number, currIndex: number, sessionChar: SessionChar): any {
     const red: string = '200, 100, 100';
     const green: string = `rgb(75, 180, 50)`;
@@ -148,7 +145,10 @@ export class SessionTextComponent implements OnChanges, AfterViewInit {
   }
 
   private isPrevious(index: number, currIndex: number): boolean {
-    return index === currIndex - 1;
+    do {
+      --currIndex;
+    } while (currIndex > 0 && !this.$sessionChars()[currIndex].enabled);
+    return index === currIndex;
   }
 
   private isCurrent(index: number, currIndex: number): boolean {

@@ -29,6 +29,7 @@
     "@ngrx/effects": "^19.0.0",
     "@ngrx/operators": "^19.0.0",
     "@ngrx/store": "^19.0.0",
+    "@ngrx/store-devtools": "^19.0.0",
     "@ngx-translate/core": "^15.0.0",
     "@ngx-translate/http-loader": "^8.0.0",
     "autoprefixer": "^10.4.16",
