@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { WordsTypingComponent } from './words-typing.component';
+import { CommonWordsComponent } from './common-words.component';
 
 describe('WordsComponent', () => {
-  let component: WordsTypingComponent;
-  let fixture: ComponentFixture<WordsTypingComponent>;
+  let component: CommonWordsComponent;
+  let fixture: ComponentFixture<CommonWordsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [WordsTypingComponent]
+      imports: [CommonWordsComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(WordsTypingComponent);
+    fixture = TestBed.createComponent(CommonWordsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

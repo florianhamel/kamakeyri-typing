@@ -1,4 +1,1 @@
-export const apiUri = {
-  session: 'session',
-  auth: 'auth'
-};
+export const contactEmail = 'fhamel.freelance@gmail.com';

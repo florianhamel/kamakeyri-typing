@@ -12,14 +12,18 @@ const functionInputs: Set<string> = new Set<string>([
   'Tab'
 ]);
 
-export function isFunctional(event: KeyboardEvent): boolean {
-  return functionInputs.has(event.key);
+export function isFunctional($event: KeyboardEvent): boolean {
+  return functionInputs.has($event.key);
 }
 
-export function isRepeat(event: KeyboardEvent): boolean {
-  return event.repeat && event.key !== 'Backspace';
+export function isRepeat($event: KeyboardEvent): boolean {
+  return $event.repeat && $event.key !== 'Backspace';
 }
 
-export function isEscape(event: KeyboardEvent): boolean {
-  return event.key === 'Escape';
+export function isEscape($event: KeyboardEvent): boolean {
+  return $event.key === 'Escape';
+}
+
+export function isIgnoredKey($event: KeyboardEvent): boolean {
+  return isFunctional($event) || isRepeat($event);
 }

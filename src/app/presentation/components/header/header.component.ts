@@ -1,11 +1,11 @@
 import { Component, Signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { removeLocalItem } from '../../application/helpers/storage.helper';
-import { selectAuthState, selectIsLoggedIn } from '../../state/selectors/auth.selectors';
-import { AuthState } from '../../state/states/auth.state';
-import { dialogActions } from '../../state/actions/dialog.actions';
-import { Route } from '../../domain/enums/route.enum';
+import { removeLocalItem } from '../../../application/helpers/storage.helper';
+import { selectAuthState, selectIsLoggedIn } from '../../../state/selectors/auth.selectors';
+import { AuthState } from '../../../state/states/auth.state';
+import { dialogActions } from '../../../state/actions/dialog.actions';
+import { Route } from '../../../domain/enums/route.enum';
 
 type NavItem = {
   name: string;
@@ -25,14 +25,12 @@ export class HeaderComponent {
   readonly navItems: NavItem[] = [
     { name: 'Kamakeyri', route: Route.Home },
     { name: '📚 Wiki Typing', route: Route.Wiki },
-    { name: '⏱️ Common Words', route: Route.Words }
+    { name: '⏱️ Common Words', route: Route.CommonWords }
   ];
 
   readonly navLogIn: NavItem = { name: 'Log in', route: Route.LogIn };
 
-  constructor(
-    private readonly store: Store,
-  ) {}
+  constructor(private readonly store: Store) {}
 
   openDialog(): void {
     this.store.dispatch(dialogActions.openLogIn());
