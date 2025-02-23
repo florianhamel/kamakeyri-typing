@@ -28,7 +28,9 @@
     @if (sessionStatus() !== 'inProgress') {
       <div class="mb-6 flex gap-6">
         <span>{{ 'wiki.options.random' | translate }}</span>
-        <span>{{ 'wiki.options.related' | translate }}</span>
+        @if (isRelatedEnabled) {
+          <span>{{ 'wiki.options.related' | translate }}</span>
+        }
       </div>
     }
     <app-session [source]="wikiExtract()!" [metaData]="wikiMetaData()!" />

@@ -87,13 +87,13 @@ export class SessionComponent implements AfterViewInit {
     }
   }
 
-  private sanitizeInputEvent(event: InputEvent): InputEventSanitized {
-    if (event.data === '. ') {
-      event.preventDefault();
+  private sanitizeInputEvent($event: InputEvent): InputEventSanitized {
+    if ($event.data === '. ') {
+      $event.preventDefault();
       if (this.hiddenTextAreaRef) {
         this.hiddenTextAreaRef.nativeElement.value += ' ';
       }
     }
-    return event as InputEventSanitized;
+    return $event as InputEventSanitized;
   }
 }

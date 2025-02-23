@@ -26,6 +26,9 @@
   },
   "words": {
     "title": "⏱️ Mots Communs",
-    "description": "Tapez le plus de mots possible !"
+    "description": "Tapez le plus de mots possible !",
+    "options": {
+      "regenerate": "Appuyer sur ⬅\uFE0F pour regénérer des mots communs"
+    }
   }
 }
