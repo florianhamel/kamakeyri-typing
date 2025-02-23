@@ -5,11 +5,11 @@
 <div (keydown)="handlePostSession($event)" tabindex="0" class="focus:outline-none">
   @if (isLoading()) {
     <app-loading-svg />
-  } @else {
+  } @else if (words().length > 0) {
     <div class="mb-6">
       <span>{{ 'words.options.regenerate' | translate }}</span>
     </div>
-    <app-session [source]="someCommonWords" [metaData]="metaData" />
+    <app-session [source]="words()" [metaData]="metaData" />
     <app-session-data />
   }
 </div>
