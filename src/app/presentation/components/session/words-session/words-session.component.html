@@ -1,0 +1,14 @@
+<div (click)="focusHiddenTextArea()" class="kw-block focus:outline-none">
+  @for (sessionChar of sessionChars(); track $index) {
+
+    <span class="text-2xl">{{ sessionChar.target }}</span>
+  }
+
+  <textarea
+    #hiddenTextArea
+    tabindex="0"
+    (beforeinput)="handleInputEvent($event)"
+    (keydown)="handleKeyboardEvent($event)"
+    class="h-6"
+  ></textarea>
+</div>
