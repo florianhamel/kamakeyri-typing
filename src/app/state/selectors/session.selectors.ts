@@ -1,7 +1,8 @@
 import { createSelector } from '@ngrx/store';
 import { sessionFeature } from '../reducers/session.reducer';
 import { SessionData } from '../../domain/types/session.types';
-import { exists } from '../../domain/functions/common.functions';
+import { exists, isNull } from '../../domain/functions/common.functions';
+import { isCorrect, lastSessionChar } from '../../domain/functions/session-common.functions';
 
 export const {
   selectStart,
@@ -23,3 +24,11 @@ export const selectSessionData = createSelector(selectSessionState, (state): Ses
     errors: state.errors
   };
 });
+
+export const selectHasStarted = createSelector(selectStart, (start): boolean => !isNull(start));
+
+export const selectCanClose = createSelector(
+  selectSessionChars,
+  selectIndex,
+  (sessionChars, index): boolean => sessionChars.length <= index && isCorrect(lastSessionChar(sessionChars))
+);

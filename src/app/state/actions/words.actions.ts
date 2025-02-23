@@ -5,6 +5,7 @@ export const wordsActions = createActionGroup({
   events: {
     loadCommonWords: emptyProps(),
     loadCommonWordsSuccess: props<{ commonWords: ReadonlyArray<string> }>(),
-    loadCommonWordsError: emptyProps()
+    loadCommonWordsError: emptyProps(),
+    setIsLoading: props<{ isLoading: boolean }>()
   }
 });

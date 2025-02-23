@@ -8,11 +8,11 @@
 
 @layer components {
   .kw-block {
-    @apply h-fit w-fit rounded-xs border border-kw-black bg-white/65 p-2;
+    @apply h-fit w-fit rounded-xs border border-kw-black bg-white/50 p-2;
   }
 
   .kw-btn {
-    @apply transition-colors h-fit w-fit rounded-xs border border-black bg-white/65 p-1 hover:border-primary;
+    @apply transition-colors h-fit w-fit rounded-xs border border-black bg-white/50 p-1 hover:border-primary;
   }
 
   .kw-btn-disabled {
@@ -20,7 +20,7 @@
   }
 
   .kw-input {
-    @apply transition-colors h-fit rounded-xs border border-black bg-white/65 p-1 focus:border-primary focus:outline-none;
+    @apply transition-colors h-fit rounded-xs border border-black bg-white/50 p-1 focus:border-primary focus:outline-none;
   }
 
   .kw-gradient {

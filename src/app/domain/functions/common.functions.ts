@@ -8,8 +8,8 @@ export function isNull(obj: any): boolean {
   return obj === null;
 }
 
-export function isEmpty(arr: ReadonlyArray<any>): boolean {
-  return arr.length === 0;
+export function isEmpty(obj: ReadonlyArray<any> | string): boolean {
+  return obj.length === 0;
 }
 
 export function exists(obj: any): boolean {

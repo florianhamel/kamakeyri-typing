@@ -15,24 +15,24 @@
         type="text"
       />
     </div>
-    @if ($wikiTitle()) {
+    @if (wikiTitle()) {
       <div class="flex items-center gap-4">
-        <span class="text-2xl">{{ $wikiTitle() }}</span>
-        <button (click)="handleRelated()" class="kw-btn">Related</button>
+        <span class="text-2xl">{{ wikiTitle() }}</span>
+        <button [disabled]="true" (click)="handleRelated()" class="kw-btn kw-btn-disabled">Related</button>
       </div>
     }
   </div>
-  @if ($wikiIsLoading()) {
+  @if (wikiIsLoading()) {
     <app-loading-svg />
-  } @else if ($wikiExtract() && $wikiMetaData()) {
-    @if ($sessionStatus() !== 'inProgress') {
+  } @else if (wikiExtract() && wikiMetaData()) {
+    @if (sessionStatus() !== 'inProgress') {
       <div class="mb-6 flex gap-6">
         <span>{{ 'wiki.options.random' | translate }}</span>
         <span>{{ 'wiki.options.related' | translate }}</span>
       </div>
     }
-    <app-session-text [text]="$wikiExtract()!" [metaData]="$wikiMetaData()!" />
-    <app-session-data/>
+    <app-session [source]="wikiExtract()!" [metaData]="wikiMetaData()!" />
+    <app-session-data />
   } @else {
     <span class="text-2xl">{{ wikiPlaceholder | translate }}</span>
   }

@@ -2,7 +2,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { inject } from '@angular/core';
 import { WordsService } from '../../application/services/words.service';
 import { wordsActions } from '../actions/words.actions';
-import { catchError, exhaustMap, filter, map, of } from 'rxjs';
+import { catchError, exhaustMap, filter, map, of, tap } from 'rxjs';
 import { concatLatestFrom } from '@ngrx/operators';
 import { Store } from '@ngrx/store';
 import { selectCommonWords } from '../selectors/words.selectors';
@@ -14,6 +14,7 @@ export const loadCommonWords = createEffect(
       ofType(wordsActions.loadCommonWords),
       concatLatestFrom(() => store.select(selectCommonWords)),
       filter(([_, commonWords]) => isEmpty(commonWords)),
+      tap(() => store.dispatch(wordsActions.setIsLoading({ isLoading: true }))),
       exhaustMap(() =>
         wordsService.findCommonWords().pipe(
           map((commonWords) => wordsActions.loadCommonWordsSuccess({ commonWords })),

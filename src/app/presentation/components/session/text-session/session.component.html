@@ -1,9 +1,9 @@
 <div (click)="focusHiddenTextArea()" class="kw-block w-fit focus:outline-none">
-  @for (sessionChar of $sessionChars(); let currentIndex = $index; track currentIndex) {
+  @for (sessionChar of sessionChars(); let index = $index; track index) {
     <span
-      [ngStyle]="getStyleForChar(currentIndex, $sessionIndex(), sessionChar)"
+      [ngStyle]="sessionChar | style:index"
       class="whitespace-pre-wrap font-mono text-2xl"
-      >{{ getFormattedTarget(sessionChar.target) }}</span
+      >{{ sessionChar | format }}</span
     >
   }
 </div>

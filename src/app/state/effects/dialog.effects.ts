@@ -3,11 +3,11 @@ import { inject } from '@angular/core';
 import { dialogActions } from '../actions/dialog.actions';
 import { first, map, tap } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
-import { LogInComponent } from '../../components/log-in/log-in.component';
 import { Store } from '@ngrx/store';
 import { authActions } from '../actions/auth.actions';
 import { concatLatestFrom } from '@ngrx/operators';
 import { selectLogInDialogId } from '../selectors/dialog.selectors';
+import { LogInComponent } from '../../presentation/components/log-in/log-in.component';
 
 export const openLogIn = createEffect(
   (actions$ = inject(Actions), dialog = inject(MatDialog), store = inject(Store)) => {
