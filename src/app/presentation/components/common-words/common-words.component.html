@@ -2,9 +2,14 @@
   <h1 class="flex text-2xl">{{ 'words.title' | translate }}</h1>
   <p>{{ 'words.description' | translate }}</p>
 </div>
-<!--<button (click)="loadCommonWords()" class="kw-btn my-5">New words</button>-->
-@if (isLoading()) {
-  <app-loading-svg />
-} @else {
-  <app-session [source]="someCommonWords()" [metaData]="metaData" />
-}
+<div (keydown)="handlePostSession($event)" tabindex="0" class="focus:outline-none">
+  @if (isLoading()) {
+    <app-loading-svg />
+  } @else {
+    <div class="mb-6">
+      <span>{{ 'words.options.regenerate' | translate }}</span>
+    </div>
+    <app-session [source]="someCommonWords" [metaData]="metaData" />
+    <app-session-data />
+  }
+</div>

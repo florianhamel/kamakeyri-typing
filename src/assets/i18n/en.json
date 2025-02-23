@@ -26,6 +26,9 @@
   },
   "words": {
     "title": "⏱️ Common Words",
-    "description": "Type as many words as you can!"
+    "description": "Type as many words as you can!",
+    "options": {
+      "regenerate": "Press ⬅\uFE0F to regenerate common words"
+    }
   }
 }

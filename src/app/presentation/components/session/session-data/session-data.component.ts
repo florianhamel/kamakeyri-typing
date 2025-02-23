@@ -17,8 +17,8 @@ import { SessionDataItem } from '../../../../domain/types/session.types';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SessionDataComponent {
-  $sessionState: Signal<SessionState> = this.store.selectSignal(selectSessionState);
-  $isLoggedIn: Signal<boolean> = this.store.selectSignal(selectIsLoggedIn);
+  sessionState: Signal<SessionState> = this.store.selectSignal(selectSessionState);
+  isLoggedIn: Signal<boolean> = this.store.selectSignal(selectIsLoggedIn);
 
   readonly sessionDataItems: SessionDataItem[] = [
     { translation: 'typing.speed', formatter: this.formatWpm },
