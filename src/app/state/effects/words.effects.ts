@@ -7,6 +7,7 @@ import { concatLatestFrom } from '@ngrx/operators';
 import { Store } from '@ngrx/store';
 import { selectCommonWords } from '../selectors/words.selectors';
 import { isEmpty } from '../../domain/functions/common.functions';
+import { defaultLimit } from '../../domain/constants/words.constants';
 
 export const loadCommonWords = createEffect(
   (actions$ = inject(Actions), wordsService = inject(WordsService), store = inject(Store)) =>
@@ -17,7 +18,7 @@ export const loadCommonWords = createEffect(
       tap(() => store.dispatch(wordsActions.setIsLoading({ isLoading: true }))),
       exhaustMap(() =>
         wordsService.findCommonWords().pipe(
-          map((commonWords) => wordsActions.loadCommonWordsSuccess({ commonWords })),
+          map((commonWords) => wordsActions.loadCommonWordsSuccess({ commonWords, limit: defaultLimit })),
           catchError(() => of(wordsActions.loadCommonWordsError()))
         )
       )

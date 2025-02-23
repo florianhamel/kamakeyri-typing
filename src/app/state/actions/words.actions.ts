@@ -4,8 +4,9 @@ export const wordsActions = createActionGroup({
   source: 'words',
   events: {
     loadCommonWords: emptyProps(),
-    loadCommonWordsSuccess: props<{ commonWords: ReadonlyArray<string> }>(),
+    loadCommonWordsSuccess: props<{ commonWords: ReadonlyArray<string>, limit: number }>(),
     loadCommonWordsError: emptyProps(),
+    generateRandomWords: props<{ limit: number }>(),
     setIsLoading: props<{ isLoading: boolean }>()
   }
 });
