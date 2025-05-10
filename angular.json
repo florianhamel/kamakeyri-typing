@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "kamakeyri-typing": {
+    "kamakeyri": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -19,7 +19,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/kamakeyri-typing",
+            "outputPath": "dist/kamakeyri",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -75,10 +75,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "kamakeyri-typing:build:production"
+              "buildTarget": "kamakeyri:build:production"
             },
             "development": {
-              "buildTarget": "kamakeyri-typing:build:development"
+              "buildTarget": "kamakeyri:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -86,7 +86,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "kamakeyri-typing:build"
+            "buildTarget": "kamakeyri:build"
           }
         },
         "test": {
