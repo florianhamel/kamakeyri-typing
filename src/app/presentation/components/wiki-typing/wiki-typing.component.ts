@@ -5,9 +5,10 @@ import {
   Component,
   computed,
   ElementRef,
-  OnInit, signal,
+  signal,
   Signal,
-  ViewChild, WritableSignal
+  ViewChild,
+  WritableSignal
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Store } from '@ngrx/store';
@@ -23,31 +24,42 @@ import { SessionOption } from '../../../domain/enums/session-option.enum';
 import { SessionMode } from '../../../domain/enums/session-mode.enum';
 import { SessionComponent } from '../session/text-session/session.component';
 import { SessionDataComponent } from '../session/session-data/session-data.component';
+import { MenuComponent, MenuItem } from '../shared/menu/menu.component';
+import { Language } from '../../../domain/types/user.types';
 
 @Component({
   standalone: true,
   selector: 'app-wiki-typing',
   templateUrl: './wiki-typing.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, LoadingSvgComponent, TranslateModule, FormsModule, SessionComponent, SessionDataComponent]
+  imports: [
+    CommonModule,
+    LoadingSvgComponent,
+    TranslateModule,
+    FormsModule,
+    SessionComponent,
+    SessionDataComponent,
+    MenuComponent
+  ]
 })
-export class WikiTypingComponent implements OnInit, AfterViewInit {
+export class WikiTypingComponent implements AfterViewInit {
   @ViewChild('wikiInput') wikiInput: ElementRef | undefined;
 
   protected input!: WritableSignal<string>;
-
   protected sessionStatus!: Signal<SessionStatus>;
   protected wikiTitle!: Signal<string | null>;
   protected wikiExtract!: Signal<string | null>;
   protected wikiIsLoading!: Signal<boolean>;
   protected wikiMetaData!: Signal<SessionMetaData | null>;
+  protected textLanguages: MenuItem<Language>[] = [
+    { langKey: 'wiki.languages.fr', value: 'fr' },
+    { langKey: 'wiki.languages.en', value: 'en' }
+  ];
 
   protected readonly wikiPlaceholder: string = 'wiki.placeholder';
   protected readonly isRelatedEnabled: boolean = false;
 
-  constructor(private readonly store: Store) {}
-
-  ngOnInit(): void {
+  constructor(private readonly store: Store) {
     this.input = signal<string>('');
     this.sessionStatus = this.store.selectSignal(selectStatus);
     this.wikiTitle = this.store.selectSignal(selectTitle);

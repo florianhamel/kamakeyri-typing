@@ -1,0 +1,13 @@
+<button [matMenuTriggerFor]="languagesMenu">
+  @if (icon()) {
+    <mat-icon class="flex items-center align-middle">{{ icon() }}</mat-icon>
+  } @else {
+    <ng-content></ng-content>
+  }
+</button>
+
+<mat-menu [xPosition]="xPosition()" [yPosition]="yPosition()" #languagesMenu>
+  @for (item of items(); track $index) {
+    <button (click)="updateSelection(item)" mat-menu-item>{{ item.langKey | translate }}</button>
+  }
+</mat-menu>

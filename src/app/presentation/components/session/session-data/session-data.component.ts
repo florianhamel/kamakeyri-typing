@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { SessionState } from '../../../../state/states/session.state';
 import { selectSessionState } from '../../../../state/selectors/session.selectors';
-import { selectIsLoggedIn } from '../../../../state/selectors/auth.selectors';
+import { selectIsLoggedIn } from '../../../../state/selectors/user.selectors';
 import { dialogActions } from '../../../../state/actions/dialog.actions';
 import { computeAccuracy, computeWpm } from '../../../../domain/functions/session-analysis.functions';
 import { SessionDataItem } from '../../../../domain/types/session.types';

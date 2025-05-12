@@ -5,5 +5,7 @@ export enum ApiUri {
   Auth = 'auth',
   LogIn = 'log-in',
   SignUp = 'sign-up',
+  User = 'user',
+  Lang = 'lang',
   CommonWords = 'common-words'
 }

@@ -4,7 +4,7 @@ import { dialogActions } from '../actions/dialog.actions';
 import { first, map, tap } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
-import { authActions } from '../actions/auth.actions';
+import { userActions } from '../actions/userActions';
 import { concatLatestFrom } from '@ngrx/operators';
 import { selectLogInDialogId } from '../selectors/dialog.selectors';
 import { LogInComponent } from '../../presentation/components/log-in/log-in.component';
@@ -29,7 +29,7 @@ export const openLogIn = createEffect(
 export const closeLogInDialog = createEffect(
   (actions$ = inject(Actions), store = inject(Store), dialog = inject(MatDialog)) => {
     return actions$.pipe(
-      ofType(authActions.logInSuccess),
+      ofType(userActions.logInSuccess),
       concatLatestFrom(() => store.select(selectLogInDialogId)),
       tap(([_, id]) => id && dialog.getDialogById(id)?.close())
     );

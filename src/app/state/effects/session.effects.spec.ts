@@ -7,7 +7,7 @@ import { generateSessionDto, generateSessionData } from '../../application/mocks
 import { SessionService } from '../../application/services/session.service';
 import { generateMock } from '../../application/mocks/mocking.tools';
 import { initialState } from '../states/session.state';
-import { selectIsLoggedIn } from '../selectors/auth.selectors';
+import { selectIsLoggedIn } from '../selectors/user.selectors';
 import { MockSessionStorageService } from '../../application/mocks/mock-session-storage.service';
 import { Session, SessionData, SessionMetaData } from '../../domain/types/session.types';
 import { selectSessionData } from '../selectors/session.selectors';

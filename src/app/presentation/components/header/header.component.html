@@ -1,16 +1,23 @@
 <header class="flex h-20 items-center justify-between">
   <nav class="text ml-8 flex gap-6">
     @for (navItem of navItems; track $index) {
-      <a [routerLink]="navItem.route" class="transition-colors hover:text-primary">{{ navItem.name }}</a>
+      <a [routerLink]="navItem.route" class="transition-colors hover:text-primary">{{ navItem.langKey | translate }}</a>
     }
   </nav>
 
-  <div class="mr-20">
-    @if ($isLoggedIn()) {
-      <a (click)="logOut()" class="transition-colors hover:cursor-pointer hover:text-primary">Hello {{ $authState().username }} ✨</a>
+  <div class="mr-8 flex gap-10">
+    <mat-icon (click)="changeLightMode()" [fontIcon]="lightModeIcon()" class="hover:cursor-pointer"></mat-icon>
+    <div class="flex items-center gap-1">
+      <span>{{ currentLang() }}</span>
+      <kw-menu (itemSelected)="updateLanguage($event)" [items]="langItems" [icon]="'languages'"></kw-menu>
+    </div>
+    @if (isLoggedIn() && username()) {
+      <a (click)="logOut()" class="transition-colors hover:cursor-pointer hover:text-primary"
+        >Hello {{ username() }} ✨</a
+      >
     } @else {
       <a (click)="openDialog()" class="transition-colors hover:cursor-pointer hover:text-primary">{{
-        navLogIn.name
+        navLogIn.langKey | translate
       }}</a>
     }
   </div>

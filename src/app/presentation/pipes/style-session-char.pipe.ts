@@ -17,8 +17,9 @@ export class StyleSessionCharPipe implements PipeTransform {
   constructor(private store: Store) {}
 
   transform(sessionChar: SessionChar, index: number): any {
-    const red: string = '200, 100, 100';
-    const green: string = `rgb(75, 180, 50)`;
+    const pinkish: string = `rgb(255, 170, 170, 0.5)`;
+    const redish: string = `rgb(255, 119, 119)`;
+    const green: string = `rgb(57, 153, 24)`;
     const underline = { borderBottom: '1px solid black' };
     if (!sessionChar.enabled) {
       return { backgroundColor: 'grey', color: 'lightgrey' };
@@ -33,7 +34,7 @@ export class StyleSessionCharPipe implements PipeTransform {
       return { color: green };
     }
     if (this.hasBeenTyped(index, this.sessionIndex()) && !isCorrect(sessionChar)) {
-      return { backgroundColor: `rgb(${red}, 0.3)`, color: `rgb(${red})` };
+      return { backgroundColor: pinkish, color: redish };
     }
   }
 

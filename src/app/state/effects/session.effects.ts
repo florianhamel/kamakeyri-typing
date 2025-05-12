@@ -6,7 +6,7 @@ import { concatLatestFrom } from '@ngrx/operators';
 import { SessionService } from '../../application/services/session.service';
 import { sessionActions } from '../actions/session.actions';
 import { selectSessionData } from '../selectors/session.selectors';
-import { selectIsLoggedIn } from '../selectors/auth.selectors';
+import { selectIsLoggedIn } from '../selectors/user.selectors';
 import { Session } from '../../domain/types/session.types';
 import { clearSessionItems, getSessionItem, setSessionItem } from '../../application/helpers/storage.helper';
 import { toSessionDTO } from '../../application/mappers/session.mappers';
