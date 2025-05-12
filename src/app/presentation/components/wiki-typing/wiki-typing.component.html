@@ -14,7 +14,10 @@
         class="kw-input w-60"
         type="text"
       />
-      <kw-menu [items]="textLanguages" [icon]="'translate'" />
+      <div class="flex gap-1 items-center">
+        <kw-menu (itemSelected)="updateWikiLang($event)" [items]="textLanguages" [icon]="'translate'" />
+        <span>→ {{ this.wikiLang().toUpperCase() }}</span>
+      </div>
     </div>
     @if (wikiTitle()) {
       <div class="flex items-center gap-4">
@@ -37,6 +40,6 @@
     <app-session [source]="wikiExtract()!" [metaData]="wikiMetaData()!" />
     <app-session-data />
   } @else {
-    <span class="text-2xl">{{ wikiPlaceholder | translate }}</span>
+    <span class="text-2xl">{{ 'wiki.placeholder' | translate }}</span>
   }
 </div>

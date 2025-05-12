@@ -8,8 +8,8 @@
     "input": "Recherchez Wikipedia...",
     "placeholder": "Trouvez un Wiki et commencez à taper !",
     "options": {
-      "random": "Appuyer sur ⬅\uFE0F pour Aléatoire",
-      "related": "Appuyer sur ➡\uFE0F pour Relatif"
+      "random": "Appuyer sur ⬅\uFE0F pour aléatoire",
+      "related": "Appuyer sur ➡\uFE0F pour relatif"
     },
     "languages": {
       "fr": "Français",
@@ -32,7 +32,7 @@
     "title": "Mots communs",
     "description": "Tapez le plus de mots possible !",
     "options": {
-      "regenerate": "Appuyer sur ⬅\uFE0F pour regénérer des mots communs"
+      "regenerate": "Appuyer sur ⬅\uFE0F pour regénerer"
     }
   },
   "header": {
@@ -40,7 +40,8 @@
       "home": "Accueil",
       "wiki": "Wiki typing",
       "words": "Mots communs",
-      "logIn": "Log in"
+      "logIn": "Log in",
+      "user": "Bonjour {{ username }} ✨"
     },
     "lang": {
       "fr": "Français",

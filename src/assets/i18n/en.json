@@ -43,7 +43,8 @@
       "home": "Home",
       "wiki": "Wiki typing",
       "words": "Common words",
-      "logIn": "Log in"
+      "logIn": "Log in",
+      "user": "Hello {{ username }} ✨"
     },
     "lang": {
       "fr": "French",

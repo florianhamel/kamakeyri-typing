@@ -33,8 +33,12 @@ export class CommonWordsComponent implements OnInit {
 
     this.isLoading = this.store.selectSignal(selectIsLoading);
     this.words = computed(() => this.store.selectSignal(selectRandomWords)().join(' '));
-
-    this.metaData = { mode: SessionMode.CommonWords, label: `${defaultLimit}_words`, option: SessionOption.WordLimit };
+    this.metaData = {
+      mode: SessionMode.CommonWords,
+      label: `${defaultLimit}_words`,
+      option: SessionOption.WordLimit,
+      lang: 'en'
+    };
   }
 
   protected handlePostSession($event: KeyboardEvent) {
