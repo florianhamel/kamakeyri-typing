@@ -7,14 +7,19 @@
   <div class="flex items-center gap-2">
     <input
       #usernameInput
+      [placeholder]="'logIn.username' | translate"
       formControlName="username"
-      placeholder="🧑‍💻 Enter username/email"
       type="text"
-      class="kw-input min-w-48"
+      class="kw-input min-w-52"
     />
   </div>
   <div class="flex items-center gap-2">
-    <input formControlName="password" placeholder="🔐 Enter password" type="password" class="kw-input min-w-48" />
+    <input
+      formControlName="password"
+      [placeholder]="'logIn.password' | translate"
+      type="password"
+      class="kw-input min-w-52"
+    />
   </div>
   <kw-button type="submit" [disabled]="!logInForm.valid" [label]="'logIn.submit' | translate" />
 </form>

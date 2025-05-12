@@ -36,7 +36,9 @@
     }
   },
   "logIn": {
-    "submit": "Log in"
+    "submit": "Log in",
+    "username": "🧑‍💻 Username / Mail",
+    "password": "🔐 Password"
   },
   "header": {
     "nav": {
