@@ -26,7 +26,7 @@ export type NavItem = {
 export class HeaderComponent {
   protected readonly isLoggedIn: Signal<boolean>;
   protected readonly username: Signal<string | null>;
-  protected readonly currentLang: Signal<Language>;
+  protected readonly lang: Signal<Language>;
   protected readonly lightMode: WritableSignal<'light' | 'dark'>;
   protected readonly lightModeIcon: Signal<'brightness_2' | 'brightness_5'>;
 
@@ -49,11 +49,11 @@ export class HeaderComponent {
   ) {
     this.isLoggedIn = this.store.selectSignal(selectIsLoggedIn);
     this.username = this.store.selectSignal(selectUsername);
-    this.currentLang = this.store.selectSignal(selectLang);
+    this.lang = this.store.selectSignal(selectLang);
     this.lightMode = signal('light');
     this.lightModeIcon = computed(() => (this.lightMode() === 'light' ? 'brightness_2' : 'brightness_5'));
     effect(() => {
-      this.translateService.use(this.currentLang());
+      this.translateService.use(this.lang());
     });
   }
 

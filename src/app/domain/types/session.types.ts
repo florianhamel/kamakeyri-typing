@@ -2,8 +2,11 @@ import { Type } from '@angular/core';
 import { SessionState } from '../../state/states/session.state';
 import { SessionMode } from '../enums/session-mode.enum';
 import { SessionOption } from '../enums/session-option.enum';
+import { WikiLang } from './wiki.types';
 
 export type SessionStatus = 'notStarted' | 'inProgress' | 'closed';
+
+export type SessionLang = WikiLang;
 
 export type SessionChar = {
   target: string;
@@ -34,6 +37,7 @@ export type SessionMetaData = {
   mode: SessionMode;
   label: string | null;
   option: SessionOption;
+  lang: SessionLang;
 };
 
 export type Session = SessionData & SessionMetaData;

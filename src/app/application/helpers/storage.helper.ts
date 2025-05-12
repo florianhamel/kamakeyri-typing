@@ -6,13 +6,13 @@ export function createRehydrateReducer<S>(
   ...ons: ReducerTypes<S, readonly ActionCreator[]>[]
 ): ActionReducer<S> {
   const hydratedState: S | null = getLocalItem<S>(stateKey);
-  return createReducer<S>(hydratedState ?? initialState, ...ons);
+  return createReducer<S>({ ...initialState, ...(hydratedState && hydratedState) }, ...ons);
 }
 
 export function getLocalItem<T>(key: string): T | null {
   try {
     const item: string | null = window.localStorage.getItem(key);
-    return (item && JSON.parse(item)) as T ?? null;
+    return ((item && JSON.parse(item)) as T) ?? null;
   } catch {
     return null;
   }
@@ -21,7 +21,7 @@ export function getLocalItem<T>(key: string): T | null {
 export function setLocalItem(key: string, item: any): void {
   try {
     window.localStorage.setItem(key, JSON.stringify(item));
-  } catch(e) {
+  } catch (e) {
     console.info(e);
   }
 }
@@ -29,7 +29,7 @@ export function setLocalItem(key: string, item: any): void {
 export function removeLocalItem(key: string): void {
   try {
     window.localStorage.removeItem(key);
-  } catch(e) {
+  } catch (e) {
     console.info(e);
   }
 }
@@ -37,7 +37,7 @@ export function removeLocalItem(key: string): void {
 export function clearLocalItems(): void {
   try {
     window.sessionStorage.clear();
-  } catch(e) {
+  } catch (e) {
     console.info(e);
   }
 }
@@ -54,7 +54,7 @@ export function getSessionItem<T>(key: string): T | null {
 export function setSessionItem(key: string, item: any): void {
   try {
     window.sessionStorage.setItem(key, JSON.stringify(item));
-  } catch(e) {
+  } catch (e) {
     console.info(e);
   }
 }
@@ -62,7 +62,7 @@ export function setSessionItem(key: string, item: any): void {
 export function clearSessionItems(): void {
   try {
     window.sessionStorage.clear();
-  } catch(e) {
+  } catch (e) {
     console.info(e);
   }
 }
