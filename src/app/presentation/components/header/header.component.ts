@@ -1,42 +1,82 @@
-import { Component, Signal } from '@angular/core';
+import { Component, computed, effect, signal, Signal, WritableSignal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { removeLocalItem } from '../../../application/helpers/storage.helper';
-import { selectAuthState, selectIsLoggedIn } from '../../../state/selectors/auth.selectors';
-import { AuthState } from '../../../state/states/auth.state';
+import { getLocalItem, removeLocalItem, setLocalItem } from '../../../application/helpers/storage.helper';
 import { dialogActions } from '../../../state/actions/dialog.actions';
 import { Route } from '../../../domain/enums/route.enum';
+import { MenuComponent, MenuItem } from '../shared/menu/menu.component';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { MatIcon } from '@angular/material/icon';
+import { Language } from '../../../domain/types/user.types';
+import { userActions } from '../../../state/actions/userActions';
+import { selectIsLoggedIn, selectLang, selectUsername } from '../../../state/selectors/user.selectors';
+import { UserState, userStateKey } from '../../../state/states/user.state';
 
-type NavItem = {
-  name: string;
+export type NavItem = {
+  langKey: string;
   route: string;
 };
 
 @Component({
   standalone: true,
-  selector: 'app-header',
-  imports: [RouterLink],
+  selector: 'kw-header',
+  imports: [RouterLink, MenuComponent, TranslateModule, MatIcon],
   templateUrl: './header.component.html'
 })
 export class HeaderComponent {
-  $authState: Signal<AuthState> = this.store.selectSignal(selectAuthState);
-  $isLoggedIn: Signal<boolean> = this.store.selectSignal(selectIsLoggedIn);
+  protected readonly isLoggedIn: Signal<boolean>;
+  protected readonly username: Signal<string | null>;
+  protected readonly currentLang: Signal<Language>;
+  protected readonly lightMode: WritableSignal<'light' | 'dark'>;
+  protected readonly lightModeIcon: Signal<'brightness_2' | 'brightness_5'>;
 
-  readonly navItems: NavItem[] = [
-    { name: 'Kamakeyri', route: Route.Home },
-    { name: '📚 Wiki Typing', route: Route.Wiki },
-    { name: '⏱️ Common Words', route: Route.CommonWords }
+  protected readonly navItems: NavItem[] = [
+    { langKey: 'header.nav.home', route: Route.Home },
+    { langKey: 'header.nav.wiki', route: Route.Wiki },
+    { langKey: 'header.nav.words', route: Route.CommonWords }
   ];
 
-  readonly navLogIn: NavItem = { name: 'Log in', route: Route.LogIn };
+  protected readonly navLogIn: NavItem = { langKey: 'header.nav.logIn', route: Route.LogIn };
 
-  constructor(private readonly store: Store) {}
+  protected readonly langItems: MenuItem<Language>[] = [
+    { langKey: 'header.lang.fr', value: 'fr' },
+    { langKey: 'header.lang.en', value: 'en' }
+  ];
 
-  openDialog(): void {
+  constructor(
+    private readonly store: Store,
+    private readonly translateService: TranslateService
+  ) {
+    this.isLoggedIn = this.store.selectSignal(selectIsLoggedIn);
+    this.username = this.store.selectSignal(selectUsername);
+    this.currentLang = this.store.selectSignal(selectLang);
+    this.lightMode = signal('light');
+    this.lightModeIcon = computed(() => (this.lightMode() === 'light' ? 'brightness_2' : 'brightness_5'));
+    effect(() => {
+      this.translateService.use(this.currentLang());
+    });
+  }
+
+  protected openDialog(): void {
     this.store.dispatch(dialogActions.openLogIn());
   }
 
-  logOut(): void {
-    removeLocalItem('authState');
+  protected logOut(): void {
+    removeLocalItem('userState');
+    this.store.dispatch(userActions.reset());
+  }
+
+  protected changeLightMode() {
+    this.lightMode.set(this.lightMode() === 'light' ? 'dark' : 'light');
+  }
+
+  protected updateLanguage(lang: Language) {
+    const userState = getLocalItem<UserState>(userStateKey);
+    setLocalItem(userStateKey, { ...userState, lang });
+    if (this.isLoggedIn() && this.username()) {
+      this.store.dispatch(userActions.updateLang({ username: this.username()!, lang }));
+    } else {
+      this.store.dispatch(userActions.updateLangSuccess({ lang }));
+    }
   }
 }

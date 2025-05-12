@@ -8,8 +8,8 @@ import { provideStore } from '@ngrx/store';
 import { TranslateLoader, TranslateModule, TranslateModuleConfig } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { routes } from './app.routes';
-import { authFeature } from './state/reducers/auth.reducer';
-import { authLogIn } from './state/effects/auth.effects';
+import { userFeature } from './state/reducers/user.reducer';
+import { userLogIn, userUpdateLang } from './state/effects/user.effects';
 import { sessionFeature } from './state/reducers/session.reducer';
 import { wikiFeature } from './state/reducers/wiki.reducer';
 import { wikiLoadExtract, wikiLoadRandomExtract, wikiLoadRelatedExtract } from './state/effects/wiki.effects';
@@ -41,7 +41,7 @@ export const appConfig: ApplicationConfig = {
     provideStore({
       session: sessionFeature.reducer,
       wiki: wikiFeature.reducer,
-      auth: authFeature.reducer,
+      user: userFeature.reducer,
       dialog: dialogFeature.reducer,
       words: wordsFeature.reducer
     }),
@@ -54,7 +54,8 @@ export const appConfig: ApplicationConfig = {
       closeLogInDialog,
       loadCommonWords,
       openLogIn,
-      authLogIn
+      userLogIn,
+      userUpdateLang
     }),
     importProvidersFrom(TranslateModule.forRoot(provideTranslation())),
     provideAnimations(),

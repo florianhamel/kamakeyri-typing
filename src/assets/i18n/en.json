@@ -3,13 +3,17 @@
     "experience": "Kamakeyri Typing, the ultimate typing experience."
   },
   "wiki": {
-    "title": "📚 Wiki Typing",
+    "title": "Wiki typing",
     "description": "Type any Wikipedia summary.",
     "input": "Search Wikipedia...",
     "placeholder": "Find a Wikipedia summary and start typing!",
     "options": {
       "random": "Press ⬅\uFE0F for Random",
       "related": "Press ➡\uFE0F for Related"
+    },
+    "languages": {
+      "fr": "French",
+      "en": "English"
     }
   },
   "typing": {
@@ -25,10 +29,25 @@
     "saveProgress": "Log in and save your progress!"
   },
   "words": {
-    "title": "⏱️ Common Words",
+    "title": "Common words",
     "description": "Type as many words as you can!",
     "options": {
       "regenerate": "Press ⬅\uFE0F to regenerate common words"
+    }
+  },
+  "logIn": {
+    "submit": "Log in"
+  },
+  "header": {
+    "nav": {
+      "home": "Home",
+      "wiki": "Wiki typing",
+      "words": "Common words",
+      "logIn": "Log in"
+    },
+    "lang": {
+      "fr": "French",
+      "en": "English"
     }
   }
 }

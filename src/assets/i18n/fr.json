@@ -1,15 +1,19 @@
 {
   "kamakeyri": {
-    "experience": "Kamakeyri Typing, c'est top."
+    "experience": "Kamakeyri typing, c'est top."
   },
   "wiki": {
-    "title": "📚 Wiki Typing",
+    "title": "Wiki typing",
     "description": "Tapez n'importe quel Wiki.",
     "input": "Recherchez Wikipedia...",
     "placeholder": "Trouvez un Wiki et commencez à taper !",
     "options": {
       "random": "Appuyer sur ⬅\uFE0F pour Aléatoire",
       "related": "Appuyer sur ➡\uFE0F pour Relatif"
+    },
+    "languages": {
+      "fr": "Français",
+      "en": "Anglais"
     }
   },
   "typing": {
@@ -25,10 +29,22 @@
     "saveProgress": "Log in pour sauvegarder votre progression!"
   },
   "words": {
-    "title": "⏱️ Mots Communs",
+    "title": "Mots communs",
     "description": "Tapez le plus de mots possible !",
     "options": {
       "regenerate": "Appuyer sur ⬅\uFE0F pour regénérer des mots communs"
+    }
+  },
+  "header": {
+    "nav": {
+      "home": "Accueil",
+      "wiki": "Wiki typing",
+      "words": "Mots communs",
+      "logIn": "Log in"
+    },
+    "lang": {
+      "fr": "Français",
+      "en": "Anglais"
     }
   }
 }
