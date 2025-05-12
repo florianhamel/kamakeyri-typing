@@ -28,7 +28,7 @@ export class HeaderComponent {
   protected readonly username: Signal<string | null>;
   protected readonly lang: Signal<Language>;
   protected readonly lightMode: WritableSignal<'light' | 'dark'>;
-  protected readonly lightModeIcon: Signal<'brightness_2' | 'brightness_5'>;
+  protected readonly lightModeIcon: Signal<'light_mode' | 'dark_mode'>;
 
   protected readonly navItems: NavItem[] = [
     { langKey: 'header.nav.home', route: Route.Home },
@@ -36,7 +36,10 @@ export class HeaderComponent {
     { langKey: 'header.nav.words', route: Route.CommonWords }
   ];
 
-  protected readonly navLogIn: NavItem = { langKey: 'header.nav.logIn', route: Route.LogIn };
+  protected readonly dashboardNavItem: NavItem = {
+    langKey: 'header.nav.user',
+    route: Route.Dashboard
+  };
 
   protected readonly langItems: MenuItem<Language>[] = [
     { langKey: 'header.lang.fr', value: 'fr' },
@@ -51,7 +54,7 @@ export class HeaderComponent {
     this.username = this.store.selectSignal(selectUsername);
     this.lang = this.store.selectSignal(selectLang);
     this.lightMode = signal('light');
-    this.lightModeIcon = computed(() => (this.lightMode() === 'light' ? 'brightness_2' : 'brightness_5'));
+    this.lightModeIcon = computed(() => (this.lightMode() === 'light' ? 'dark_mode' : 'light_mode'));
     effect(() => {
       this.translateService.use(this.lang());
     });
