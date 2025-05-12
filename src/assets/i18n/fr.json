@@ -35,6 +35,11 @@
       "regenerate": "Appuyer sur ⬅\uFE0F pour regénerer"
     }
   },
+  "logIn": {
+    "submit": "Log in",
+    "username": "🧑‍💻 Nom d'utilisateur / Email",
+    "password": "🔐 Mot de passe"
+  },
   "header": {
     "nav": {
       "home": "Accueil",
