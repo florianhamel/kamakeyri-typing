@@ -8,9 +8,10 @@ import { MenuComponent, MenuItem } from '../shared/menu/menu.component';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MatIcon } from '@angular/material/icon';
 import { Language } from '../../../domain/types/user.types';
-import { userActions } from '../../../state/actions/userActions';
+import { userActions } from '../../../state/actions/user.actions';
 import { selectIsLoggedIn, selectLang, selectUsername } from '../../../state/selectors/user.selectors';
 import { UserState, userStateKey } from '../../../state/states/user.state';
+import { selectDarkLightToggle } from '../../../state/selectors/feature-toggle.selectors';
 
 export type NavItem = {
   langKey: string;
@@ -29,6 +30,7 @@ export class HeaderComponent {
   protected readonly lang: Signal<Language>;
   protected readonly lightMode: WritableSignal<'light' | 'dark'>;
   protected readonly lightModeIcon: Signal<'light_mode' | 'dark_mode'>;
+  protected readonly isDarkLightEnabled: Signal<boolean>;
 
   protected readonly navItems: NavItem[] = [
     { langKey: 'header.nav.home', route: Route.Home },
@@ -55,6 +57,7 @@ export class HeaderComponent {
     this.lang = this.store.selectSignal(selectLang);
     this.lightMode = signal('light');
     this.lightModeIcon = computed(() => (this.lightMode() === 'light' ? 'dark_mode' : 'light_mode'));
+    this.isDarkLightEnabled = this.store.selectSignal(selectDarkLightToggle);
     effect(() => {
       this.translateService.use(this.lang());
     });

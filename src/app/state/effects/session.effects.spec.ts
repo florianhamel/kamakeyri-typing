@@ -19,7 +19,7 @@ import { sessionUploadAllSaved, sessionUploadOrSave } from './session.effects';
 
 describe('session effects', () => {
   const sessionRefined: SessionData = generateSessionData();
-  const sessionServiceMock: jest.Mocked<SessionService> = generateMock<SessionService>('uploadSessions');
+  const sessionServiceMock: jest.Mocked<SessionService> = generateMock<SessionService>('saveSessions');
   let mockStore: MockStore;
 
   beforeEach(() => {
@@ -50,7 +50,8 @@ describe('session effects', () => {
     const metaData: SessionMetaData = {
       mode: SessionMode.Wiki,
       label: 'coffee',
-      option: SessionOption.Search
+      option: SessionOption.Search,
+      lang: 'en'
     };
     const actions$ = of(sessionActions.uploadOrSave(metaData));
 
@@ -58,7 +59,7 @@ describe('session effects', () => {
     sessionUploadOrSave(actions$, sessionServiceMock, mockStore).subscribe();
 
     // then
-    expect(sessionServiceMock.uploadSessions).not.toHaveBeenCalled();
+    expect(sessionServiceMock.saveSessions).not.toHaveBeenCalled();
     const items: Array<Session> | null = getSessionItem('sessions');
     expect(items?.length).toBe(2);
     expect(items).toEqual([{ ...sessionDto }, { ...sessionRefined, ...metaData }]);
@@ -66,9 +67,14 @@ describe('session effects', () => {
 
   it('should save session if upload error', () => {
     // given
-    const metaData: SessionMetaData = { mode: SessionMode.Wiki, label: 'coffee', option: SessionOption.Search };
+    const metaData: SessionMetaData = {
+      mode: SessionMode.Wiki,
+      label: 'coffee',
+      option: SessionOption.Search,
+      lang: 'en'
+    };
     const actions$ = of(sessionActions.uploadOrSave(metaData));
-    sessionServiceMock.uploadSessions.mockImplementation(() => throwError(() => new Error('upload session error')));
+    sessionServiceMock.saveSessions.mockImplementation(() => throwError(() => new Error('upload session error')));
 
     // when
     sessionUploadOrSave(actions$, sessionServiceMock as unknown as SessionService, mockStore).subscribe();
@@ -86,7 +92,7 @@ describe('session effects', () => {
     setSessionItem('sessions', sessionDtos);
     const actions$ = of(sessionActions.uploadAllSaved());
     const mockSessionService = {
-      uploadSessions: jest.fn().mockImplementation(() => of(undefined))
+      saveSessions: jest.fn().mockImplementation(() => of(undefined))
     };
 
     // when

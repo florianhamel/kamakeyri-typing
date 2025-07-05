@@ -20,7 +20,7 @@ export const sessionUploadOrSave = createEffect(
         const sessionDTO = toSessionDTO({ ...sessionData, ...metaData });
         if (isLoggedIn) {
           sessionService
-            .uploadSessions([sessionDTO])
+            .saveSessions([sessionDTO])
             .pipe(catchError(() => saveSession(sessionDTO)))
             .subscribe();
         } else {
@@ -39,7 +39,7 @@ export const sessionUploadAllSaved = createEffect(
       ofType(sessionActions.uploadAllSaved),
       exhaustMap(() => {
         const sessions = getSessionItem<Array<Session>>('sessions');
-        return sessions ? sessionService.uploadSessions(sessions.map((s) => toSessionDTO(s))) : of(undefined);
+        return sessions ? sessionService.saveSessions(sessions.map((s) => toSessionDTO(s))) : of(undefined);
       }),
       tap(() => clearSessionItems())
     );

@@ -4,7 +4,7 @@ import { dialogActions } from '../actions/dialog.actions';
 import { first, map, tap } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
-import { userActions } from '../actions/userActions';
+import { userActions } from '../actions/user.actions';
 import { concatLatestFrom } from '@ngrx/operators';
 import { selectLogInDialogId } from '../selectors/dialog.selectors';
 import { LogInComponent } from '../../presentation/components/log-in/log-in.component';

@@ -26,6 +26,18 @@
   .kw-gradient {
     @apply bg-gradient-to-br from-peace from-40% to-fun;
   }
+
+  .kw-cell {
+    @apply h-8 px-2 items-center w-36 overflow-x-scroll whitespace-nowrap justify-start
+  }
+
+  .kw-row {
+    @apply flex h-12 items-center
+  }
+
+  .kw-header {
+    @apply border-b-2 border-black bg-gray-400 sticky top-0 z-10
+  }
 }
 
 html, body {
