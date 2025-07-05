@@ -16,6 +16,7 @@ export function generateSessionDto(): Session {
     ...generateSessionData(),
     mode: SessionMode.Wiki,
     label: 'coffee',
-    option: SessionOption.Search
+    option: SessionOption.Search,
+    lang: 'en'
   };
 }
