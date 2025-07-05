@@ -34,6 +34,7 @@ import { MenuComponent, MenuItem } from '../shared/menu/menu.component';
 import { Language } from '../../../domain/types/user.types';
 import { WikiLang } from '../../../domain/types/wiki.types';
 import { setLocalItem } from '../../../application/helpers/storage.helper';
+import { selectWikiRelatedToggle } from '../../../state/selectors/feature-toggle.selectors';
 
 @Component({
   standalone: true,
@@ -60,7 +61,7 @@ export class WikiTypingComponent implements AfterViewInit {
   protected readonly wikiLang: Signal<WikiLang>;
   protected readonly wikiIsLoading: Signal<boolean>;
   protected readonly wikiMetaData: Signal<SessionMetaData | null>;
-  protected readonly isRelatedEnabled: boolean;
+  protected readonly isWikiRelatedEnabled: Signal<boolean>;
   protected readonly textLanguages: MenuItem<Language>[];
 
   constructor(private readonly store: Store) {
@@ -71,7 +72,7 @@ export class WikiTypingComponent implements AfterViewInit {
     this.wikiLang = this.store.selectSignal(selectWikiLang);
     this.wikiIsLoading = this.store.selectSignal(selectIsLoading);
     this.wikiMetaData = computed(() => this.buildWikiMetadata());
-    this.isRelatedEnabled = false;
+    this.isWikiRelatedEnabled = this.store.selectSignal(selectWikiRelatedToggle);
     this.textLanguages = [
       { langKey: 'wiki.languages.fr', value: 'fr' },
       { langKey: 'wiki.languages.en', value: 'en' }
@@ -85,7 +86,7 @@ export class WikiTypingComponent implements AfterViewInit {
   protected handlePostSession(event: KeyboardEvent): void {
     if (this.sessionStatus() !== 'inProgress') {
       if (event.key === wikiConstant.randomKey) this.handleRandom();
-      if (this.isRelatedEnabled && event.key === wikiConstant.relatedKey) this.handleRelated();
+      if (this.isWikiRelatedEnabled() && event.key === wikiConstant.relatedKey) this.handleRelated();
     }
   }
 

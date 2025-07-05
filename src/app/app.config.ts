@@ -19,6 +19,7 @@ import { closeLogInDialog, openLogIn } from './state/effects/dialog.effects';
 import { loadCommonWords } from './state/effects/words.effects';
 import { wordsFeature } from './state/reducers/words.reducer';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
+import { featureToggleFeature } from './state/reducers/feature-toggle.reducer';
 
 export function TranslateLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http);
@@ -43,7 +44,8 @@ export const appConfig: ApplicationConfig = {
       wiki: wikiFeature.reducer,
       user: userFeature.reducer,
       dialog: dialogFeature.reducer,
-      words: wordsFeature.reducer
+      words: wordsFeature.reducer,
+      featureToggle: featureToggleFeature.reducer
     }),
     provideEffects({
       wikiLoadExtract,
