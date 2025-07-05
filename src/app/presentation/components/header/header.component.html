@@ -6,13 +6,15 @@
   </nav>
 
   <div class="mr-8 flex gap-10">
-    <mat-icon (click)="changeLightMode()" [fontIcon]="lightModeIcon()" class="hover:cursor-pointer"></mat-icon>
-    <kw-menu (itemSelected)="updateLanguage($event)" [items]="langItems" [icon]="'language'"></kw-menu>
+    @if (isDarkLightEnabled()) {
+      <mat-icon [fontIcon]="lightModeIcon()" (click)="changeLightMode()" class="hover:cursor-pointer"></mat-icon>
+    }
+    <kw-menu [items]="langItems" [icon]="'language'" (itemSelected)="updateLanguage($event)"></kw-menu>
     @if (isLoggedIn() && username()) {
       <a [routerLink]="dashboardNavItem.route" class="transition-colors hover:cursor-pointer hover:text-primary">{{
         dashboardNavItem.langKey | translate: { username: username() }
       }}</a>
-      <mat-icon (click)="logOut()" [fontIcon]="'logout'" class="hover:cursor-pointer"></mat-icon>
+      <mat-icon [fontIcon]="'logout'" (click)="logOut()" class="hover:cursor-pointer"></mat-icon>
     } @else {
       <a (click)="openDialog()" class="transition-colors hover:cursor-pointer hover:text-primary">{{
         'header.nav.logIn' | translate

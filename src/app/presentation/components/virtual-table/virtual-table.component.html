@@ -1,0 +1,20 @@
+<div class="overflow-x-scroll outline bg-gray-100 rounded-xs">
+  <div class="min-w-max">
+    <div class="kw-row kw-header">
+      <div class="kw-cell w-20">Nº</div>
+      @for (header of headers(); track $index) {
+        <div class="kw-cell">{{ header }}</div>
+      }
+    </div>
+    <cdk-virtual-scroll-viewport [itemSize]="48" class="h-[576px]">
+      <ng-container *cdkVirtualFor="let row of rows(); let index = index">
+        <div class="kw-row">
+          <div class="kw-cell w-20">{{ index + 1}}</div>
+          @for (value of Object.values(row); track $index) {
+            <div class="kw-cell">{{ value }}</div>
+          }
+        </div>
+      </ng-container>
+    </cdk-virtual-scroll-viewport>
+  </div>
+</div>
