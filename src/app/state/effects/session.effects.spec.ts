@@ -1,9 +1,9 @@
-import { of, throwError } from 'rxjs';
+import { of, Subscription, throwError } from 'rxjs';
 import { TestBed } from '@angular/core/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { generateSessionDto, generateSessionData } from '../../application/mocks/factories.tools';
+import { generateSessionData, generateSessionDto } from '../../application/mocks/factories.tools';
 import { SessionService } from '../../application/services/session.service';
 import { generateMock } from '../../application/mocks/mocking.tools';
 import { initialState } from '../states/session.state';
@@ -21,6 +21,7 @@ describe('session effects', () => {
   const sessionRefined: SessionData = generateSessionData();
   const sessionServiceMock: jest.Mocked<SessionService> = generateMock<SessionService>('saveSessions');
   let mockStore: MockStore;
+  let subscription: Subscription;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -43,6 +44,10 @@ describe('session effects', () => {
     clearSessionItems();
   });
 
+  afterEach(() => {
+    subscription?.unsubscribe();
+  });
+
   it('should save session without deleting session helpers', () => {
     // given
     const sessionDto: Session = generateSessionDto();
@@ -56,7 +61,7 @@ describe('session effects', () => {
     const actions$ = of(sessionActions.uploadOrSave(metaData));
 
     // when
-    sessionUploadOrSave(actions$, sessionServiceMock, mockStore).subscribe();
+    subscription = sessionUploadOrSave(actions$, sessionServiceMock, mockStore).subscribe();
 
     // then
     expect(sessionServiceMock.saveSessions).not.toHaveBeenCalled();
