@@ -1,9 +1,22 @@
 {
-  "plugins": ["prettier-plugin-tailwindcss"],
+  "plugins": [
+    "prettier-plugin-tailwindcss",
+    "@trivago/prettier-plugin-sort-imports"
+  ],
   "printWidth": 120,
   "singleQuote": true,
   "trailingComma": "none",
   "semi": true,
   "tabWidth": 2,
-  "experimentalTernaries": true
+  "experimentalTernaries": true,
+  "importOrder": [
+    "<THIRD_PARTY_MODULES>",
+    "^@angular/(.*)$",
+    "^@ngrx/(.*)$",
+    "^./app(.*)$",
+    "^./state/(.*)$",
+    "^[./]"
+  ],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true
 }

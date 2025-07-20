@@ -1,25 +1,30 @@
+import { TranslateLoader, TranslateModule, TranslateModuleConfig } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { provideCharts } from 'ng2-charts';
+
 import { HttpClient, provideHttpClient, withFetch } from '@angular/common/http';
 import { ApplicationConfig, importProvidersFrom, isDevMode } from '@angular/core';
 import { provideClientHydration } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
+
 import { provideEffects } from '@ngrx/effects';
 import { provideStore } from '@ngrx/store';
-import { TranslateLoader, TranslateModule, TranslateModuleConfig } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { routes } from './app.routes';
-import { userFeature } from './state/reducers/user.reducer';
-import { userLogIn, userUpdateLang } from './state/effects/user.effects';
-import { sessionFeature } from './state/reducers/session.reducer';
-import { wikiFeature } from './state/reducers/wiki.reducer';
-import { wikiLoadExtract, wikiLoadRandomExtract, wikiLoadRelatedExtract } from './state/effects/wiki.effects';
-import { sessionUploadAllSaved, sessionUploadOrSave } from './state/effects/session.effects';
-import { dialogFeature } from './state/reducers/dialog.reducer';
-import { closeLogInDialog, openLogIn } from './state/effects/dialog.effects';
-import { loadCommonWords } from './state/effects/words.effects';
-import { wordsFeature } from './state/reducers/words.reducer';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
+
+import { routes } from './app.routes';
+
+import { closeLogInDialog, openLogIn } from './state/effects/dialog.effects';
+import { sessionUploadAllSaved, sessionUploadOrSave } from './state/effects/session.effects';
+import { userLogIn, userUpdateLang } from './state/effects/user.effects';
+import { wikiLoadExtract, wikiLoadRandomExtract, wikiLoadRelatedExtract } from './state/effects/wiki.effects';
+import { loadCommonWords } from './state/effects/words.effects';
+import { dialogFeature } from './state/reducers/dialog.reducer';
 import { featureToggleFeature } from './state/reducers/feature-toggle.reducer';
+import { sessionFeature } from './state/reducers/session.reducer';
+import { userFeature } from './state/reducers/user.reducer';
+import { wikiFeature } from './state/reducers/wiki.reducer';
+import { wordsFeature } from './state/reducers/words.reducer';
 
 export function TranslateLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http);
@@ -61,6 +66,7 @@ export const appConfig: ApplicationConfig = {
     }),
     importProvidersFrom(TranslateModule.forRoot(provideTranslation())),
     provideAnimations(),
+    provideCharts(),
     provideStoreDevtools({
       maxAge: 25, // Retains last 25 states
       logOnly: !isDevMode(), // Restrict extension to log-only mode
