@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { CdkFixedSizeVirtualScroll, CdkVirtualForOf, CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 type Row<T> = ReadonlyArray<Record<string, T>>;
 
@@ -10,7 +10,6 @@ type Row<T> = ReadonlyArray<Record<string, T>>;
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class VirtualTableComponent<T> {
-  test = '100px';
   headers = input.required<ReadonlyArray<string>>();
   rows = input.required<Row<T>>();
   protected readonly Object = Object;

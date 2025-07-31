@@ -1,18 +1,19 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
-import { SessionChar } from '../../domain/types/session.types';
-import { sessionActions } from '../actions/session.actions';
-import { initSessionChars, resetSessionChars } from '../../domain/functions/session-common.functions';
-import { isUsInternational } from '../../domain/layouts/us-international.layout';
+
 import { isBackspace, isBackspaceWord, isComposing } from '../../domain/functions/input-event.functions';
+import { initSessionChars, resetSessionChars } from '../../domain/functions/session-common.functions';
 import {
   processBackspaceChar,
   processBackspaceWord,
   processComposition,
   processStandard
 } from '../../domain/functions/session.functions';
+import { isUsInternational } from '../../domain/layouts/us-international.layout';
+import { InputEventSanitized } from '../../domain/types/event.types';
+import { SessionChar } from '../../domain/types/session.types';
+import { sessionActions } from '../actions/session.actions';
 import { wikiActions } from '../actions/wiki.actions';
 import { SessionState, initialState } from '../states/session.state';
-import { InputEventSanitized } from '../../domain/types/event.types';
 
 export const sessionFeature = createFeature<'session', SessionState>({
   name: 'session',
@@ -28,7 +29,10 @@ export const sessionFeature = createFeature<'session', SessionState>({
       wikiActions.loadRandomSummary,
       (state) => reset(state)
     ),
-    on(sessionActions.close, (state) => close(state))
+    on(sessionActions.close, (state) => close(state)),
+    on(sessionActions.loadAll, (state) => ({ ...state, isLoading: true })),
+    on(sessionActions.loadAllSuccess, (state, { sessionRecords }) => ({ ...state, sessionRecords, isLoading: false })),
+    on(sessionActions.loadAllError, (state) => ({ ...state, isLoading: false }))
   )
 });
 

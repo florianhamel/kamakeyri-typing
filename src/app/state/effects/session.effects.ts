@@ -1,15 +1,18 @@
+import { Observable, catchError, exhaustMap, map, of, switchMap, tap } from 'rxjs';
+
 import { inject } from '@angular/core';
+
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { Store } from '@ngrx/store';
-import { catchError, exhaustMap, Observable, of, tap } from 'rxjs';
 import { concatLatestFrom } from '@ngrx/operators';
+import { Store } from '@ngrx/store';
+
+import { clearSessionItems, getSessionItem, setSessionItem } from '../../application/helpers/storage.helper';
+import { toSessionDTO } from '../../application/mappers/session.mappers';
 import { SessionService } from '../../application/services/session.service';
+import { Session } from '../../domain/types/session.types';
 import { sessionActions } from '../actions/session.actions';
 import { selectSessionData } from '../selectors/session.selectors';
 import { selectIsLoggedIn } from '../selectors/user.selectors';
-import { Session } from '../../domain/types/session.types';
-import { clearSessionItems, getSessionItem, setSessionItem } from '../../application/helpers/storage.helper';
-import { toSessionDTO } from '../../application/mappers/session.mappers';
 
 export const sessionUploadOrSave = createEffect(
   (actions$ = inject(Actions), sessionService = inject(SessionService), store = inject(Store)) => {
@@ -26,6 +29,7 @@ export const sessionUploadOrSave = createEffect(
         } else {
           saveSession(sessionDTO);
         }
+
         return of(sessionActions.close());
       })
     );
@@ -39,12 +43,28 @@ export const sessionUploadAllSaved = createEffect(
       ofType(sessionActions.uploadAllSaved),
       exhaustMap(() => {
         const sessions = getSessionItem<Array<Session>>('sessions');
+
         return sessions ? sessionService.saveSessions(sessions.map((s) => toSessionDTO(s))) : of(undefined);
       }),
       tap(() => clearSessionItems())
     );
   },
   { functional: true, dispatch: false }
+);
+
+export const sessionLoadAll = createEffect(
+  (actions$ = inject(Actions), sessionService = inject(SessionService)) => {
+    return actions$.pipe(
+      ofType(sessionActions.loadAll),
+      switchMap(() =>
+        sessionService.getSessions().pipe(
+          map((sessionRecords) => sessionActions.loadAllSuccess({ sessionRecords })),
+          catchError(() => of(sessionActions.loadAllError()))
+        )
+      )
+    );
+  },
+  { functional: true, dispatch: true }
 );
 
 function saveSession(sessionDto: Session): Observable<void> {

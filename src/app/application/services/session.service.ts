@@ -1,9 +1,12 @@
+import { Observable, map } from 'rxjs';
+
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+
+import { SessionRecord } from '../../domain/types/session.types';
+import { SessionRecordDTO } from '../DTOs/session-record.dto';
 import { SessionDTO } from '../DTOs/session.dto';
 import { ApiUri } from '../URIs/api-uri.enum';
-import { Session } from '../../domain/types/session.types';
 
 @Injectable({
   providedIn: 'root'
@@ -17,9 +20,16 @@ export class SessionService {
     return this.http.post<void>(url, dtos, { withCredentials: true });
   }
 
-  public getSessions(): Observable<ReadonlyArray<Session>> {
+  public getSessions(): Observable<ReadonlyArray<SessionRecord>> {
     const url = `${ApiUri.Scheme}://${ApiUri.BaseUri}/${ApiUri.Session}`;
 
-    return this.http.get<ReadonlyArray<Session>>(url, { withCredentials: true });
+    return this.http.get<ReadonlyArray<SessionRecordDTO>>(url, { withCredentials: true }).pipe(
+      map((sessions) =>
+        sessions.map((s) => ({
+          ...s,
+          createDate: new Date(s.createDate)
+        }))
+      )
+    );
   }
 }
