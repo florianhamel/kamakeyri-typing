@@ -1,1 +1,6 @@
-<kw-session-table />
+@if (!isLoading() && sessions().length > 0) {
+  <canvas baseChart type="line" [height]="150" [data]="lineChartData()" [options]="lineChartOptions"></canvas>
+  <kw-virtual-table [headers]="headers" [rows]="sessions()" />
+} @else {
+  <app-loading-svg />
+}

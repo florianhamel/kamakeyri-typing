@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { generateSessionData, generateSessionDto } from '../../application/mocks/factories.tools';
+import { generateSessionData, generateSession } from '../../application/mocks/factories.tools';
 import { SessionService } from '../../application/services/session.service';
 import { generateMock } from '../../application/mocks/mocking.tools';
 import { initialState } from '../states/session.state';
@@ -50,7 +50,7 @@ describe('session effects', () => {
 
   it('should save session without deleting session helpers', () => {
     // given
-    const sessionDto: Session = generateSessionDto();
+    const sessionDto: Session = generateSession();
     setSessionItem('sessions', [sessionDto]);
     const metaData: SessionMetaData = {
       mode: SessionMode.Wiki,
@@ -93,7 +93,7 @@ describe('session effects', () => {
 
   it('should clean session helpers after uploadAll', () => {
     // given
-    const sessionDtos: Array<Session> = [generateSessionDto(), generateSessionDto()];
+    const sessionDtos: Array<Session> = [generateSession(), generateSession()];
     setSessionItem('sessions', sessionDtos);
     const actions$ = of(sessionActions.uploadAllSaved());
     const mockSessionService = {

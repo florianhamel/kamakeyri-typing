@@ -41,3 +41,5 @@ export type SessionMetaData = {
 };
 
 export type Session = SessionData & SessionMetaData;
+
+export type SessionRecord = Session & { createDate: Date }

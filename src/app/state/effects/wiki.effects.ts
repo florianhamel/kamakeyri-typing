@@ -1,12 +1,15 @@
+import { catchError, exhaustMap, map, of, tap } from 'rxjs';
+
 import { inject } from '@angular/core';
+
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { catchError, exhaustMap, map, of, tap } from 'rxjs';
+
 import { WikiService } from '../../application/services/wiki.service';
+import { SessionOption } from '../../domain/enums/session-option.enum';
 import { WikiSummary } from '../../domain/types/wiki.types';
 import { wikiActions } from '../actions/wiki.actions';
 import { WikiState } from '../states/wiki.state';
-import { SessionOption } from '../../domain/enums/session-option.enum';
 
 export const wikiLoadExtract = createEffect(
   (actions$ = inject(Actions), wikiService = inject(WikiService), wikiStore = inject(Store<WikiState>)) => {
