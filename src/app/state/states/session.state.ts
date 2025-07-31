@@ -1,6 +1,8 @@
-import { SessionChar, SessionStatus } from '../../domain/types/session.types';
+import { SessionChar, SessionRecord, SessionStatus } from '../../domain/types/session.types';
 
 export type SessionState = {
+  sessionRecords: ReadonlyArray<SessionRecord>;
+  isLoading: boolean;
   start: Date | null;
   end: Date | null;
   index: number;
@@ -9,9 +11,11 @@ export type SessionState = {
   errors: number;
   status: SessionStatus;
   isComposing: boolean;
-}
+};
 
 export const initialState: SessionState = {
+  sessionRecords: [],
+  isLoading: false,
   start: null,
   end: null,
   index: 0,

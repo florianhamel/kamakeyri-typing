@@ -1,6 +1,6 @@
 import { TranslateLoader, TranslateModule, TranslateModuleConfig } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { provideCharts } from 'ng2-charts';
+import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 
 import { HttpClient, provideHttpClient, withFetch } from '@angular/common/http';
 import { ApplicationConfig, importProvidersFrom, isDevMode } from '@angular/core';
@@ -15,7 +15,7 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { routes } from './app.routes';
 
 import { closeLogInDialog, openLogIn } from './state/effects/dialog.effects';
-import { sessionUploadAllSaved, sessionUploadOrSave } from './state/effects/session.effects';
+import { sessionLoadAll, sessionUploadAllSaved, sessionUploadOrSave } from './state/effects/session.effects';
 import { userLogIn, userUpdateLang } from './state/effects/user.effects';
 import { wikiLoadExtract, wikiLoadRandomExtract, wikiLoadRelatedExtract } from './state/effects/wiki.effects';
 import { loadCommonWords } from './state/effects/words.effects';
@@ -58,6 +58,7 @@ export const appConfig: ApplicationConfig = {
       wikiLoadRandomExtract,
       sessionUploadOrSave,
       sessionUploadAllSaved,
+      sessionLoadAll,
       closeLogInDialog,
       loadCommonWords,
       openLogIn,
@@ -66,7 +67,7 @@ export const appConfig: ApplicationConfig = {
     }),
     importProvidersFrom(TranslateModule.forRoot(provideTranslation())),
     provideAnimations(),
-    provideCharts(),
+    provideCharts(withDefaultRegisterables()),
     provideStoreDevtools({
       maxAge: 25, // Retains last 25 states
       logOnly: !isDevMode(), // Restrict extension to log-only mode

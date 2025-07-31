@@ -1,6 +1,6 @@
-import { Session, SessionData } from '../../domain/types/session.types';
 import { SessionMode } from '../../domain/enums/session-mode.enum';
 import { SessionOption } from '../../domain/enums/session-option.enum';
+import { Session, SessionData, SessionRecord } from '../../domain/types/session.types';
 
 export function generateSessionData(): SessionData {
   return {
@@ -11,12 +11,19 @@ export function generateSessionData(): SessionData {
   };
 }
 
-export function generateSessionDto(): Session {
+export function generateSession(): Session {
   return {
     ...generateSessionData(),
     mode: SessionMode.Wiki,
     label: 'coffee',
     option: SessionOption.Search,
     lang: 'en'
+  };
+}
+
+export function generateSessionRecord(date?: Date): SessionRecord {
+  return {
+    ...generateSession(),
+    createDate: date ?? new Date()
   };
 }

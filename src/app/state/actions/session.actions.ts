@@ -1,6 +1,7 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
-import { SessionMetaData } from '../../domain/types/session.types';
+
 import { InputEventSanitized } from '../../domain/types/event.types';
+import { Session, SessionMetaData, SessionRecord } from '../../domain/types/session.types';
 
 export const sessionActions = createActionGroup({
   source: 'session',
@@ -11,6 +12,9 @@ export const sessionActions = createActionGroup({
     reset: emptyProps(),
     close: emptyProps(),
     uploadOrSave: props<SessionMetaData>(),
-    uploadAllSaved: emptyProps()
+    uploadAllSaved: emptyProps(),
+    loadAll: emptyProps(),
+    loadAllSuccess: props<{ sessionRecords: ReadonlyArray<SessionRecord> }>(),
+    loadAllError: emptyProps()
   }
 });
