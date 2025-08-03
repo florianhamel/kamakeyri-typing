@@ -6,10 +6,10 @@
         <div class="kw-cell">{{ header }}</div>
       }
     </div>
-    <cdk-virtual-scroll-viewport [itemSize]="48" class="h-[576px]">
+    <cdk-virtual-scroll-viewport [itemSize]="48" class="h-[36rem]">
       <ng-container *cdkVirtualFor="let row of rows(); let index = index">
         <div class="kw-row">
-          <div class="kw-cell w-20">{{ index + 1}}</div>
+          <div class="kw-cell w-20">{{ index + 1 }}</div>
           @for (value of Object.values(row); track $index) {
             <div class="kw-cell">{{ value }}</div>
           }

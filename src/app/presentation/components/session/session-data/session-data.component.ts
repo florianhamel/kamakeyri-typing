@@ -6,7 +6,7 @@ import { SessionState } from '../../../../state/states/session.state';
 import { selectSessionState } from '../../../../state/selectors/session.selectors';
 import { selectIsLoggedIn } from '../../../../state/selectors/user.selectors';
 import { dialogActions } from '../../../../state/actions/dialog.actions';
-import { computeAccuracy, computeWpm } from '../../../../domain/functions/session-analysis.functions';
+import { computeAccuracySnapshot, computeWpmSnapshot } from '../../../../domain/functions/session-analysis.functions';
 import { SessionDataItem } from '../../../../domain/types/session.types';
 
 @Component({
@@ -32,12 +32,12 @@ export class SessionDataComponent {
   }
 
   private formatWpm(sessionState: SessionState): string {
-    const wpm: number = computeWpm(sessionState);
+    const wpm: number = computeWpmSnapshot(sessionState);
     return `${isNaN(wpm) ? '-' : wpm.toFixed(0)} wpm`;
   }
 
   private formatAccuracy(sessionState: SessionState): string {
-    const accuracy: number = computeAccuracy(sessionState);
+    const accuracy: number = computeAccuracySnapshot(sessionState);
     return `${isNaN(accuracy) ? '-' : accuracy?.toFixed(1)} %`;
   }
 }

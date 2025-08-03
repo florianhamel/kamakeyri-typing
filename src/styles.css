@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @import '@fontsource/noto-sans/index.css';
 @import '@fontsource/noto-sans-mono/index.css';
+@import './mat.css';
 
 @tailwind base;
 @tailwind components;
