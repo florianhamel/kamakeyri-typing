@@ -1,4 +1,5 @@
 import { Type } from '@angular/core';
+
 import { SessionState } from '../../state/states/session.state';
 import { SessionMode } from '../enums/session-mode.enum';
 import { SessionOption } from '../enums/session-option.enum';
@@ -40,6 +41,16 @@ export type SessionMetaData = {
   lang: SessionLang;
 };
 
+export type SessionWpmData = {
+  keystrokes: number;
+  time: number;
+};
+
+export type SessionAccuracyData = {
+  keystrokes: number;
+  errors: number;
+};
+
 export type Session = SessionData & SessionMetaData;
 
-export type SessionRecord = Session & { createDate: Date }
+export type SessionRecord = Session & { createDate: Date };
