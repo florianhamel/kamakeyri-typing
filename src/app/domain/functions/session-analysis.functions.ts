@@ -1,9 +1,10 @@
 import { SessionState } from '../../state/states/session.state';
-import { Session, SessionRecord } from '../types/session.types';
+import { DailyAverage } from '../types/data.types';
+import { SessionAccuracyData, SessionRecord, SessionWpmData } from '../types/session.types';
 import { exists } from './common.functions';
 import { isCorrect } from './session-common.functions';
 
-export function computeWpm(sessionState: SessionState): number {
+export function computeWpmSnapshot(sessionState: SessionState): number {
   const words: number = Math.round((sessionState.keystrokes - computeMismatches(sessionState)) / 5);
   const minutes: number =
     exists(sessionState.start) && exists(sessionState.end) ?
@@ -13,61 +14,55 @@ export function computeWpm(sessionState: SessionState): number {
   return minutes > 0 ? words / minutes : NaN;
 }
 
-export function wpm(session: Session): number {
-  const words: number = Math.round((session.keystrokes - session.errors) / 5);
-  const minutes: number = session.time / (60 * 1000);
-
-  return minutes > 0 ? words / minutes : NaN;
-}
-
-export function computeAccuracy(sessionState: SessionState): number {
+export function computeAccuracySnapshot(sessionState: SessionState): number {
   return sessionState.keystrokes > 0 ? 100 - (sessionState.errors * 100) / sessionState.keystrokes : NaN;
-}
-
-export function accuracy(session: { keystrokes: number; errors: number }): number {
-  return session.keystrokes > 0 ? 100 - (session.errors * 100) / session.keystrokes : NaN;
 }
 
 export function computeMismatches(sessionState: SessionState): number {
   return sessionState.sessionChars.filter((sessionChar) => sessionChar.input && !isCorrect(sessionChar)).length;
 }
 
-export function computeAccuracyAveragesPerDay(sessions: ReadonlyArray<SessionRecord>): {
-  average: number;
-  date: Date;
-}[] {
-  const recordsPerDay = buildRecordsPerDay(sessions);
+export function computeWpm(session: SessionWpmData): number {
+  const words: number = Math.round(session.keystrokes / 5);
+  const minutes: number = session.time / (60 * 1000);
 
-  return recordsPerDay.map((r) => ({
-    average: r.reduce((acc, s) => acc + accuracy(s), 0) / r.length,
-    date: r[0].createDate
+  return minutes > 0 ? words / minutes : NaN;
+}
+
+export function computeAccuracy(session: SessionAccuracyData): number {
+  return session.keystrokes > 0 ? 100 - (session.errors * 100) / session.keystrokes : NaN;
+}
+
+export function computeAccuracyDailyAverages(sessions: ReadonlyArray<SessionRecord>): DailyAverage[] {
+  const dailySessions = buildDailySessions(sessions);
+
+  return dailySessions.map((r) => ({
+    day: r[0].createDate,
+    average: r.reduce((acc, s) => acc + computeAccuracy(s), 0) / r.length
   }));
 }
 
-export function computeWpmAveragesPerDay(sessions: ReadonlyArray<SessionRecord>): {
-  average: number;
-  date: Date;
-}[] {
-  const recordsPerDay = buildRecordsPerDay(sessions);
+export function computeWpmDailyAverages(sessions: ReadonlyArray<SessionRecord>): DailyAverage[] {
+  const dailyRecords = buildDailySessions(sessions);
 
-  return recordsPerDay.map((r) => ({
-    average: r.reduce((acc, s) => acc + wpm(s), 0) / r.length,
-    date: r[0].createDate
+  return dailyRecords.map((r) => ({
+    day: r[0].createDate,
+    average: r.reduce((acc, s) => acc + computeWpm(s), 0) / r.length
   }));
 }
 
-function buildRecordsPerDay(records: ReadonlyArray<SessionRecord>): SessionRecord[][] {
-  const recordsPerDay: SessionRecord[][] = [];
+function buildDailySessions(sessions: ReadonlyArray<SessionRecord>): SessionRecord[][] {
+  const allDailySessions: SessionRecord[][] = [];
   let i = 0;
-  while (i < records.length) {
-    const recordsOfTheDay: SessionRecord[] = [];
-    const day = records[i].createDate.getDay();
-    while (i < records.length && records[i].createDate.getDay() === day) {
-      recordsOfTheDay.push(records[i]);
+  while (i < sessions.length) {
+    const dailySessions: SessionRecord[] = [];
+    const day = sessions[i].createDate.getDay();
+    while (i < sessions.length && sessions[i].createDate.getDay() === day) {
+      dailySessions.push(sessions[i]);
       ++i;
     }
-    recordsPerDay.push(recordsOfTheDay);
+    allDailySessions.push(dailySessions);
   }
 
-  return recordsPerDay;
+  return allDailySessions;
 }

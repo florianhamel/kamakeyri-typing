@@ -1,6 +1,14 @@
 @if (!isLoading() && sessions().length > 0) {
-  <canvas baseChart type="line" [height]="150" [data]="lineChartData()" [options]="lineChartOptions"></canvas>
-  <kw-virtual-table [headers]="headers" [rows]="sessions()" />
+  <mat-tab-group>
+    <mat-tab label="Line Chart">
+      <canvas baseChart type="line" [height]="150" [data]="lineChartData()" [options]="lineChartOptions"></canvas>
+    </mat-tab>
+    <mat-tab label="Sessions records">
+      <ng-template matTabContent>
+        <kw-virtual-table [headers]="headers" [rows]="sessions()" />
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
 } @else {
   <app-loading-svg />
 }
