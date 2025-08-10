@@ -1,22 +1,35 @@
-import { ChangeDetectionStrategy, Component, computed, OnInit, Signal } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
+
+
+
+import { ChangeDetectionStrategy, Component, OnInit, Signal, computed } from '@angular/core';
+
+
+
 import { Store } from '@ngrx/store';
-import { wordsActions } from '../../../state/actions/words.actions';
-import { selectIsLoading, selectRandomWords } from '../../../state/selectors/words.selectors';
-import { LoadingSvgComponent } from '../svgs/loading-svg/loading-svg.component';
-import { SessionComponent } from '../session/text-session/session.component';
-import { SessionMetaData } from '../../../domain/types/session.types';
-import { SessionMode } from '../../../domain/enums/session-mode.enum';
-import { SessionOption } from '../../../domain/enums/session-option.enum';
-import { SessionDataComponent } from '../session/session-data/session-data.component';
-import { selectStatus } from '../../../state/selectors/session.selectors';
+
+
+
 import { wikiConstant } from '../../../domain/constants/wiki.constants';
 import { defaultLimit } from '../../../domain/constants/words.constants';
+import { SessionMode } from '../../../domain/enums/session-mode.enum';
+import { SessionOption } from '../../../domain/enums/session-option.enum';
+import { SessionMetaData } from '../../../domain/types/session.types';
+import { wordsActions } from '../../../state/actions/words.actions';
+import { selectStatus } from '../../../state/selectors/session.selectors';
+import { selectIsLoading, selectRandomWords } from '../../../state/selectors/words.selectors';
+import { SessionDataComponent } from '../session/session-data/session-data.component';
+import { SessionComponent } from '../session/text-session/session.component';
+import { LoadingSvgComponent } from '../svgs/loading-svg/loading-svg.component';
+
+
+
+
 
 @Component({
   standalone: true,
-  selector: 'app-common-words',
-  imports: [TranslateModule, SessionComponent, LoadingSvgComponent, SessionDataComponent],
+  selector: 'kw-common-words',
+  imports: [TranslateModule, SessionComponent, SessionDataComponent, LoadingSvgComponent],
   templateUrl: './common-words.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })

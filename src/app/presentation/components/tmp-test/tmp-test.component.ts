@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   standalone: true,
-  selector: 'app-tmp-test',
+  selector: 'kw-tmp-test',
   imports: [CommonModule],
   templateUrl: './tmp-test.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -11,5 +11,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 export class TmpTestComponent {
   constructor() {}
 
-  handleClick(): void {}
+  handleClick(): void {
+    console.log('clicked');
+  }
 }

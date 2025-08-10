@@ -1,19 +1,32 @@
+import { TranslateModule } from '@ngx-translate/core';
+
 import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
-  computed,
   ElementRef,
-  signal,
   Signal,
   ViewChild,
-  WritableSignal
+  WritableSignal,
+  computed,
+  signal
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+
 import { Store } from '@ngrx/store';
-import { TranslateModule } from '@ngx-translate/core';
-import { LoadingSvgComponent } from '../svgs/loading-svg/loading-svg.component';
+
+import { setLocalItem } from '../../../application/helpers/storage.helper';
+import { wikiConstant } from '../../../domain/constants/wiki.constants';
+import { SessionMode } from '../../../domain/enums/session-mode.enum';
+import { SessionOption } from '../../../domain/enums/session-option.enum';
+import { isNull } from '../../../domain/functions/common.functions';
+import { SessionMetaData, SessionStatus } from '../../../domain/types/session.types';
+import { Language } from '../../../domain/types/user.types';
+import { WikiLang } from '../../../domain/types/wiki.types';
+import { wikiActions } from '../../../state/actions/wiki.actions';
+import { selectWikiRelatedToggle } from '../../../state/selectors/feature-toggle.selectors';
+import { selectStatus } from '../../../state/selectors/session.selectors';
 import {
   selectExtract,
   selectIsLoading,
@@ -21,24 +34,14 @@ import {
   selectTitle,
   selectWikiLang
 } from '../../../state/selectors/wiki.selectors';
-import { SessionMetaData, SessionStatus } from '../../../domain/types/session.types';
-import { selectStatus } from '../../../state/selectors/session.selectors';
-import { wikiConstant } from '../../../domain/constants/wiki.constants';
-import { wikiActions } from '../../../state/actions/wiki.actions';
-import { isNull } from '../../../domain/functions/common.functions';
-import { SessionOption } from '../../../domain/enums/session-option.enum';
-import { SessionMode } from '../../../domain/enums/session-mode.enum';
-import { SessionComponent } from '../session/text-session/session.component';
 import { SessionDataComponent } from '../session/session-data/session-data.component';
+import { SessionComponent } from '../session/text-session/session.component';
 import { MenuComponent, MenuItem } from '../shared/menu/menu.component';
-import { Language } from '../../../domain/types/user.types';
-import { WikiLang } from '../../../domain/types/wiki.types';
-import { setLocalItem } from '../../../application/helpers/storage.helper';
-import { selectWikiRelatedToggle } from '../../../state/selectors/feature-toggle.selectors';
+import { LoadingSvgComponent } from '../svgs/loading-svg/loading-svg.component';
 
 @Component({
   standalone: true,
-  selector: 'app-wiki-typing',
+  selector: 'kw-wiki-typing',
   templateUrl: './wiki-typing.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
@@ -46,9 +49,9 @@ import { selectWikiRelatedToggle } from '../../../state/selectors/feature-toggle
     LoadingSvgComponent,
     TranslateModule,
     FormsModule,
-    SessionComponent,
     SessionDataComponent,
-    MenuComponent
+    MenuComponent,
+    SessionComponent
   ]
 })
 export class WikiTypingComponent implements AfterViewInit {

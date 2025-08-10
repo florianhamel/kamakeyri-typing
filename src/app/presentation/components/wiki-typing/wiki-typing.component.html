@@ -27,7 +27,7 @@
     }
   </div>
   @if (wikiIsLoading()) {
-    <app-loading-svg />
+    <kw-loading-svg />
   } @else if (wikiExtract() && wikiMetaData()) {
     @if (sessionStatus() !== 'inProgress') {
       <div class="mb-6 flex gap-6">
@@ -37,8 +37,8 @@
         }
       </div>
     }
-    <app-session [source]="wikiExtract()!" [metaData]="wikiMetaData()!" />
-    <app-session-data />
+    <kw-session [source]="wikiExtract()!" [metaData]="wikiMetaData()!" />
+    <kw-session-data />
   } @else {
     <span class="text-2xl">{{ 'wiki.placeholder' | translate }}</span>
   }

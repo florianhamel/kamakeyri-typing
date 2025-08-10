@@ -30,7 +30,7 @@ export const sessionUploadOrSave = createEffect(
           saveSession(sessionDTO);
         }
 
-        return of(sessionActions.close());
+        return of(sessionActions.close()); // WTF
       })
     );
   },
@@ -46,7 +46,7 @@ export const sessionUploadAllSaved = createEffect(
 
         return sessions ? sessionService.saveSessions(sessions.map((s) => toSessionDTO(s))) : of(undefined);
       }),
-      tap(() => clearSessionItems())
+      tap(() => clearSessionItems()) // TODO dispatch an action to clearSessionItems() in an effect
     );
   },
   { functional: true, dispatch: false }
@@ -70,5 +70,6 @@ export const sessionLoadAll = createEffect(
 function saveSession(sessionDto: Session): Observable<void> {
   const sessionDtos = getSessionItem<Session[]>('sessions');
   setSessionItem('sessions', sessionDtos ? [...sessionDtos, sessionDto] : [sessionDto]);
+
   return of(undefined);
 }

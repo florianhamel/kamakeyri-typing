@@ -17,7 +17,7 @@ export const userLogIn = createEffect(
         userService.logIn({ username, password }).pipe(
           tap(({ username, exp, lang }) => {
             setLocalItem('userState', { username, exp, lang });
-            store.dispatch(sessionActions.uploadAllSaved());
+            store.dispatch(sessionActions.uploadAllSaved()); // TODO create an effect for loginSuccess and do this inside
           }),
           map(({ username, exp, lang }) =>
             userActions.logInSuccess({ username, exp, lang: lang.toLowerCase() as Language })

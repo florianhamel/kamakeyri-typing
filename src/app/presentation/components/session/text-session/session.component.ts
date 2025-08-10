@@ -1,37 +1,40 @@
-import { CommonModule, NgStyle } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
+
+import { CommonModule, NgStyle } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
-  effect,
   ElementRef,
-  input,
   InputSignal,
   Signal,
-  ViewChild
+  ViewChild,
+  effect,
+  input
 } from '@angular/core';
+
+import { Store } from '@ngrx/store';
+
+import { exists } from '../../../../domain/functions/common.functions';
+import { isForbidden } from '../../../../domain/functions/input-event.functions';
+import { isEscape, isIgnoredKey } from '../../../../domain/functions/keyboard-event.functions';
+import { InputEventSanitized } from '../../../../domain/types/event.types';
 import { SessionChar, SessionMetaData, SessionStatus } from '../../../../domain/types/session.types';
+import { sessionActions } from '../../../../state/actions/session.actions';
 import {
   selectCanClose,
   selectHasStarted,
   selectSessionChars,
   selectStatus
 } from '../../../../state/selectors/session.selectors';
-import { Store } from '@ngrx/store';
-import { exists } from '../../../../domain/functions/common.functions';
-import { sessionActions } from '../../../../state/actions/session.actions';
-import { InputEventSanitized } from '../../../../domain/types/event.types';
-import { isForbidden } from '../../../../domain/functions/input-event.functions';
-import { isEscape, isIgnoredKey } from '../../../../domain/functions/keyboard-event.functions';
 import { FormatSessionCharPipe } from '../../../pipes/format-session-char.pipe';
 import { StyleSessionCharPipe } from '../../../pipes/style-session-char.pipe';
 
 @Component({
   standalone: true,
-  selector: 'app-session',
-  imports: [CommonModule, TranslateModule, NgStyle, FormatSessionCharPipe, StyleSessionCharPipe],
+  selector: 'kw-session',
   templateUrl: './session.component.html',
+  imports: [CommonModule, TranslateModule, NgStyle, FormatSessionCharPipe, StyleSessionCharPipe],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SessionComponent implements AfterViewInit {
@@ -94,6 +97,7 @@ export class SessionComponent implements AfterViewInit {
         this.hiddenTextAreaRef.nativeElement.value += ' ';
       }
     }
+
     return $event as InputEventSanitized;
   }
 }

@@ -1,18 +1,21 @@
+import { TranslatePipe } from '@ngx-translate/core';
+
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Signal } from '@angular/core';
+
 import { Store } from '@ngrx/store';
-import { TranslateModule } from '@ngx-translate/core';
-import { SessionState } from '../../../../state/states/session.state';
-import { selectSessionState } from '../../../../state/selectors/session.selectors';
-import { selectIsLoggedIn } from '../../../../state/selectors/user.selectors';
-import { dialogActions } from '../../../../state/actions/dialog.actions';
+
 import { computeAccuracySnapshot, computeWpmSnapshot } from '../../../../domain/functions/session-analysis.functions';
 import { SessionDataItem } from '../../../../domain/types/session.types';
+import { dialogActions } from '../../../../state/actions/dialog.actions';
+import { selectSessionState } from '../../../../state/selectors/session.selectors';
+import { selectIsLoggedIn } from '../../../../state/selectors/user.selectors';
+import { SessionState } from '../../../../state/states/session.state';
 
 @Component({
   standalone: true,
-  selector: 'app-session-data',
-  imports: [CommonModule, TranslateModule],
+  selector: 'kw-session-data',
+  imports: [CommonModule, TranslatePipe],
   templateUrl: './session-data.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
