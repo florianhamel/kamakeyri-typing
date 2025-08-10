@@ -54,6 +54,7 @@ function update(state: SessionState, event: InputEventSanitized): SessionState {
   if (isComposing(event)) {
     return processComposition(state, event);
   }
+
   return processStandard(state, event);
 }
 

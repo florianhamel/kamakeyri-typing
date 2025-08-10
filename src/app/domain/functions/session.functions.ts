@@ -1,24 +1,19 @@
-import {
-  currentSessionChar,
-  isCorrect,
-  moveBackwardFrom,
-  moveForwardFrom,
-  sessionCharAt
-} from './session-common.functions';
-import { isMacosAutoDot } from './input-event.functions';
-import {
-  SessionChar,
-  SessionCharsIndex,
-} from '../types/session.types';
-import { exists, isNewline, isSpace, isUndefined, isWord } from './common.functions';
 import { SessionState } from '../../state/states/session.state';
 import { InputEventSanitized } from '../types/event.types';
+import { SessionChar, SessionCharsIndex } from '../types/session.types';
+import { exists, isNewline, isSpace, isUndefined, isWord } from './common.functions';
+import { isMacosAutoDot } from './input-event.functions';
+import { currentSessionChar, isCorrect, moveBackwardFrom, moveForwardFrom, sessionCharAt } from './session-common.functions';
+
+
+
+
 
 export function processBackspaceChar(state: SessionState): SessionState {
   const end = new Date();
-  const index = moveBackwardFrom(state.sessionChars, state.index);
+  const index = moveBackwardFrom(state.index, state.sessionChars);
   const sessionChars = state.sessionChars.with(index, {
-    ...sessionCharAt(state.sessionChars, index)!,
+    ...sessionCharAt(index, state.sessionChars)!,
     input: null
   });
 
@@ -35,10 +30,10 @@ export function processBackspaceChar(state: SessionState): SessionState {
  * Couldn't do much better, didn't want to invest more time into refactoring this shit
  */
 export function processBackspaceWord(state: SessionState): SessionState {
-  const current = () => sessionCharAt(sessionChars, index);
+  const current = () => sessionCharAt(index, sessionChars);
   const end = new Date();
   let sessionChars = state.sessionChars;
-  let index = moveBackwardFrom(state.sessionChars, state.index);
+  let index = moveBackwardFrom(state.index, state.sessionChars);
   while (exists(current()?.input) && isSpace(current()!.input!)) {
     ({ sessionChars, index } = del(sessionChars, index));
   }
@@ -65,7 +60,7 @@ export function processBackspaceWord(state: SessionState): SessionState {
     ...state,
     end,
     sessionChars,
-    index: index > 0 ? moveForwardFrom(sessionChars, index) : 0
+    index: index > 0 ? moveForwardFrom(index, sessionChars) : 0
   };
 }
 
@@ -76,7 +71,7 @@ export function processComposition(state: SessionState, event: InputEventSanitiz
 export function processStandard(state: SessionState, event: InputEventSanitized): SessionState {
   if (isUndefined(currentSessionChar(state))) return state;
   const end = new Date();
-  const index = moveForwardFrom(state.sessionChars, state.index);
+  const index = moveForwardFrom(state.index, state.sessionChars);
   const updated = {
     ...currentSessionChar(state)!,
     input: sanitizeData(event)
@@ -84,6 +79,7 @@ export function processStandard(state: SessionState, event: InputEventSanitized)
   const sessionChars = state.sessionChars.with(state.index, updated);
   const keystrokes = state.keystrokes + 1;
   const errors = isCorrect(updated) ? state.errors : state.errors + 1;
+
   return {
     ...state,
     end,
@@ -95,15 +91,15 @@ export function processStandard(state: SessionState, event: InputEventSanitized)
 }
 
 function del(sessionChars: ReadonlyArray<SessionChar>, index: number): SessionCharsIndex {
-  sessionChars = sessionChars.with(index, { ...sessionCharAt(sessionChars, index)!, input: null });
-  index = moveBackwardFrom(sessionChars, index);
+  sessionChars = sessionChars.with(index, { ...sessionCharAt(index, sessionChars)!, input: null });
+  index = moveBackwardFrom(index, sessionChars);
 
   return { sessionChars, index };
 }
 
 function startComposition(state: SessionState, event: InputEventSanitized): SessionState {
   const end = new Date();
-  const index = moveForwardFrom(state.sessionChars, state.index);
+  const index = moveForwardFrom(state.index, state.sessionChars);
   const sessionChars = state.sessionChars.with(state.index, {
     ...currentSessionChar(state)!,
     input: event.data
@@ -134,16 +130,16 @@ function hasCompositionFailed(event: InputEventSanitized): boolean {
 
 function endCompositionFailure(state: SessionState, event: InputEventSanitized) {
   const end = new Date();
-  const index = moveForwardFrom(state.sessionChars, state.index);
+  const index = moveForwardFrom(state.index, state.sessionChars);
   const sessionChars = state.sessionChars.toSpliced(
     state.index - 1,
     2,
     {
-      ...sessionCharAt(state.sessionChars, state.index - 1)!,
+      ...sessionCharAt(state.index - 1, state.sessionChars)!,
       input: event.data?.charAt(0)!
     },
     {
-      ...sessionCharAt(state.sessionChars, state.index)!,
+      ...sessionCharAt(state.index, state.sessionChars)!,
       input: event.data?.charAt(1)!
     }
   );
@@ -158,9 +154,9 @@ function endCompositionFailure(state: SessionState, event: InputEventSanitized) 
 
 function endCompositionSuccess(state: SessionState, event: InputEventSanitized) {
   const end = new Date();
-  const indexLast = moveBackwardFrom(state.sessionChars, state.index);
+  const indexLast = moveBackwardFrom(state.index, state.sessionChars);
   const sessionChars = state.sessionChars.with(indexLast, {
-    ...sessionCharAt(state.sessionChars, indexLast)!,
+    ...sessionCharAt(indexLast, state.sessionChars)!,
     input: event.data
   });
   const isComposing = false;

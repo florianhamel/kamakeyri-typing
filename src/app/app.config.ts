@@ -1,9 +1,9 @@
-import { TranslateLoader, TranslateModule, TranslateModuleConfig } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { provideTranslateService } from '@ngx-translate/core';
+import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 
-import { HttpClient, provideHttpClient, withFetch } from '@angular/common/http';
-import { ApplicationConfig, importProvidersFrom, isDevMode } from '@angular/core';
+import { provideHttpClient, withFetch } from '@angular/common/http';
+import { ApplicationConfig, isDevMode } from '@angular/core';
 import { provideClientHydration } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
@@ -25,19 +25,6 @@ import { sessionFeature } from './state/reducers/session.reducer';
 import { userFeature } from './state/reducers/user.reducer';
 import { wikiFeature } from './state/reducers/wiki.reducer';
 import { wordsFeature } from './state/reducers/words.reducer';
-
-export function TranslateLoaderFactory(http: HttpClient): TranslateHttpLoader {
-  return new TranslateHttpLoader(http);
-}
-
-export const provideTranslation = (): TranslateModuleConfig => ({
-  defaultLanguage: 'en',
-  loader: {
-    provide: TranslateLoader,
-    useFactory: TranslateLoaderFactory,
-    deps: [HttpClient]
-  }
-});
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -65,7 +52,12 @@ export const appConfig: ApplicationConfig = {
       userLogIn,
       userUpdateLang
     }),
-    importProvidersFrom(TranslateModule.forRoot(provideTranslation())),
+    provideTranslateService({
+      loader: provideTranslateHttpLoader({
+        prefix: 'assets/i18n/',
+        suffix: '.json'
+      })
+    }),
     provideAnimations(),
     provideCharts(withDefaultRegisterables()),
     provideStoreDevtools({

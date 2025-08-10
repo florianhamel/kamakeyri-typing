@@ -5,6 +5,7 @@ type Row<T> = ReadonlyArray<Record<string, T>>;
 
 @Component({
   selector: 'kw-virtual-table',
+  standalone: true,
   imports: [CdkFixedSizeVirtualScroll, CdkVirtualForOf, CdkVirtualScrollViewport],
   templateUrl: './virtual-table.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
