@@ -12,18 +12,16 @@ import { ApiUri } from '../URIs/api-uri.enum';
   providedIn: 'root'
 })
 export class SessionService {
+  static readonly url = `${ApiUri.Scheme}://${ApiUri.BaseUri}/${ApiUri.Session}`;
+
   constructor(private readonly http: HttpClient) {}
 
   public saveSessions(dtos: ReadonlyArray<SessionDTO>): Observable<void> {
-    const url = `${ApiUri.Scheme}://${ApiUri.BaseUri}/${ApiUri.Session}`;
-
-    return this.http.post<void>(url, dtos, { withCredentials: true });
+    return this.http.post<void>(SessionService.url, dtos, { withCredentials: true });
   }
 
   public getSessions(): Observable<ReadonlyArray<SessionRecord>> {
-    const url = `${ApiUri.Scheme}://${ApiUri.BaseUri}/${ApiUri.Session}`;
-
-    return this.http.get<ReadonlyArray<SessionRecordDTO>>(url, { withCredentials: true }).pipe(
+    return this.http.get<ReadonlyArray<SessionRecordDTO>>(SessionService.url, { withCredentials: true }).pipe(
       map((sessions) =>
         sessions.map((s) => ({
           ...s,

@@ -1,5 +1,5 @@
-import { SessionChar } from '../types/session.types';
 import { SessionState } from '../../state/states/session.state';
+import { SessionChar } from '../types/session.types';
 
 export function isCorrect(sessionChar: SessionChar): boolean {
   return sessionChar.input === sessionChar.target;
@@ -23,19 +23,19 @@ export function resetSessionChars(sessionChars: ReadonlyArray<SessionChar>): Rea
   }));
 }
 
-export function moveForwardFrom(sessionChars: ReadonlyArray<SessionChar>, index: number): number {
+export function moveForwardFrom(index: number, sessionChars: ReadonlyArray<SessionChar>): number {
   index = index + 1;
 
-  return skipDisabledForward(sessionChars, index);
+  return skipDisabledForward(index, sessionChars);
 }
 
-export function moveBackwardFrom(sessionChars: ReadonlyArray<SessionChar>, index: number): number {
+export function moveBackwardFrom(index: number, sessionChars: ReadonlyArray<SessionChar>): number {
   index = 0 < index ? index - 1 : 0;
 
-  return skipDisabledBackward(sessionChars, index);
+  return skipDisabledBackward(index, sessionChars);
 }
 
-function skipDisabledBackward(sessionChars: ReadonlyArray<SessionChar>, index: number): number {
+function skipDisabledBackward(index: number, sessionChars: ReadonlyArray<SessionChar>): number {
   while (0 < index && !sessionChars[index].enabled) {
     --index;
   }
@@ -43,7 +43,7 @@ function skipDisabledBackward(sessionChars: ReadonlyArray<SessionChar>, index: n
   return index;
 }
 
-function skipDisabledForward(sessionChars: ReadonlyArray<SessionChar>, index: number): number {
+function skipDisabledForward(index: number, sessionChars: ReadonlyArray<SessionChar>): number {
   while (index < sessionChars.length && !sessionChars[index].enabled) {
     ++index;
   }
@@ -61,12 +61,12 @@ export function lastSessionChar(sessionChars: ReadonlyArray<SessionChar>): Sessi
 }
 
 export function currentSessionChar(state: SessionState): SessionChar | undefined {
-  return sessionCharAt(state.sessionChars, state.index);
+  return sessionCharAt(state.index, state.sessionChars);
 }
 
 /**
  * @Implementation If the index < 0 the value of sessionChars.at[index] is defined
  */
-export function sessionCharAt(sessionChars: ReadonlyArray<SessionChar>, index: number): SessionChar | undefined {
+export function sessionCharAt(index: number, sessionChars: ReadonlyArray<SessionChar>): SessionChar | undefined {
   return index < 0 ? undefined : sessionChars.at(index);
 }

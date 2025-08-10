@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   standalone: true,
-  selector: 'app-loading-svg',
+  selector: 'kw-loading-svg',
   imports: [CommonModule],
   templateUrl: './loading-svg.component.svg',
   changeDetection: ChangeDetectionStrategy.OnPush
