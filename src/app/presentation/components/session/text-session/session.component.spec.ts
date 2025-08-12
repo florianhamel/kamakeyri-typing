@@ -21,7 +21,9 @@ import { SessionComponent } from './session.component';
 import { SessionComponentHarness } from './session.component.harness';
 
 @Component({
-  template: ` <kw-session [source]="source" [metaData]="metaData"></kw-session> `,
+  template: ` <div>
+    <kw-session [source]="source" [metaData]="metaData"></kw-session>
+  </div>`,
   imports: [SessionComponent],
   standalone: true
 })
@@ -68,17 +70,32 @@ describe('SessionComponent', () => {
     expect(await sessionHarness.isTextareaFocused()).toBe(true);
   });
 
-  it('should update session when keyboard event is fired', async () => {
-    // given
+  it('should process session when text is entirely typed', async () => {
     const { loader, store, httpTestingController } = setup({}, { username: 'nerium', exp: '12345678987654321' });
     const sessionHarness = await loader.getHarness(SessionComponentHarness);
+    const status = store.selectSignal(selectStatus);
 
-    // when
-    await fireKeyboardEvents(sessionHarness, 'h', 'e', 'y');
+    expect(status()).toBe('notStarted');
 
-    // then
-    expect(store.selectSignal(selectStatus)()).toBe('closed');
-    httpTestingController.expectOne({ method: 'POST', url: SessionService.url });
+    await fireKeyboardEvents(sessionHarness, 'h');
+    expect(status()).toBe('inProgress');
+
+    await fireKeyboardEvents(sessionHarness, 'e', 'y');
+    expect(status()).toBe('closed');
+
+    const request = httpTestingController.expectOne({ method: 'POST', url: SessionService.url }).request;
+    expect(request.body).toEqual([
+      {
+        time: expect.any(Number),
+        length: 3,
+        keystrokes: 3,
+        errors: 0,
+        mode: SessionMode.CommonWords,
+        label: 'label',
+        option: SessionOption.WordLimit,
+        lang: 'en'
+      }
+    ]);
   });
 
   async function fireKeyboardEvents(sessionHarness: SessionComponentHarness, ...keys: string[]) {
