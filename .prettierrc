@@ -8,7 +8,6 @@
   "trailingComma": "none",
   "semi": true,
   "tabWidth": 2,
-  "experimentalTernaries": true,
   "importOrder": [
     "<THIRD_PARTY_MODULES>",
     "^@angular/(.*)$",

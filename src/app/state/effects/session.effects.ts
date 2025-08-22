@@ -1,9 +1,8 @@
-import { Observable, catchError, exhaustMap, map, of, switchMap, tap } from 'rxjs';
+import { Observable, catchError, exhaustMap, ignoreElements, map, of, switchMap, tap, withLatestFrom } from 'rxjs';
 
 import { inject } from '@angular/core';
 
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { concatLatestFrom } from '@ngrx/operators';
 import { Store } from '@ngrx/store';
 
 import { clearSessionItems, getSessionItem, setSessionItem } from '../../application/helpers/storage.helper';
@@ -14,27 +13,22 @@ import { sessionActions } from '../actions/session.actions';
 import { selectSessionData } from '../selectors/session.selectors';
 import { selectIsLoggedIn } from '../selectors/user.selectors';
 
-export const sessionUploadOrSave = createEffect(
+export const sessionClose = createEffect(
   (actions$ = inject(Actions), sessionService = inject(SessionService), store = inject(Store)) => {
     return actions$.pipe(
-      ofType(sessionActions.uploadOrSave),
-      concatLatestFrom(() => [store.select(selectSessionData), store.select(selectIsLoggedIn)]),
-      exhaustMap(([metaData, sessionData, isLoggedIn]) => {
+      ofType(sessionActions.close),
+      withLatestFrom(store.select(selectSessionData), store.select(selectIsLoggedIn)),
+      switchMap(([metaData, sessionData, isLoggedIn]) => {
         const sessionDTO = toSessionDTO({ ...sessionData, ...metaData });
-        if (isLoggedIn) {
-          sessionService
-            .saveSessions([sessionDTO])
-            .pipe(catchError(() => saveSession(sessionDTO)))
-            .subscribe();
-        } else {
-          saveSession(sessionDTO);
-        }
+        const save$ = isLoggedIn
+          ? sessionService.saveSessions([sessionDTO]).pipe(catchError(() => storeSession(sessionDTO)))
+          : storeSession(sessionDTO);
 
-        return of(sessionActions.close()); // WTF
+        return save$.pipe(ignoreElements());
       })
     );
   },
-  { functional: true, dispatch: true }
+  { functional: true, dispatch: false }
 );
 
 export const sessionUploadAllSaved = createEffect(
@@ -67,9 +61,9 @@ export const sessionLoadAll = createEffect(
   { functional: true, dispatch: true }
 );
 
-function saveSession(sessionDto: Session): Observable<void> {
+function storeSession(sessionDto: Session): Observable<void> {
   const sessionDtos = getSessionItem<Session[]>('sessions');
   setSessionItem('sessions', sessionDtos ? [...sessionDtos, sessionDto] : [sessionDto]);
 
-  return of(undefined);
+  return of();
 }

@@ -73,7 +73,7 @@ export class SessionComponent implements AfterViewInit {
     }
     this.store.dispatch(sessionActions.update({ event: sanitizedEvent }));
     if (this.canClose()) {
-      this.store.dispatch(sessionActions.uploadOrSave(this.metaData()));
+      this.store.dispatch(sessionActions.close(this.metaData()));
     }
   }
 

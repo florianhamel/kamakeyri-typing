@@ -15,7 +15,7 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { routes } from './app.routes';
 
 import { closeLogInDialog, openLogIn } from './state/effects/dialog.effects';
-import { sessionLoadAll, sessionUploadAllSaved, sessionUploadOrSave } from './state/effects/session.effects';
+import { sessionLoadAll, sessionUploadAllSaved, sessionClose } from './state/effects/session.effects';
 import { userLogIn, userUpdateLang } from './state/effects/user.effects';
 import { wikiLoadExtract, wikiLoadRandomExtract, wikiLoadRelatedExtract } from './state/effects/wiki.effects';
 import { loadCommonWords } from './state/effects/words.effects';
@@ -43,7 +43,7 @@ export const appConfig: ApplicationConfig = {
       wikiLoadExtract,
       wikiLoadRelatedExtract,
       wikiLoadRandomExtract,
-      sessionUploadOrSave,
+      sessionClose,
       sessionUploadAllSaved,
       sessionLoadAll,
       closeLogInDialog,
