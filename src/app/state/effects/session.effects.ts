@@ -10,6 +10,7 @@ import { toSessionDTO } from '../../application/mappers/session.mappers';
 import { SessionService } from '../../application/services/session.service';
 import { Session } from '../../domain/types/session.types';
 import { sessionActions } from '../actions/session.actions';
+import { actionDispatched, noActionDispatched } from '../helpers/effects.helpers';
 import { selectSessionData } from '../selectors/session.selectors';
 import { selectIsLoggedIn } from '../selectors/user.selectors';
 
@@ -18,17 +19,17 @@ export const sessionClose = createEffect(
     return actions$.pipe(
       ofType(sessionActions.close),
       withLatestFrom(store.select(selectSessionData), store.select(selectIsLoggedIn)),
-      switchMap(([metaData, sessionData, isLoggedIn]) => {
+      exhaustMap(([metaData, sessionData, isLoggedIn]) => {
         const sessionDTO = toSessionDTO({ ...sessionData, ...metaData });
-        const save$ = isLoggedIn
+        const saveSession$ = isLoggedIn
           ? sessionService.saveSessions([sessionDTO]).pipe(catchError(() => storeSession(sessionDTO)))
           : storeSession(sessionDTO);
 
-        return save$.pipe(ignoreElements());
+        return saveSession$.pipe(ignoreElements());
       })
     );
   },
-  { functional: true, dispatch: false }
+  noActionDispatched()
 );
 
 export const sessionUploadAllSaved = createEffect(
@@ -46,20 +47,17 @@ export const sessionUploadAllSaved = createEffect(
   { functional: true, dispatch: false }
 );
 
-export const sessionLoadAll = createEffect(
-  (actions$ = inject(Actions), sessionService = inject(SessionService)) => {
-    return actions$.pipe(
-      ofType(sessionActions.loadAll),
-      switchMap(() =>
-        sessionService.getSessions().pipe(
-          map((sessionRecords) => sessionActions.loadAllSuccess({ sessionRecords })),
-          catchError(() => of(sessionActions.loadAllError()))
-        )
+export const sessionLoadAll = createEffect((actions$ = inject(Actions), sessionService = inject(SessionService)) => {
+  return actions$.pipe(
+    ofType(sessionActions.loadAll),
+    switchMap(() =>
+      sessionService.getSessions().pipe(
+        map((sessionRecords) => sessionActions.loadAllSuccess({ sessionRecords })),
+        catchError(() => of(sessionActions.loadAllError()))
       )
-    );
-  },
-  { functional: true, dispatch: true }
-);
+    )
+  );
+}, actionDispatched());
 
 function storeSession(sessionDto: Session): Observable<void> {
   const sessionDtos = getSessionItem<Session[]>('sessions');
