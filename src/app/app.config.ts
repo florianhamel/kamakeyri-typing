@@ -15,7 +15,7 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { routes } from './app.routes';
 
 import { closeLogInDialog, openLogIn } from './state/effects/dialog.effects';
-import { sessionLoadAll, sessionUploadAllSaved, sessionClose } from './state/effects/session.effects';
+import { sessionClose, sessionLoadAll, sessionUploadAllSaved } from './state/effects/session.effects';
 import { userLogIn, userUpdateLang } from './state/effects/user.effects';
 import { wikiLoadExtract, wikiLoadRandomExtract, wikiLoadRelatedExtract } from './state/effects/wiki.effects';
 import { loadCommonWords } from './state/effects/words.effects';
@@ -32,12 +32,12 @@ export const appConfig: ApplicationConfig = {
     provideClientHydration(),
     provideHttpClient(withFetch()),
     provideStore({
-      session: sessionFeature.reducer,
-      wiki: wikiFeature.reducer,
-      user: userFeature.reducer,
-      dialog: dialogFeature.reducer,
-      words: wordsFeature.reducer,
-      featureToggle: featureToggleFeature.reducer
+      [sessionFeature.name]: sessionFeature.reducer,
+      [wikiFeature.name]: wikiFeature.reducer,
+      [userFeature.name]: userFeature.reducer,
+      [dialogFeature.name]: dialogFeature.reducer,
+      [wordsFeature.name]: wordsFeature.reducer,
+      [featureToggleFeature.name]: featureToggleFeature.reducer
     }),
     provideEffects({
       wikiLoadExtract,

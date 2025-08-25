@@ -4,7 +4,7 @@ export type WordsState = {
   isLoading: boolean;
 };
 
-export const initialState: WordsState = {
+export const wordsInitialState: WordsState = {
   commonWords: [],
   randomWords: [],
   isLoading: false

@@ -2,6 +2,7 @@ import { InputEventSanitized } from '../../domain/types/event.types';
 import { sessionActions } from '../actions/session.actions';
 import { SessionState, initialState } from '../states/session.state';
 import { sessionFeature } from './session.reducer';
+import { SessionMetaData } from '../../domain/types/session.types';
 
 describe('session reducer', () => {
   describe('session action: initialize', () => {
@@ -104,15 +105,15 @@ describe('session reducer', () => {
 
   describe('session action: close', () => {
     it('should close session', () => {
-      // Given
+      // given
       let state: SessionState = initialState;
       state = sessionFeature.reducer(state, sessionActions.init({ content: 'Hello World!' }));
       state = sessionFeature.reducer(state, sessionActions.start());
 
-      // When
-      state = sessionFeature.reducer(state, sessionActions.close());
+      // when
+      state = sessionFeature.reducer(state, sessionActions.close({} as SessionMetaData));
 
-      // Then
+      // then
       expect(state.status).toBe('closed');
     });
   });

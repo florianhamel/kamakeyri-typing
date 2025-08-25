@@ -9,11 +9,12 @@ describe('VirtualTableComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [VirtualTableComponent]
-    })
-    .compileComponents();
+    }).compileComponents();
 
     fixture = TestBed.createComponent(VirtualTableComponent);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput('headers', []);
+    fixture.componentRef.setInput('rows', {});
     fixture.detectChanges();
   });
 

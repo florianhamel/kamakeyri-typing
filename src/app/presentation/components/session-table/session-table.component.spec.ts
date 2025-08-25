@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SessionTableComponent } from './session-table.component';
+import { SessionService } from '../../../application/services/session.service';
+import { provideHttpClient } from '@angular/common/http';
 
 describe('SessionTableComponent', () => {
   let component: SessionTableComponent;
@@ -8,7 +10,8 @@ describe('SessionTableComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SessionTableComponent]
+      imports: [SessionTableComponent],
+      providers: [SessionService, provideHttpClient()]
     })
     .compileComponents();
 

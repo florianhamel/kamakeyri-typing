@@ -1,5 +1,5 @@
-import { ChartConfiguration, ChartDataset } from 'chart.js';
 import 'chartjs-adapter-date-fns';
+import { ChartConfiguration, ChartDataset } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 
 import { ChangeDetectionStrategy, Component, OnInit, Signal, computed } from '@angular/core';

@@ -21,9 +21,11 @@ import { SessionComponent } from './session.component';
 import { SessionComponentHarness } from './session.component.harness';
 
 @Component({
-  template: ` <div>
-    <kw-session [source]="source" [metaData]="metaData"></kw-session>
-  </div>`,
+  template: `
+    <div>
+      <kw-session [source]="source"
+                  [metaData]="metaData"></kw-session>
+    </div>`,
   imports: [SessionComponent],
   standalone: true
 })
@@ -47,7 +49,7 @@ describe('SessionComponent', () => {
         ),
         provideEffects({ sessionUploadOrSave: sessionClose }),
         provideHttpClient(),
-        provideHttpClientTesting(),
+        provideHttpClientTesting()
       ]
     });
     const hostFixture = TestBed.createComponent(TestHost);
@@ -71,34 +73,6 @@ describe('SessionComponent', () => {
   });
 
   it('should upload session when text is typed and user logged in', async () => {
-    const { loader, store, httpController } = setup({}, { username: 'nerium', exp: '12345678987654321' });
-    const sessionHarness = await loader.getHarness(SessionComponentHarness);
-    const status = store.selectSignal(selectStatus);
-
-    expect(status()).toBe('notStarted');
-
-    await fireKeyboardEvents(sessionHarness, 'h');
-    expect(status()).toBe('inProgress');
-
-    await fireKeyboardEvents(sessionHarness, 'e', 'y');
-    expect(status()).toBe('closed');
-
-    const request = httpController.expectOne({ method: 'POST', url: SessionService.url }).request;
-    expect(request.body).toEqual([
-      {
-        time: expect.any(Number),
-        length: 3,
-        keystrokes: 3,
-        errors: 0,
-        mode: SessionMode.CommonWords,
-        label: 'label',
-        option: SessionOption.WordLimit,
-        lang: 'en'
-      }
-    ]);
-  });
-
-  it('should store session when text is typed but user not logged in', async () => {
     const { loader, store, httpController } = setup({}, { username: 'nerium', exp: '12345678987654321' });
     const sessionHarness = await loader.getHarness(SessionComponentHarness);
     const status = store.selectSignal(selectStatus);

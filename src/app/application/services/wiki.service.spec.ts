@@ -1,17 +1,18 @@
+import { provideHttpClient } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 
+import { provideStore } from '@ngrx/store';
+
 import { WikiService } from './wiki.service';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('WikiService', () => {
   let sutService: WikiService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [],
-    providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
-});
+      imports: [],
+      providers: [provideHttpClient(), provideStore()]
+    });
     sutService = TestBed.inject(WikiService);
   });
 

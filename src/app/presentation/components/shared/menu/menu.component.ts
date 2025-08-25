@@ -1,7 +1,9 @@
-import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
-import { MatMenu, MatMenuItem, MatMenuTrigger, MenuPositionX, MenuPositionY } from '@angular/material/menu';
-import { MatIcon } from '@angular/material/icon';
 import { TranslateModule } from '@ngx-translate/core';
+
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
+import { MatIcon } from '@angular/material/icon';
+import { MatMenu, MatMenuItem, MatMenuTrigger, MenuPositionX, MenuPositionY } from '@angular/material/menu';
+
 import { Language } from '../../../../domain/types/user.types';
 
 export type MenuItem<T> = {
