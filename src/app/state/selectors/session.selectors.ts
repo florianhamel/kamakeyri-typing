@@ -1,7 +1,7 @@
 import { createSelector } from '@ngrx/store';
 
-import { exists, isNull } from '../../domain/functions/common.functions';
-import { isCorrect, lastSessionChar } from '../../domain/functions/session-common.functions';
+import { exists, isNull } from '../../application/functions/common.functions';
+import { isCorrect, lastSessionChar } from '../../application/functions/session-common.functions';
 import { SessionData } from '../../domain/types/session.types';
 import { sessionFeature } from '../reducers/session.reducer';
 

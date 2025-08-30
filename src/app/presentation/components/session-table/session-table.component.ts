@@ -18,6 +18,6 @@ export class SessionTableComponent {
 
   constructor(private readonly sessionService: SessionService) {
     this.headers = ['Time', 'Length', 'Keystrokes', 'Errors', 'Mode', 'Label', 'Option', 'Language'];
-    this.sessions$ = this.sessionService.getSessions();
+    this.sessions$ = this.sessionService.findAll();
   }
 }

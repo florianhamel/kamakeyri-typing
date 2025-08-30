@@ -1,13 +1,16 @@
-import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { inject } from '@angular/core';
-import { WordsService } from '../../application/services/words.service';
-import { wordsActions } from '../actions/words.actions';
 import { catchError, exhaustMap, filter, map, of, tap } from 'rxjs';
+
+import { inject } from '@angular/core';
+
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { concatLatestFrom } from '@ngrx/operators';
 import { Store } from '@ngrx/store';
-import { selectCommonWords } from '../selectors/words.selectors';
-import { isEmpty } from '../../domain/functions/common.functions';
+
+import { isEmpty } from '../../application/functions/common.functions';
 import { defaultLimit } from '../../domain/constants/words.constants';
+import { WordsService } from '../../infrastructure/services/words.service';
+import { wordsActions } from '../actions/words.actions';
+import { selectCommonWords } from '../selectors/words.selectors';
 
 export const loadCommonWords = createEffect(
   (actions$ = inject(Actions), wordsService = inject(WordsService), store = inject(Store)) =>

@@ -2,7 +2,7 @@ import { SessionMode } from '../../domain/enums/session-mode.enum';
 import { SessionOption } from '../../domain/enums/session-option.enum';
 import { SessionLang } from '../../domain/types/session.types';
 
-export type SessionRecordDTO = {
+export type SessionDtos = {
   time: number;
   length: number;
   keystrokes: number;
@@ -10,6 +10,7 @@ export type SessionRecordDTO = {
   mode: SessionMode;
   label: string | null;
   option: SessionOption;
-  createDate: Date;
   lang: SessionLang;
 };
+
+export type SessionRecordDTO = SessionDtos & { createDate: string };

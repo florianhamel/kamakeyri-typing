@@ -1,8 +1,10 @@
 import { Pipe, PipeTransform, Signal } from '@angular/core';
-import { SessionChar } from '../../domain/types/session.types';
+
 import { Store } from '@ngrx/store';
+
+import { isCorrect } from '../../application/functions/session-common.functions';
+import { SessionChar } from '../../domain/types/session.types';
 import { selectIndex, selectIsComposing, selectSessionChars } from '../../state/selectors/session.selectors';
-import { isCorrect } from '../../domain/functions/session-common.functions';
 
 @Pipe({
   standalone: true,

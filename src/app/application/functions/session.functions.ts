@@ -1,9 +1,15 @@
+import { InputEventSanitized } from '../../domain/types/event.types';
+import { SessionChar, SessionCharsIndex } from '../../domain/types/session.types';
 import { SessionState } from '../../state/states/session.state';
-import { InputEventSanitized } from '../types/event.types';
-import { SessionChar, SessionCharsIndex } from '../types/session.types';
 import { exists, isNewline, isSpace, isUndefined, isWord } from './common.functions';
 import { isMacosAutoDot } from './input-event.functions';
-import { currentSessionChar, isCorrect, moveBackwardFrom, moveForwardFrom, sessionCharAt } from './session-common.functions';
+import {
+  currentSessionChar,
+  isCorrect,
+  moveBackwardFrom,
+  moveForwardFrom,
+  sessionCharAt
+} from './session-common.functions';
 
 
 

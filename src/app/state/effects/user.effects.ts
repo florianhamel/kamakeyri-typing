@@ -2,11 +2,11 @@ import { inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { catchError, exhaustMap, map, of, tap } from 'rxjs';
-import { UserService } from '../../application/services/user.service';
 import { userActions } from '../actions/user.actions';
 import { Credentials, Language } from '../../domain/types/user.types';
 import { setLocalItem } from '../../application/helpers/storage.helper';
 import { sessionActions } from '../actions/session.actions';
+import { UserService } from '../../infrastructure/services/user.service';
 
 // TODO test this effect
 export const userLogIn = createEffect(

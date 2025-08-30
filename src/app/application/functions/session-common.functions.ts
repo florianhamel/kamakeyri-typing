@@ -1,5 +1,5 @@
 import { SessionState } from '../../state/states/session.state';
-import { SessionChar } from '../types/session.types';
+import { SessionChar } from '../../domain/types/session.types';
 
 export function isCorrect(sessionChar: SessionChar): boolean {
   return sessionChar.input === sessionChar.target;

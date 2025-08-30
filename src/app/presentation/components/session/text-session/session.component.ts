@@ -15,9 +15,9 @@ import {
 
 import { Store } from '@ngrx/store';
 
-import { exists } from '../../../../domain/functions/common.functions';
-import { isForbidden } from '../../../../domain/functions/input-event.functions';
-import { isEscape, isIgnoredKey } from '../../../../domain/functions/keyboard-event.functions';
+import { exists } from '../../../../application/functions/common.functions';
+import { isForbidden } from '../../../../application/functions/input-event.functions';
+import { isEscape, isIgnoredKey } from '../../../../application/functions/keyboard-event.functions';
 import { InputEventSanitized } from '../../../../domain/types/event.types';
 import { SessionChar, SessionMetaData, SessionStatus } from '../../../../domain/types/session.types';
 import { sessionActions } from '../../../../state/actions/session.actions';

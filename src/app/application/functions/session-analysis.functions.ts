@@ -1,15 +1,15 @@
+import { DailyAverage } from '../../domain/types/data.types';
+import { SessionAccuracyData, SessionRecord, SessionWpmData } from '../../domain/types/session.types';
 import { SessionState } from '../../state/states/session.state';
-import { DailyAverage } from '../types/data.types';
-import { SessionAccuracyData, SessionRecord, SessionWpmData } from '../types/session.types';
 import { exists } from './common.functions';
 import { isCorrect } from './session-common.functions';
 
 export function computeWpmSnapshot(sessionState: SessionState): number {
   const words: number = Math.round((sessionState.keystrokes - computeMismatches(sessionState)) / 5);
   const minutes: number =
-    exists(sessionState.start) && exists(sessionState.end) ?
-      (sessionState.end!.getTime() - sessionState.start!.getTime()) / (60 * 1000)
-    : 0;
+    exists(sessionState.start) && exists(sessionState.end)
+      ? (sessionState.end!.getTime() - sessionState.start!.getTime()) / (60 * 1000)
+      : 0;
 
   return minutes > 0 ? words / minutes : NaN;
 }

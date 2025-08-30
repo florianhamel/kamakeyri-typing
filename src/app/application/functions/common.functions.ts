@@ -1,4 +1,4 @@
-import { usInternationalSequences } from '../layouts/us-international.layout';
+import { usInternationalSequences } from '../../domain/layouts/us-international.layout';
 
 export function isUndefined(obj: any): boolean {
   return obj === undefined;

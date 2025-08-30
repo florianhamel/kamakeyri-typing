@@ -1,15 +1,15 @@
-import 'chartjs-adapter-date-fns';
 import { ChartConfiguration, ChartDataset } from 'chart.js';
+import 'chartjs-adapter-date-fns';
 import { BaseChartDirective } from 'ng2-charts';
 
 import { ChangeDetectionStrategy, Component, OnInit, Signal, computed } from '@angular/core';
 import { MatTab, MatTabContent, MatTabGroup } from '@angular/material/tabs';
 
-import { SessionFacade } from '../../../domain/facades/session.facade';
 import {
   computeAccuracyDailyAverages,
   computeWpmDailyAverages
-} from '../../../domain/functions/session-analysis.functions';
+} from '../../../application/functions/session-analysis.functions';
+import { SessionFacade } from '../../../domain/facades/session.facade';
 import { DailyAverage } from '../../../domain/types/data.types';
 import { SessionRecord } from '../../../domain/types/session.types';
 import { LoadingSvgComponent } from '../svgs/loading-svg/loading-svg.component';

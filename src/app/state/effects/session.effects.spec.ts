@@ -22,7 +22,7 @@ import { sessionClose, sessionUploadAllSaved } from './session.effects';
 
 describe('session effects', () => {
   const sessionRefined: SessionData = generateSessionData();
-  const mockSessionService: jest.Mocked<SessionService> = generateMock<SessionService>('saveSessions');
+  const mockSessionService: jest.Mocked<SessionService> = generateMock<SessionService>('saveAll');
   let mockStore: MockStore;
   let subscription: Subscription;
 
@@ -67,7 +67,7 @@ describe('session effects', () => {
     subscription = sessionClose(actions$, mockSessionService, mockStore).subscribe();
 
     // then
-    expect(mockSessionService.saveSessions).not.toHaveBeenCalled();
+    expect(mockSessionService.saveAll).not.toHaveBeenCalled();
     const items: Array<Session> | null = getSessionItem('sessions');
     expect(items?.length).toBe(2);
     expect(items).toEqual([{ ...sessionDto }, { ...sessionRefined, ...metaData }]);
@@ -82,7 +82,7 @@ describe('session effects', () => {
       lang: 'en'
     };
     const actions$ = of(sessionActions.close(metaData));
-    mockSessionService.saveSessions.mockImplementation(() => throwError(() => new Error('upload session error')));
+    mockSessionService.saveAll.mockImplementation(() => throwError(() => new Error('upload session error')));
 
     // when
     sessionClose(actions$, mockSessionService as unknown as SessionService, mockStore).subscribe();

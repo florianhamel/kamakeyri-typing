@@ -6,13 +6,13 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
 import { clearSessionItems, getSessionItem, setSessionItem } from '../../application/helpers/storage.helper';
-import { toSessionDTO } from '../../application/mappers/session.mappers';
-import { SessionService } from '../../application/services/session.service';
 import { Session } from '../../domain/types/session.types';
+import { toSessionDTO } from '../../infrastructure/mappers/session.mappers';
 import { sessionActions } from '../actions/session.actions';
 import { actionDispatched, noActionDispatched } from '../helpers/effects.helpers';
 import { selectSessionData } from '../selectors/session.selectors';
 import { selectIsLoggedIn } from '../selectors/user.selectors';
+import { SessionService } from '../../infrastructure/services/session.service';
 
 export const sessionClose = createEffect(
   (actions$ = inject(Actions), sessionService = inject(SessionService), store = inject(Store)) => {
@@ -22,7 +22,7 @@ export const sessionClose = createEffect(
       exhaustMap(([metaData, sessionData, isLoggedIn]) => {
         const sessionDTO = toSessionDTO({ ...sessionData, ...metaData });
         const saveSession$ = isLoggedIn
-          ? sessionService.saveSessions([sessionDTO]).pipe(catchError(() => storeSession(sessionDTO)))
+          ? sessionService.saveAll([sessionDTO]).pipe(catchError(() => storeSession(sessionDTO)))
           : storeSession(sessionDTO);
 
         return saveSession$.pipe(ignoreElements());
@@ -39,7 +39,7 @@ export const sessionUploadAllSaved = createEffect(
       exhaustMap(() => {
         const sessions = getSessionItem<Array<Session>>('sessions');
 
-        return sessions ? sessionService.saveSessions(sessions.map((s) => toSessionDTO(s))) : of(undefined);
+        return sessions ? sessionService.saveAll(sessions.map((s) => toSessionDTO(s))) : of(undefined);
       }),
       tap(() => clearSessionItems()) // TODO dispatch an action to clearSessionItems() in an effect
     );
@@ -51,7 +51,7 @@ export const sessionLoadAll = createEffect((actions$ = inject(Actions), sessionS
   return actions$.pipe(
     ofType(sessionActions.loadAll),
     switchMap(() =>
-      sessionService.getSessions().pipe(
+      sessionService.findAll().pipe(
         map((sessionRecords) => sessionActions.loadAllSuccess({ sessionRecords })),
         catchError(() => of(sessionActions.loadAllError()))
       )

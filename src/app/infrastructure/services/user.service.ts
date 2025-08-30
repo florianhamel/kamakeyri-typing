@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Credentials, UpdateLangDto, UserInfo } from '../../domain/types/user.types';
-import { ApiUri } from '../URIs/api-uri.enum';
+import { ApiUri } from '../../application/URIs/api-uri.enum';
 
 @Injectable({
   providedIn: 'root'

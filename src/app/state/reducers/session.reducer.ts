@@ -1,13 +1,13 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
 
-import { isBackspace, isBackspaceWord, isComposing } from '../../domain/functions/input-event.functions';
-import { initSessionChars, resetSessionChars } from '../../domain/functions/session-common.functions';
+import { isBackspace, isBackspaceWord, isComposing } from '../../application/functions/input-event.functions';
+import { initSessionChars, resetSessionChars } from '../../application/functions/session-common.functions';
 import {
   processBackspaceChar,
   processBackspaceWord,
   processComposition,
   processStandard
-} from '../../domain/functions/session.functions';
+} from '../../application/functions/session.functions';
 import { isUsInternational } from '../../domain/layouts/us-international.layout';
 import { InputEventSanitized } from '../../domain/types/event.types';
 import { SessionChar } from '../../domain/types/session.types';

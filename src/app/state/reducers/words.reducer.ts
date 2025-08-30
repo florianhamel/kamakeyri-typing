@@ -1,7 +1,8 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
-import { wordsInitialState, WordsState } from '../states/words.state';
+
+import { generateRandomWords } from '../../application/functions/words.functions';
 import { wordsActions } from '../actions/words.actions';
-import { generateRandomWords } from '../../domain/functions/words.functions';
+import { WordsState, wordsInitialState } from '../states/words.state';
 
 export const wordsFeature = createFeature<'words', WordsState>({
   name: 'words',

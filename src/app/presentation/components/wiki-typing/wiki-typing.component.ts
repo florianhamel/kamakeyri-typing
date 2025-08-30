@@ -16,11 +16,11 @@ import { FormsModule } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
 
+import { isNull } from '../../../application/functions/common.functions';
 import { setLocalItem } from '../../../application/helpers/storage.helper';
 import { wikiConstant } from '../../../domain/constants/wiki.constants';
 import { SessionMode } from '../../../domain/enums/session-mode.enum';
 import { SessionOption } from '../../../domain/enums/session-option.enum';
-import { isNull } from '../../../domain/functions/common.functions';
 import { SessionMetaData, SessionStatus } from '../../../domain/types/session.types';
 import { Language } from '../../../domain/types/user.types';
 import { WikiLang } from '../../../domain/types/wiki.types';
@@ -113,8 +113,8 @@ export class WikiTypingComponent implements AfterViewInit {
   private buildWikiMetadata(): SessionMetaData | null {
     const wikiOption: Signal<SessionOption | null> = this.store.selectSignal(selectOption);
 
-    return !isNull(wikiOption()) ?
-        {
+    return !isNull(wikiOption())
+      ? {
           mode: SessionMode.Wiki,
           label: this.wikiTitle(),
           option: wikiOption()!,

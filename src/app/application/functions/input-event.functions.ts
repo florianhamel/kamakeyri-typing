@@ -1,5 +1,5 @@
 import { InputType } from 'node:zlib';
-import { InputEventSanitized } from '../types/event.types';
+import { InputEventSanitized } from '../../domain/types/event.types';
 
 const inputTypesAllowed = new Set<InputType>([
   'insertText',

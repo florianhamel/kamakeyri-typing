@@ -5,11 +5,11 @@ import { inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
-import { WikiService } from '../../application/services/wiki.service';
 import { SessionOption } from '../../domain/enums/session-option.enum';
 import { WikiSummary } from '../../domain/types/wiki.types';
 import { wikiActions } from '../actions/wiki.actions';
 import { WikiState } from '../states/wiki.state';
+import { WikiService } from '../../infrastructure/services/wiki.service';
 
 export const wikiLoadExtract = createEffect(
   (actions$ = inject(Actions), wikiService = inject(WikiService), wikiStore = inject(Store<WikiState>)) => {

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
-import { ApiUri } from '../URIs/api-uri.enum';
+import { ApiUri } from '../../application/URIs/api-uri.enum';
 
 @Injectable({
   providedIn: 'root'
