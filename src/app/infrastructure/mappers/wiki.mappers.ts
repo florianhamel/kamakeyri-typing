@@ -1,4 +1,4 @@
-import { WikiSummary } from '../../domain/types/wiki.types';
+import { WikiSummary } from '../../domain/types/wiki.type';
 import { WikiDTO } from '../DTOs/wiki.dtos';
 
 export function toWikiSummary(value: WikiDTO): WikiSummary {

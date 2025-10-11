@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { catchError, exhaustMap, map, of, tap } from 'rxjs';
 import { userActions } from '../actions/user.actions';
-import { Credentials, Language } from '../../domain/types/user.types';
+import { Credentials, Language } from '../../domain/types/user.type';
 import { setLocalItem } from '../../application/helpers/storage.helper';
 import { sessionActions } from '../actions/session.actions';
 import { UserService } from '../../infrastructure/services/user.service';

@@ -1,4 +1,4 @@
-import { Starter } from '../types/layout.types';
+import { Starter } from '../types/layout.type';
 import { isAscii } from '../../application/functions/common.functions';
 
 export const usInternationalStarters: ReadonlyArray<Starter> = getStarters();

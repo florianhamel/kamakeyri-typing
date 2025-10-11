@@ -12,7 +12,7 @@ import { provideEffects } from '@ngrx/effects';
 import { provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 
-import { routes } from './app.routes';
+import { kwRoutes } from './app.routes';
 
 import { closeLogInDialog, openLogIn } from './state/effects/dialog.effects';
 import { sessionClose, sessionLoadAll, sessionUploadAllSaved } from './state/effects/session.effects';
@@ -28,7 +28,7 @@ import { wordsFeature } from './state/reducers/words.reducer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideRouter(routes),
+    provideRouter(kwRoutes),
     provideClientHydration(),
     provideHttpClient(withFetch()),
     provideStore({

@@ -7,7 +7,7 @@ import { concatLatestFrom } from '@ngrx/operators';
 import { Store } from '@ngrx/store';
 
 import { isEmpty } from '../../application/functions/common.functions';
-import { defaultLimit } from '../../domain/constants/words.constants';
+import { defaultLimit } from '../../domain/constants/words.const';
 import { WordsService } from '../../infrastructure/services/words.service';
 import { wordsActions } from '../actions/words.actions';
 import { selectCommonWords } from '../selectors/words.selectors';

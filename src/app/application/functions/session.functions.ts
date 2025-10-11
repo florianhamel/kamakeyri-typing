@@ -1,5 +1,5 @@
-import { InputEventSanitized } from '../../domain/types/event.types';
-import { SessionChar, SessionCharsIndex } from '../../domain/types/session.types';
+import { InputEventSanitized } from '../../domain/types/event.type';
+import { SessionChar, SessionCharsIndex } from '../../domain/types/session.type';
 import { SessionState } from '../../state/states/session.state';
 import { exists, isNewline, isSpace, isUndefined, isWord } from './common.functions';
 import { isMacosAutoDot } from './input-event.functions';

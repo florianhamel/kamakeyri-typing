@@ -13,7 +13,7 @@ import { generateMock } from '../../application/mocks/mocking.tools';
 import { SessionService } from '../../application/services/session.service';
 import { SessionMode } from '../../domain/enums/session-mode.enum';
 import { SessionOption } from '../../domain/enums/session-option.enum';
-import { Session, SessionData, SessionMetaData } from '../../domain/types/session.types';
+import { Session, SessionData, SessionMetaData } from '../../domain/types/session.type';
 import { sessionActions } from '../actions/session.actions';
 import { selectSessionData } from '../selectors/session.selectors';
 import { selectIsLoggedIn } from '../selectors/user.selectors';

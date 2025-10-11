@@ -1,17 +1,20 @@
-import { Component, computed, effect, signal, Signal, WritableSignal } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import { Store } from '@ngrx/store';
-import { getLocalItem, removeLocalItem, setLocalItem } from '../../../application/helpers/storage.helper';
-import { dialogActions } from '../../../state/actions/dialog.actions';
-import { Route } from '../../../domain/enums/route.enum';
-import { MenuComponent, MenuItem } from '../shared/menu/menu.component';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+
+import { Component, Signal, WritableSignal, computed, effect, signal } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
-import { Language } from '../../../domain/types/user.types';
+import { RouterLink } from '@angular/router';
+
+import { Store } from '@ngrx/store';
+
+import { getLocalItem, removeLocalItem, setLocalItem } from '../../../application/helpers/storage.helper';
+import { routePath } from '../../../domain/configs/route.config';
+import { Language } from '../../../domain/types/user.type';
+import { dialogActions } from '../../../state/actions/dialog.actions';
 import { userActions } from '../../../state/actions/user.actions';
+import { selectDarkLightToggle } from '../../../state/selectors/feature-toggle.selectors';
 import { selectIsLoggedIn, selectLang, selectUsername } from '../../../state/selectors/user.selectors';
 import { UserState, userStateKey } from '../../../state/states/user.state';
-import { selectDarkLightToggle } from '../../../state/selectors/feature-toggle.selectors';
+import { MenuComponent, MenuItem } from '../shared/menu/menu.component';
 
 export type NavItem = {
   langKey: string;
@@ -33,14 +36,14 @@ export class HeaderComponent {
   protected readonly isDarkLightEnabled: Signal<boolean>;
 
   protected readonly navItems: NavItem[] = [
-    { langKey: 'header.nav.home', route: Route.Home },
-    { langKey: 'header.nav.wiki', route: Route.Wiki },
-    { langKey: 'header.nav.words', route: Route.CommonWords }
+    { langKey: 'header.nav.home', route: routePath.home },
+    { langKey: 'header.nav.wiki', route: routePath.wiki },
+    { langKey: 'header.nav.words', route: routePath.words }
   ];
 
   protected readonly dashboardNavItem: NavItem = {
     langKey: 'header.nav.user',
-    route: Route.Dashboard
+    route: routePath.dashboard
   };
 
   protected readonly langItems: MenuItem<Language>[] = [

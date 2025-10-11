@@ -6,7 +6,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
 import { SessionOption } from '../../domain/enums/session-option.enum';
-import { WikiSummary } from '../../domain/types/wiki.types';
+import { WikiSummary } from '../../domain/types/wiki.type';
 import { wikiActions } from '../actions/wiki.actions';
 import { WikiState } from '../states/wiki.state';
 import { WikiService } from '../../infrastructure/services/wiki.service';

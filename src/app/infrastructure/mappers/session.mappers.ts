@@ -1,4 +1,4 @@
-import { Session, SessionRecord } from '../../domain/types/session.types';
+import { Session, SessionRecord } from '../../domain/types/session.type';
 import { SessionDtos, SessionRecordDTO } from '../DTOs/session.dtos';
 
 export function toSessionDTO(session: Session): SessionDtos {

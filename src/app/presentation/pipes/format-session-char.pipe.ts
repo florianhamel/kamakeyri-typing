@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { newLine } from '../../domain/constants/unicode.constants';
-import { SessionChar } from '../../domain/types/session.types';
+import { newLine } from '../../domain/constants/unicode.const';
+import { SessionChar } from '../../domain/types/session.type';
 
 @Pipe({
   standalone: true,

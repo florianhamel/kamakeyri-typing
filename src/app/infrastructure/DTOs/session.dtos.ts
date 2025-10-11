@@ -1,6 +1,6 @@
 import { SessionMode } from '../../domain/enums/session-mode.enum';
 import { SessionOption } from '../../domain/enums/session-option.enum';
-import { SessionLang } from '../../domain/types/session.types';
+import { SessionLang } from '../../domain/types/session.type';
 
 export type SessionDtos = {
   time: number;

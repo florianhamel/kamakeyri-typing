@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { SessionRepository } from '../../domain/repositories/session.repository';
-import { SessionRecord } from '../../domain/types/session.types';
+import { SessionRecord } from '../../domain/types/session.type';
 import { SessionDtos, SessionRecordDTO } from '../../infrastructure/DTOs/session.dtos';
 import { toSessionRecord } from '../../infrastructure/mappers/session.mappers';
 import { apiUri } from '../constants/api.const';

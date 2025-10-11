@@ -10,8 +10,8 @@ import {
   computeWpmDailyAverages
 } from '../../../application/functions/session-analysis.functions';
 import { SessionFacade } from '../../../domain/facades/session.facade';
-import { DailyAverage } from '../../../domain/types/data.types';
-import { SessionRecord } from '../../../domain/types/session.types';
+import { DailyAverage } from '../../../domain/types/data.type';
+import { SessionRecord } from '../../../domain/types/session.type';
 import { LoadingSvgComponent } from '../svgs/loading-svg/loading-svg.component';
 import { VirtualTableComponent } from '../virtual-table/virtual-table.component';
 

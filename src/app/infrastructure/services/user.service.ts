@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Credentials, UpdateLangDto, UserInfo } from '../../domain/types/user.types';
+import { Credentials, UpdateLangDto, UserInfo } from '../../domain/types/user.type';
 import { apiUri } from '../constants/api.const';
 
 @Injectable({

@@ -1,8 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, Signal } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { WikiLang, WikiSummary } from '../../domain/types/wiki.types';
-import { contactEmail } from '../../domain/constants/api.constants';
+import { WikiLang, WikiSummary } from '../../domain/types/wiki.type';
+import { contactEmail } from '../../domain/constants/api.const';
 import { Store } from '@ngrx/store';
 import { selectWikiLang } from '../../state/selectors/wiki.selectors';
 import { toWikiSummary } from '../../infrastructure/mappers/wiki.mappers';

@@ -9,8 +9,8 @@ import {
   processStandard
 } from '../../application/functions/session.functions';
 import { isUsInternational } from '../../domain/layouts/us-international.layout';
-import { InputEventSanitized } from '../../domain/types/event.types';
-import { SessionChar } from '../../domain/types/session.types';
+import { InputEventSanitized } from '../../domain/types/event.type';
+import { SessionChar } from '../../domain/types/session.type';
 import { sessionActions } from '../actions/session.actions';
 import { wikiActions } from '../actions/wiki.actions';
 import { SessionState, initialState } from '../states/session.state';

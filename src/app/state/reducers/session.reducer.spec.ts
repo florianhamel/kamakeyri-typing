@@ -1,8 +1,8 @@
-import { InputEventSanitized } from '../../domain/types/event.types';
+import { InputEventSanitized } from '../../domain/types/event.type';
 import { sessionActions } from '../actions/session.actions';
 import { SessionState, initialState } from '../states/session.state';
 import { sessionFeature } from './session.reducer';
-import { SessionMetaData } from '../../domain/types/session.types';
+import { SessionMetaData } from '../../domain/types/session.type';
 
 describe('session reducer', () => {
   describe('session action: initialize', () => {

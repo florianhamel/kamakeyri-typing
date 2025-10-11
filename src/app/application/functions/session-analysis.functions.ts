@@ -1,5 +1,5 @@
-import { DailyAverage } from '../../domain/types/data.types';
-import { SessionAccuracyData, SessionRecord, SessionWpmData } from '../../domain/types/session.types';
+import { DailyAverage } from '../../domain/types/data.type';
+import { SessionAccuracyData, SessionRecord, SessionWpmData } from '../../domain/types/session.type';
 import { SessionState } from '../../state/states/session.state';
 import { exists } from './common.functions';
 import { isCorrect } from './session-common.functions';

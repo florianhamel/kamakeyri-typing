@@ -3,7 +3,7 @@ import { Type } from '@angular/core';
 import { SessionState } from '../../state/states/session.state';
 import { SessionMode } from '../enums/session-mode.enum';
 import { SessionOption } from '../enums/session-option.enum';
-import { WikiLang } from './wiki.types';
+import { WikiLang } from './wiki.type';
 
 export type SessionStatus = 'notStarted' | 'inProgress' | 'closed';
 

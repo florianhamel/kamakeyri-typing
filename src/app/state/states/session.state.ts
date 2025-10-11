@@ -1,4 +1,4 @@
-import { SessionChar, SessionRecord, SessionStatus } from '../../domain/types/session.types';
+import { SessionChar, SessionRecord, SessionStatus } from '../../domain/types/session.type';
 
 export type SessionState = {
   sessionRecords: ReadonlyArray<SessionRecord>;

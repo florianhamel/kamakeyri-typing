@@ -4,7 +4,7 @@ import { ChangeDetectionStrategy, Component, input, output } from '@angular/core
 import { MatIcon } from '@angular/material/icon';
 import { MatMenu, MatMenuItem, MatMenuTrigger, MenuPositionX, MenuPositionY } from '@angular/material/menu';
 
-import { Language } from '../../../../domain/types/user.types';
+import { Language } from '../../../../domain/types/user.type';
 
 export type MenuItem<T> = {
   langKey: string;

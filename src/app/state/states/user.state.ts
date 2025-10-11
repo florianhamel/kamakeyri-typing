@@ -1,4 +1,4 @@
-import { Language } from '../../domain/types/user.types';
+import { Language } from '../../domain/types/user.type';
 
 export const userStateKey = 'userState';
 

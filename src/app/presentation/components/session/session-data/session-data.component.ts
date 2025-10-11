@@ -12,7 +12,7 @@ import { Store } from '@ngrx/store';
 
 
 import { computeAccuracySnapshot, computeWpmSnapshot } from '../../../../application/functions/session-analysis.functions';
-import { SessionDataItem } from '../../../../domain/types/session.types';
+import { SessionDataItem } from '../../../../domain/types/session.type';
 import { dialogActions } from '../../../../state/actions/dialog.actions';
 import { selectSessionState } from '../../../../state/selectors/session.selectors';
 import { selectIsLoggedIn } from '../../../../state/selectors/user.selectors';

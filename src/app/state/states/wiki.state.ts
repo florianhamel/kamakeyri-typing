@@ -1,5 +1,5 @@
 import { SessionOption } from '../../domain/enums/session-option.enum';
-import { WikiLang } from '../../domain/types/wiki.types';
+import { WikiLang } from '../../domain/types/wiki.type';
 
 export type WikiState = {
   title: string | null;

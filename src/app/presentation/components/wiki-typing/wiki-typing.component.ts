@@ -18,12 +18,12 @@ import { Store } from '@ngrx/store';
 
 import { isNull } from '../../../application/functions/common.functions';
 import { setLocalItem } from '../../../application/helpers/storage.helper';
-import { wikiConstant } from '../../../domain/constants/wiki.constants';
+import { wikiConstant } from '../../../domain/constants/wiki.const';
 import { SessionMode } from '../../../domain/enums/session-mode.enum';
 import { SessionOption } from '../../../domain/enums/session-option.enum';
-import { SessionMetaData, SessionStatus } from '../../../domain/types/session.types';
-import { Language } from '../../../domain/types/user.types';
-import { WikiLang } from '../../../domain/types/wiki.types';
+import { SessionMetaData, SessionStatus } from '../../../domain/types/session.type';
+import { Language } from '../../../domain/types/user.type';
+import { WikiLang } from '../../../domain/types/wiki.type';
 import { wikiActions } from '../../../state/actions/wiki.actions';
 import { selectWikiRelatedToggle } from '../../../state/selectors/feature-toggle.selectors';
 import { selectStatus } from '../../../state/selectors/session.selectors';

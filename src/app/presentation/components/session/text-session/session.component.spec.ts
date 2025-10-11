@@ -10,7 +10,7 @@ import { Store, provideStore } from '@ngrx/store';
 import { SessionService } from '../../../../application/services/session.service';
 import { SessionMode } from '../../../../domain/enums/session-mode.enum';
 import { SessionOption } from '../../../../domain/enums/session-option.enum';
-import { SessionMetaData } from '../../../../domain/types/session.types';
+import { SessionMetaData } from '../../../../domain/types/session.type';
 import { sessionClose } from '../../../../state/effects/session.effects';
 import { sessionFeature } from '../../../../state/reducers/session.reducer';
 import { userFeature } from '../../../../state/reducers/user.reducer';

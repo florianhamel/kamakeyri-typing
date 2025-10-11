@@ -1,5 +1,5 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
-import { UserInfo, Credentials, Language } from '../../domain/types/user.types';
+import { UserInfo, Credentials, Language } from '../../domain/types/user.type';
 
 export const userActions = createActionGroup({
   source: 'user',
