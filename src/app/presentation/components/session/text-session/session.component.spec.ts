@@ -7,10 +7,10 @@ import { TestBed } from '@angular/core/testing';
 import { provideEffects } from '@ngrx/effects';
 import { Store, provideStore } from '@ngrx/store';
 
-import { SessionService } from '../../../../application/services/session.service';
-import { SessionMode } from '../../../../domain/enums/session-mode.enum';
+import { sessionMode } from '../../../../domain/enums/session-mode.enum';
 import { SessionOption } from '../../../../domain/enums/session-option.enum';
 import { SessionMetaData } from '../../../../domain/types/session.type';
+import { SessionService } from '../../../../infrastructure/services/session.service';
 import { sessionClose } from '../../../../state/effects/session.effects';
 import { sessionFeature } from '../../../../state/reducers/session.reducer';
 import { userFeature } from '../../../../state/reducers/user.reducer';
@@ -21,18 +21,16 @@ import { SessionComponent } from './session.component';
 import { SessionComponentHarness } from './session.component.harness';
 
 @Component({
-  template: `
-    <div>
-      <kw-session [source]="source"
-                  [metaData]="metaData"></kw-session>
-    </div>`,
+  template: ` <div>
+    <kw-session [source]="source" [metaData]="metaData"></kw-session>
+  </div>`,
   imports: [SessionComponent],
   standalone: true
 })
 class TestHost {
   protected readonly source = 'hey';
   protected readonly metaData: SessionMetaData = {
-    mode: SessionMode.CommonWords,
+    mode: sessionMode.words,
     label: 'label',
     option: SessionOption.WordLimit,
     lang: 'en'
@@ -92,7 +90,7 @@ describe('SessionComponent', () => {
         length: 3,
         keystrokes: 3,
         errors: 0,
-        mode: SessionMode.CommonWords,
+        mode: sessionMode.words,
         label: 'label',
         option: SessionOption.WordLimit,
         lang: 'en'

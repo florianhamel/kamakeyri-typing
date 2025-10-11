@@ -1,4 +1,4 @@
-import { SessionMode } from '../../domain/enums/session-mode.enum';
+import { sessionMode } from '../../domain/enums/session-mode.enum';
 import { SessionOption } from '../../domain/enums/session-option.enum';
 import { Session, SessionData, SessionRecord } from '../../domain/types/session.type';
 
@@ -14,7 +14,7 @@ export function generateSessionData(): SessionData {
 export function generateSession(): Session {
   return {
     ...generateSessionData(),
-    mode: SessionMode.Wiki,
+    mode: sessionMode.wiki,
     label: 'coffee',
     option: SessionOption.Search,
     lang: 'en'

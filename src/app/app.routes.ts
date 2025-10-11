@@ -5,7 +5,7 @@ import { DashboardComponent } from './presentation/components/dashboard/dashboar
 import { HomeComponent } from './presentation/components/home/home.component';
 import { WikiTypingComponent } from './presentation/components/wiki-typing/wiki-typing.component';
 
-export const kwRoutes: KwRoute[] = [
+export const routes: KwRoute[] = [
   { path: '', component: HomeComponent },
   { path: 'wiki', component: WikiTypingComponent },
   { path: 'words', component: CommonWordsComponent },

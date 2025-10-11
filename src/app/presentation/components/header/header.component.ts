@@ -1,13 +1,13 @@
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
-import { Component, Signal, WritableSignal, computed, effect, signal } from '@angular/core';
+import { Component, computed, effect, Signal, signal, WritableSignal } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
 
 import { Store } from '@ngrx/store';
 
 import { getLocalItem, removeLocalItem, setLocalItem } from '../../../application/helpers/storage.helper';
-import { routePath } from '../../../domain/configs/route.config';
+import { kwRoute } from '../../../domain/configs/route.config';
 import { Language } from '../../../domain/types/user.type';
 import { dialogActions } from '../../../state/actions/dialog.actions';
 import { userActions } from '../../../state/actions/user.actions';
@@ -36,14 +36,14 @@ export class HeaderComponent {
   protected readonly isDarkLightEnabled: Signal<boolean>;
 
   protected readonly navItems: NavItem[] = [
-    { langKey: 'header.nav.home', route: routePath.home },
-    { langKey: 'header.nav.wiki', route: routePath.wiki },
-    { langKey: 'header.nav.words', route: routePath.words }
+    { langKey: 'header.nav.home', route: kwRoute.home },
+    { langKey: 'header.nav.wiki', route: kwRoute.wiki },
+    { langKey: 'header.nav.words', route: kwRoute.words }
   ];
 
   protected readonly dashboardNavItem: NavItem = {
     langKey: 'header.nav.user',
-    route: routePath.dashboard
+    route: kwRoute.dashboard
   };
 
   protected readonly langItems: MenuItem<Language>[] = [

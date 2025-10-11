@@ -11,7 +11,7 @@ import { generateSession, generateSessionData } from '../../application/mocks/fa
 import { MockSessionStorageService } from '../../application/mocks/mock-session-storage.service';
 import { generateMock } from '../../application/mocks/mocking.tools';
 import { SessionService } from '../../application/services/session.service';
-import { SessionMode } from '../../domain/enums/session-mode.enum';
+import { sessionMode } from '../../domain/enums/session-mode.enum';
 import { SessionOption } from '../../domain/enums/session-option.enum';
 import { Session, SessionData, SessionMetaData } from '../../domain/types/session.type';
 import { sessionActions } from '../actions/session.actions';
@@ -56,7 +56,7 @@ describe('session effects', () => {
     const sessionDto: Session = generateSession();
     setSessionItem('sessions', [sessionDto]);
     const metaData: SessionMetaData = {
-      mode: SessionMode.Wiki,
+      mode: sessionMode.Wiki,
       label: 'coffee',
       option: SessionOption.Search,
       lang: 'en'
@@ -76,7 +76,7 @@ describe('session effects', () => {
   it('should store session when upload error', () => {
     // given
     const metaData: SessionMetaData = {
-      mode: SessionMode.Wiki,
+      mode: sessionMode.Wiki,
       label: 'coffee',
       option: SessionOption.Search,
       lang: 'en'

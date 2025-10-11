@@ -1,6 +1,6 @@
 import { Route } from '@angular/router';
 
-export const routePath = {
+export const kwRoute = {
   home: '',
   logIn: 'log-in',
   wiki: 'wiki',
@@ -8,4 +8,4 @@ export const routePath = {
   dashboard: 'dashboard'
 } as const;
 
-export type KwRoute = Route & { path: (typeof routePath)[keyof typeof routePath] };
+export type KwRoute = Route & { path: (typeof kwRoute)[keyof typeof kwRoute] };

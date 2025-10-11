@@ -18,8 +18,8 @@ import { Store } from '@ngrx/store';
 
 import { isNull } from '../../../application/functions/common.functions';
 import { setLocalItem } from '../../../application/helpers/storage.helper';
-import { wikiConstant } from '../../../domain/constants/wiki.const';
-import { SessionMode } from '../../../domain/enums/session-mode.enum';
+import { WikiKey } from '../../../domain/constants/wiki.const';
+import { sessionMode } from '../../../domain/enums/session-mode.enum';
 import { SessionOption } from '../../../domain/enums/session-option.enum';
 import { SessionMetaData, SessionStatus } from '../../../domain/types/session.type';
 import { Language } from '../../../domain/types/user.type';
@@ -88,8 +88,8 @@ export class WikiTypingComponent implements AfterViewInit {
 
   protected handlePostSession(event: KeyboardEvent): void {
     if (this.sessionStatus() !== 'inProgress') {
-      if (event.key === wikiConstant.randomKey) this.handleRandom();
-      if (this.isWikiRelatedEnabled() && event.key === wikiConstant.relatedKey) this.handleRelated();
+      if (event.key === WikiKey.randomKey) this.handleRandom();
+      if (this.isWikiRelatedEnabled() && event.key === WikiKey.relatedKey) this.handleRelated();
     }
   }
 
@@ -115,7 +115,7 @@ export class WikiTypingComponent implements AfterViewInit {
 
     return !isNull(wikiOption())
       ? {
-          mode: SessionMode.Wiki,
+          mode: sessionMode.wiki,
           label: this.wikiTitle(),
           option: wikiOption()!,
           lang: this.wikiLang()
