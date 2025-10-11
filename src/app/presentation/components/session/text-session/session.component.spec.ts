@@ -7,7 +7,7 @@ import { TestBed } from '@angular/core/testing';
 import { provideEffects } from '@ngrx/effects';
 import { Store, provideStore } from '@ngrx/store';
 
-import { sessionMode } from '../../../../domain/enums/session-mode.enum';
+import { sessionMode } from '../../../../domain/constants/session-mode.const';
 import { SessionOption } from '../../../../domain/enums/session-option.enum';
 import { SessionMetaData } from '../../../../domain/types/session.type';
 import { SessionService } from '../../../../infrastructure/services/session.service';

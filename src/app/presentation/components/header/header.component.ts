@@ -7,7 +7,7 @@ import { RouterLink } from '@angular/router';
 import { Store } from '@ngrx/store';
 
 import { getLocalItem, removeLocalItem, setLocalItem } from '../../../application/helpers/storage.helper';
-import { kwRoute } from '../../../domain/configs/route.config';
+import { kwRoute } from '../../../domain/constants/route.const';
 import { Language } from '../../../domain/types/user.type';
 import { dialogActions } from '../../../state/actions/dialog.actions';
 import { userActions } from '../../../state/actions/user.actions';

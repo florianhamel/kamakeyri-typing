@@ -1,4 +1,4 @@
-import { SessionMode } from '../../domain/enums/session-mode.enum';
+import { SessionMode } from '../../domain/constants/session-mode.const';
 import { SessionOption } from '../../domain/enums/session-option.enum';
 import { SessionLang } from '../../domain/types/session.type';
 

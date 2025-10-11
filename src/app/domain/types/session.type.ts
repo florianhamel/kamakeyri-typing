@@ -1,7 +1,7 @@
 import { Type } from '@angular/core';
 
 import { SessionState } from '../../state/states/session.state';
-import { SessionMode } from '../enums/session-mode.enum';
+import { SessionMode } from '../constants/session-mode.const';
 import { SessionOption } from '../enums/session-option.enum';
 import { WikiLang } from './wiki.type';
 

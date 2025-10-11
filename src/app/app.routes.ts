@@ -1,4 +1,4 @@
-import { KwRoute } from './domain/configs/route.config';
+import { KwRoute } from './domain/constants/route.const';
 import { AuthGuard } from './domain/guards/auth.guard';
 import { CommonWordsComponent } from './presentation/components/common-words/common-words.component';
 import { DashboardComponent } from './presentation/components/dashboard/dashboard.component';

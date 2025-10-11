@@ -6,7 +6,7 @@ import { Store } from '@ngrx/store';
 
 import { WikiKey } from '../../../domain/constants/wiki.const';
 import { defaultLimit } from '../../../domain/constants/words.const';
-import { sessionMode } from '../../../domain/enums/session-mode.enum';
+import { sessionMode } from '../../../domain/constants/session-mode.const';
 import { SessionOption } from '../../../domain/enums/session-option.enum';
 import { SessionMetaData } from '../../../domain/types/session.type';
 import { wordsActions } from '../../../state/actions/words.actions';

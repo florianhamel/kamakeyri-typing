@@ -19,7 +19,7 @@ import { Store } from '@ngrx/store';
 import { isNull } from '../../../application/functions/common.functions';
 import { setLocalItem } from '../../../application/helpers/storage.helper';
 import { WikiKey } from '../../../domain/constants/wiki.const';
-import { sessionMode } from '../../../domain/enums/session-mode.enum';
+import { sessionMode } from '../../../domain/constants/session-mode.const';
 import { SessionOption } from '../../../domain/enums/session-option.enum';
 import { SessionMetaData, SessionStatus } from '../../../domain/types/session.type';
 import { Language } from '../../../domain/types/user.type';

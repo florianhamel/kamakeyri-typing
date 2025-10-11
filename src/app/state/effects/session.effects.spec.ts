@@ -11,7 +11,7 @@ import { generateSession, generateSessionData } from '../../application/mocks/fa
 import { MockSessionStorageService } from '../../application/mocks/mock-session-storage.service';
 import { generateMock } from '../../application/mocks/mocking.tools';
 import { SessionService } from '../../application/services/session.service';
-import { sessionMode } from '../../domain/enums/session-mode.enum';
+import { sessionMode } from '../../domain/constants/session-mode.const';
 import { SessionOption } from '../../domain/enums/session-option.enum';
 import { Session, SessionData, SessionMetaData } from '../../domain/types/session.type';
 import { sessionActions } from '../actions/session.actions';
