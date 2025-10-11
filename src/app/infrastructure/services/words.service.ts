@@ -1,16 +1,18 @@
-import { Injectable } from '@angular/core';
+import { Observable, map } from 'rxjs';
+
 import { HttpClient } from '@angular/common/http';
-import { map, Observable } from 'rxjs';
-import { ApiUri } from '../../application/URIs/api-uri.enum';
+import { Injectable } from '@angular/core';
+
+import { apiUri } from '../constants/api.const';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WordsService {
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
   findCommonWords(): Observable<ReadonlyArray<string>> {
-    const url = `${ApiUri.Scheme}://${ApiUri.BaseUri}/${ApiUri.CommonWords}/en`;
+    const url = `${apiUri.scheme}://${apiUri.baseUri}/${apiUri.commonWords}/en`;
     return this.http.get<Record<string, number>>(url).pipe(map((record) => [...Object.keys(record)]));
   }
 }

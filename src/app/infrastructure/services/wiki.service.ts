@@ -7,7 +7,7 @@ import { Store } from '@ngrx/store';
 import { selectWikiLang } from '../../state/selectors/wiki.selectors';
 import { toWikiSummary } from '../../infrastructure/mappers/wiki.mappers';
 import { WikiDTO } from '../../infrastructure/DTOs/wiki.dtos';
-import { WikiUri } from '../../application/URIs/wiki-uri.enum';
+import { wikiUri } from '../constants/wiki.const';
 
 @Injectable({
   providedIn: 'root'
@@ -24,14 +24,14 @@ export class WikiService {
   }
 
   fetchSummary(label: string): Observable<WikiSummary> {
-    const url = `${WikiUri.Scheme}://${this.wikiLang()}.${WikiUri.BaseUri}/${WikiUri.Summary}/${label}`;
+    const url = `${wikiUri.scheme}://${this.wikiLang()}.${wikiUri.baseUri}/${wikiUri.summary}/${label}`;
     const options = { headers: this.headers };
 
     return this.http.get<WikiDTO>(url, options).pipe(map((value) => toWikiSummary(value)));
   }
 
   fetchRelatedSummary(label: string): Observable<WikiSummary> {
-    const url = `${WikiUri.Scheme}://${this.wikiLang()}.${WikiUri.BaseUri}/${WikiUri.Related}/${label}`;
+    const url = `${wikiUri.scheme}://${this.wikiLang()}.${wikiUri.baseUri}/${wikiUri.related}/${label}`;
     const options = { headers: this.headers };
 
     return this.http
@@ -40,7 +40,7 @@ export class WikiService {
   }
 
   fetchRandomSummary(): Observable<WikiSummary> {
-    const url = `${WikiUri.Scheme}://${this.wikiLang()}.${WikiUri.BaseUri}/${WikiUri.Random}/${WikiUri.Summary}`;
+    const url = `${wikiUri.scheme}://${this.wikiLang()}.${wikiUri.baseUri}/${wikiUri.random}/${wikiUri.summary}`;
     const options = { headers: this.headers };
 
     return this.http.get<WikiSummary>(url, options);

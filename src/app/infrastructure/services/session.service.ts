@@ -7,13 +7,13 @@ import { SessionRepository } from '../../domain/repositories/session.repository'
 import { SessionRecord } from '../../domain/types/session.types';
 import { SessionDtos, SessionRecordDTO } from '../../infrastructure/DTOs/session.dtos';
 import { toSessionRecord } from '../../infrastructure/mappers/session.mappers';
-import { ApiUri } from '../../application/URIs/api-uri.enum';
+import { apiUri } from '../constants/api.const';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SessionService implements SessionRepository {
-  static readonly url = `${ApiUri.Scheme}://${ApiUri.BaseUri}/${ApiUri.Session}`;
+  static readonly url = `${apiUri.scheme}://${apiUri.baseUri}/${apiUri.session}`;
 
   constructor(private readonly http: HttpClient) {}
 
