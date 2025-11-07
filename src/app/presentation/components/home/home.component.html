@@ -1,3 +1,7 @@
-<div class="flex justify-center">
-  <h1 class="text-2xl">{{ 'kamakeyri.experience' | translate }}</h1>
+<div class="mb-6">
+  <h1 class="flex text-2xl">{{ 'kamakeyri.experience' | translate }}</h1>
+  <p>{{ 'kamakeyri.description' | translate }}</p>
 </div>
+
+<kw-session [source]="welcomeText" [metaData]="metaData" />
+<kw-session-data />
