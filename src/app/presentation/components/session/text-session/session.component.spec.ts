@@ -8,7 +8,7 @@ import { provideEffects } from '@ngrx/effects';
 import { Store, provideStore } from '@ngrx/store';
 
 import { sessionMode } from '../../../../domain/constants/session-mode.const';
-import { SessionOption } from '../../../../domain/enums/session-option.enum';
+import { sessionOption } from '../../../../domain/constants/session-option.const';
 import { SessionMetaData } from '../../../../domain/types/session.type';
 import { SessionService } from '../../../../infrastructure/services/session.service';
 import { sessionClose } from '../../../../state/effects/session.effects';
@@ -32,7 +32,7 @@ class TestHost {
   protected readonly metaData: SessionMetaData = {
     mode: sessionMode.words,
     label: 'label',
-    option: SessionOption.WordLimit,
+    option: sessionOption.wordLimit,
     lang: 'en'
   };
 }
@@ -92,7 +92,7 @@ describe('SessionComponent', () => {
         errors: 0,
         mode: sessionMode.words,
         label: 'label',
-        option: SessionOption.WordLimit,
+        option: sessionOption.wordLimit,
         lang: 'en'
       }
     ]);

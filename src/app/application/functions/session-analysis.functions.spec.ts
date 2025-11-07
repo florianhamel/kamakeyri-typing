@@ -1,5 +1,5 @@
 import { generateSessionRecord } from '../../application/mocks/factories.tools';
-import { SessionRecord } from '../types/session.types';
+import { SessionRecord } from '../../domain/types/session.type';
 import { computeAccuracy, computeAccuracyDailyAverages } from './session-analysis.functions';
 
 describe('SessionAnalysisFunctions', () => {

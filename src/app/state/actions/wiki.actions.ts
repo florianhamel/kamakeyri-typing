@@ -1,6 +1,6 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 import { WikiLang, WikiSummary } from '../../domain/types/wiki.type';
-import { SessionOption } from '../../domain/enums/session-option.enum';
+import { SessionOption } from '../../domain/constants/session-option.const';
 
 export const wikiActions = createActionGroup({
   source: 'wiki',

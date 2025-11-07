@@ -1,6 +1,6 @@
-import { SessionChar } from '../types/session.types';
+import { isUsInternational } from '../../domain/layouts/us-international.layout';
+import { SessionChar } from '../../domain/types/session.type';
 import { initSessionChars } from './session-common.functions';
-import { isUsInternational } from '../layouts/us-international.layout';
 
 describe('session functions', () => {
   it('should init session chars', () => {

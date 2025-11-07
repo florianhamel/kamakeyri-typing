@@ -1,5 +1,5 @@
+import { InputEventSanitized } from '../../domain/types/event.type';
 import { isBackspace, isMacosAutoDot } from './input-event.functions';
-import { InputEventSanitized } from '../types/event.types';
 
 describe('input event checks', () => {
   it.each([

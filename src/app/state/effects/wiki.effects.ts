@@ -5,11 +5,11 @@ import { inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
-import { SessionOption } from '../../domain/enums/session-option.enum';
+import { sessionOption } from '../../domain/constants/session-option.const';
 import { WikiSummary } from '../../domain/types/wiki.type';
+import { WikiService } from '../../infrastructure/services/wiki.service';
 import { wikiActions } from '../actions/wiki.actions';
 import { WikiState } from '../states/wiki.state';
-import { WikiService } from '../../infrastructure/services/wiki.service';
 
 export const wikiLoadExtract = createEffect(
   (actions$ = inject(Actions), wikiService = inject(WikiService), wikiStore = inject(Store<WikiState>)) => {
@@ -19,7 +19,7 @@ export const wikiLoadExtract = createEffect(
       exhaustMap(({ label }) =>
         wikiService.fetchSummary(label).pipe(
           map((wikiSummary: WikiSummary) =>
-            wikiActions.loadSummarySuccess({ ...wikiSummary, option: SessionOption.Search })
+            wikiActions.loadSummarySuccess({ ...wikiSummary, option: sessionOption.search })
           ),
           catchError(() => of(wikiActions.loadSummaryError()))
         )
@@ -37,7 +37,7 @@ export const wikiLoadRelatedExtract = createEffect(
       exhaustMap(({ label }) =>
         wikiService.fetchRelatedSummary(label).pipe(
           map((wikiSummary: WikiSummary) =>
-            wikiActions.loadSummarySuccess({ ...wikiSummary, option: SessionOption.Related })
+            wikiActions.loadSummarySuccess({ ...wikiSummary, option: sessionOption.related })
           ),
           catchError(() => of(wikiActions.loadSummaryError()))
         )
@@ -55,7 +55,7 @@ export const wikiLoadRandomExtract = createEffect(
       exhaustMap(() =>
         wikiService.fetchRandomSummary().pipe(
           map((wikiSummary: WikiSummary) =>
-            wikiActions.loadSummarySuccess({ ...wikiSummary, option: SessionOption.Random })
+            wikiActions.loadSummarySuccess({ ...wikiSummary, option: sessionOption.random })
           ),
           catchError(() => of(wikiActions.loadSummaryError()))
         )

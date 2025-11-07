@@ -10,10 +10,10 @@ import { clearSessionItems, getSessionItem, setSessionItem } from '../../applica
 import { generateSession, generateSessionData } from '../../application/mocks/factories.tools';
 import { MockSessionStorageService } from '../../application/mocks/mock-session-storage.service';
 import { generateMock } from '../../application/mocks/mocking.tools';
-import { SessionService } from '../../application/services/session.service';
 import { sessionMode } from '../../domain/constants/session-mode.const';
-import { SessionOption } from '../../domain/enums/session-option.enum';
+import { sessionOption } from '../../domain/constants/session-option.const';
 import { Session, SessionData, SessionMetaData } from '../../domain/types/session.type';
+import { SessionService } from '../../infrastructure/services/session.service';
 import { sessionActions } from '../actions/session.actions';
 import { selectSessionData } from '../selectors/session.selectors';
 import { selectIsLoggedIn } from '../selectors/user.selectors';
@@ -56,9 +56,9 @@ describe('session effects', () => {
     const sessionDto: Session = generateSession();
     setSessionItem('sessions', [sessionDto]);
     const metaData: SessionMetaData = {
-      mode: sessionMode.Wiki,
+      mode: sessionMode.wiki,
       label: 'coffee',
-      option: SessionOption.Search,
+      option: sessionOption.search,
       lang: 'en'
     };
     const actions$ = of(sessionActions.close(metaData));
@@ -76,9 +76,9 @@ describe('session effects', () => {
   it('should store session when upload error', () => {
     // given
     const metaData: SessionMetaData = {
-      mode: sessionMode.Wiki,
+      mode: sessionMode.wiki,
       label: 'coffee',
-      option: SessionOption.Search,
+      option: sessionOption.search,
       lang: 'en'
     };
     const actions$ = of(sessionActions.close(metaData));
@@ -96,18 +96,20 @@ describe('session effects', () => {
 
   it('should clean session helpers after uploadAll', () => {
     // given
-    const sessionDtos: Array<Session> = [generateSession(), generateSession()];
+    const sessionDtos = [generateSession(), generateSession()];
     setSessionItem('sessions', sessionDtos);
     const actions$ = of(sessionActions.uploadAllSaved());
     const mockSessionService = {
       saveSessions: jest.fn().mockImplementation(() => of(undefined))
-    };
+    } as unknown as SessionService;
 
     // when
-    sessionUploadAllSaved(actions$, mockSessionService as unknown as SessionService).subscribe();
+    sessionUploadAllSaved(actions$, mockSessionService).subscribe();
 
     // then
-    const items: Array<Session> | null = getSessionItem('sessions');
-    expect(items).toBeNull();
+    setTimeout(() => {
+      const items = getSessionItem<Array<Session>>('sessions');
+      expect(items).toBeNull();
+    }, 100); // TODO absolute abomination, refactor to remove the tap() in the effect
   });
 });

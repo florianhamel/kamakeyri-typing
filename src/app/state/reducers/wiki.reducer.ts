@@ -1,8 +1,9 @@
-import { createFeature, createReducer, on } from '@ngrx/store';
-import { wikiActions } from '../actions/wiki.actions';
-import { initialState, WikiState } from '../states/wiki.state';
-import { SessionOption } from '../../domain/enums/session-option.enum';
+import { createFeature, on } from '@ngrx/store';
+
 import { createRehydrateReducer } from '../../application/helpers/storage.helper';
+import { wikiActions } from '../actions/wiki.actions';
+import { WikiState, initialState } from '../states/wiki.state';
+import { sessionOption } from '../../domain/constants/session-option.const';
 
 export const wikiFeature = createFeature<'wiki', WikiState>({
   name: 'wiki',
@@ -26,7 +27,7 @@ function loadExtractError(state: WikiState): WikiState {
     ...state,
     extract: 'Vašíček の  éé hey の\nan    error has occurredの'.trim(),
     title: 'Error wtf?!',
-    option: SessionOption.Search,
+    option: sessionOption.search,
     isLoading: false
   };
 }

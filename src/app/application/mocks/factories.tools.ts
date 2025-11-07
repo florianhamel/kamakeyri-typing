@@ -1,5 +1,5 @@
 import { sessionMode } from '../../domain/constants/session-mode.const';
-import { SessionOption } from '../../domain/enums/session-option.enum';
+import { sessionOption } from '../../domain/constants/session-option.const';
 import { Session, SessionData, SessionRecord } from '../../domain/types/session.type';
 
 export function generateSessionData(): SessionData {
@@ -16,7 +16,7 @@ export function generateSession(): Session {
     ...generateSessionData(),
     mode: sessionMode.wiki,
     label: 'coffee',
-    option: SessionOption.Search,
+    option: sessionOption.search,
     lang: 'en'
   };
 }

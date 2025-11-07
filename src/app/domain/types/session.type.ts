@@ -2,7 +2,7 @@ import { Type } from '@angular/core';
 
 import { SessionState } from '../../state/states/session.state';
 import { SessionMode } from '../constants/session-mode.const';
-import { SessionOption } from '../enums/session-option.enum';
+import { SessionOption } from '../constants/session-option.const';
 import { WikiLang } from './wiki.type';
 
 export type SessionStatus = 'notStarted' | 'inProgress' | 'closed';

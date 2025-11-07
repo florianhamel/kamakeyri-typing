@@ -7,7 +7,7 @@ import { Store } from '@ngrx/store';
 import { WikiKey } from '../../../domain/constants/wiki.const';
 import { defaultLimit } from '../../../domain/constants/words.const';
 import { sessionMode } from '../../../domain/constants/session-mode.const';
-import { SessionOption } from '../../../domain/enums/session-option.enum';
+import { sessionOption, SessionOption } from '../../../domain/constants/session-option.const';
 import { SessionMetaData } from '../../../domain/types/session.type';
 import { wordsActions } from '../../../state/actions/words.actions';
 import { selectStatus } from '../../../state/selectors/session.selectors';
@@ -39,7 +39,7 @@ export class CommonWordsComponent implements OnInit {
     this.metaData = {
       mode: sessionMode.words,
       label: `${defaultLimit}_words`,
-      option: SessionOption.WordLimit,
+      option: sessionOption.wordLimit,
       lang: 'en'
     };
   }

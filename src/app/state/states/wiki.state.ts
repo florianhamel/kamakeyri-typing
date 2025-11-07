@@ -1,4 +1,4 @@
-import { SessionOption } from '../../domain/enums/session-option.enum';
+import { SessionOption } from '../../domain/constants/session-option.const';
 import { WikiLang } from '../../domain/types/wiki.type';
 
 export type WikiState = {

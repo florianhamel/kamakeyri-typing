@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CdkTableModule } from '@angular/cdk/table';
-import { SessionService } from '../../../application/services/session.service';
 import { Session } from '../../../domain/types/session.type';
 import { Observable } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 import { VirtualTableComponent } from '../virtual-table/virtual-table.component';
+import { SessionService } from '../../../infrastructure/services/session.service';
 
 @Component({
   selector: 'kw-session-table',
