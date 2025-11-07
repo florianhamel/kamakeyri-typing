@@ -1,7 +1,11 @@
 {
   "kamakeyri": {
     "experience": "Kamakeyri typing, c'est top.",
-    "description": "Commencez à taper pour découvrir le fun !"
+    "description": "Commencez à taper pour découvrir le fun !",
+    "welcomeText": "Bienvenue sur Kamakeyri ! un site de dactylographie où vous pouvez apprendre à taper plus efficacement. Profitez de l'expérience",
+    "postSession": "Bien tapé ! 🎉 explorez les modes de dactylographie disponibles",
+    "exploreWiki": "Wiki Typing",
+    "exploreWords": "Mots communs"
   },
   "wiki": {
     "title": "Wiki typing",

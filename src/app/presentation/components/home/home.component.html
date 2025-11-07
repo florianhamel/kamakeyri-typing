@@ -3,5 +3,19 @@
   <p>{{ 'kamakeyri.description' | translate }}</p>
 </div>
 
-<kw-session [source]="welcomeText" [metaData]="metaData" />
-<kw-session-data />
+<kw-session [source]="'kamakeyri.welcomeText' | translate" [metaData]="metaData" />
+<kw-typewriter-bubble [text]="startTypingText" [speed]="70" [isVisible]="sessionStatus() === 'notStarted'"/>
+
+@if (sessionStatus() === 'closed') {
+  <div class="flex flex-col gap-4">
+    <p class="text-xl">{{ 'kamakeyri.postSession' | translate }}</p>
+
+    <div class="flex gap-4">
+      @for (item of exploreItems; track item.route) {
+        <a [routerLink]="item.route" class="kw-btn">
+          {{ item.langKey | translate }}
+        </a>
+      }
+    </div>
+  </div>
+}

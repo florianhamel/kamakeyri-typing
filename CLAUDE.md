@@ -1,10 +1,16 @@
 ## Architecture
 - always follow the existing patterns
 
-## Formatting
+
+## How to code
 - generate short functions
 - use explicit names for variable and functions
+- prefer pure functions when possible
 - generate code following the rules of the .prettierrc
 
 ## Git
 - always ask for validation of the message and files before you commit
+
+
+## Styling
+- when styling elements always use tailwind when possible
