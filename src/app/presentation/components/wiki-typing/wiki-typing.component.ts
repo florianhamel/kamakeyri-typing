@@ -14,26 +14,17 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-import { Store } from '@ngrx/store';
-
 import { isNull } from '../../../application/functions/common.functions';
 import { setLocalItem } from '../../../application/helpers/storage.helper';
 import { WikiKey } from '../../../domain/constants/wiki.const';
 import { sessionMode } from '../../../domain/constants/session-mode.const';
 import { SessionOption } from '../../../domain/constants/session-option.const';
+import { FeatureToggleFacade } from '../../../domain/facades/feature-toggle.facade';
+import { SessionFacade } from '../../../domain/facades/session.facade';
+import { WikiFacade } from '../../../domain/facades/wiki.facade';
 import { SessionMetaData, SessionStatus } from '../../../domain/types/session.type';
 import { Language } from '../../../domain/types/user.type';
 import { WikiLang } from '../../../domain/types/wiki.type';
-import { wikiActions } from '../../../state/actions/wiki.actions';
-import { selectWikiRelatedToggle } from '../../../state/selectors/feature-toggle.selectors';
-import { selectStatus } from '../../../state/selectors/session.selectors';
-import {
-  selectExtract,
-  selectIsLoading,
-  selectOption,
-  selectTitle,
-  selectWikiLang
-} from '../../../state/selectors/wiki.selectors';
 import { SessionDataComponent } from '../session/session-data/session-data.component';
 import { SessionComponent } from '../session/text-session/session.component';
 import { MenuComponent, MenuItem } from '../shared/menu/menu.component';
@@ -67,15 +58,19 @@ export class WikiTypingComponent implements AfterViewInit {
   protected readonly isWikiRelatedEnabled: Signal<boolean>;
   protected readonly textLanguages: MenuItem<Language>[];
 
-  constructor(private readonly store: Store) {
+  constructor(
+    private readonly sessionFacade: SessionFacade,
+    private readonly wikiFacade: WikiFacade,
+    private readonly featureToggleFacade: FeatureToggleFacade
+  ) {
     this.input = signal<string>('');
-    this.sessionStatus = this.store.selectSignal(selectStatus);
-    this.wikiTitle = this.store.selectSignal(selectTitle);
-    this.wikiExtract = this.store.selectSignal(selectExtract);
-    this.wikiLang = this.store.selectSignal(selectWikiLang);
-    this.wikiIsLoading = this.store.selectSignal(selectIsLoading);
+    this.sessionStatus = this.sessionFacade.selectStatus();
+    this.wikiTitle = this.wikiFacade.selectTitle();
+    this.wikiExtract = this.wikiFacade.selectExtract();
+    this.wikiLang = this.wikiFacade.selectWikiLang();
+    this.wikiIsLoading = this.wikiFacade.selectIsLoading();
     this.wikiMetaData = computed(() => this.buildWikiMetadata());
-    this.isWikiRelatedEnabled = this.store.selectSignal(selectWikiRelatedToggle);
+    this.isWikiRelatedEnabled = this.featureToggleFacade.selectWikiRelatedToggle();
     this.textLanguages = [
       { langKey: 'wiki.languages.fr', value: 'fr' },
       { langKey: 'wiki.languages.en', value: 'en' }
@@ -94,24 +89,24 @@ export class WikiTypingComponent implements AfterViewInit {
   }
 
   protected handleInput(): void {
-    this.store.dispatch(wikiActions.loadSearchSummary({ label: this.input() }));
+    this.wikiFacade.loadSearchSummary(this.input());
   }
 
   protected handleRelated(): void {
-    this.store.dispatch(wikiActions.loadRelatedSummary({ label: this.wikiTitle() ?? this.input() }));
+    this.wikiFacade.loadRelatedSummary(this.wikiTitle() ?? this.input());
   }
 
   protected handleRandom(): void {
-    this.store.dispatch(wikiActions.loadRandomSummary());
+    this.wikiFacade.loadRandomSummary();
   }
 
   protected updateWikiLang(wikiLang: WikiLang) {
     setLocalItem('wikiState', { wikiLang });
-    this.store.dispatch(wikiActions.updateWikiLang({ wikiLang }));
+    this.wikiFacade.updateWikiLang(wikiLang);
   }
 
   private buildWikiMetadata(): SessionMetaData | null {
-    const wikiOption: Signal<SessionOption | null> = this.store.selectSignal(selectOption);
+    const wikiOption: Signal<SessionOption | null> = this.wikiFacade.selectOption();
 
     return !isNull(wikiOption())
       ? {

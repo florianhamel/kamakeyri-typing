@@ -13,20 +13,12 @@ import {
   input
 } from '@angular/core';
 
-import { Store } from '@ngrx/store';
-
 import { exists } from '../../../../application/functions/common.functions';
 import { isForbidden } from '../../../../application/functions/input-event.functions';
 import { isEscape, isIgnoredKey } from '../../../../application/functions/keyboard-event.functions';
+import { SessionFacade } from '../../../../domain/facades/session.facade';
 import { InputEventSanitized } from '../../../../domain/types/event.type';
 import { SessionChar, SessionMetaData, SessionStatus } from '../../../../domain/types/session.type';
-import { sessionActions } from '../../../../state/actions/session.actions';
-import {
-  selectCanClose,
-  selectHasStarted,
-  selectSessionChars,
-  selectStatus
-} from '../../../../state/selectors/session.selectors';
 import { FormatSessionCharPipe } from '../../../pipes/format-session-char.pipe';
 import { StyleSessionCharPipe } from '../../../pipes/style-session-char.pipe';
 
@@ -43,13 +35,13 @@ export class SessionComponent implements AfterViewInit {
   source: InputSignal<string> = input.required<string>();
   metaData: InputSignal<SessionMetaData> = input.required<SessionMetaData>();
 
-  status: Signal<SessionStatus> = this.store.selectSignal(selectStatus);
-  hasStarted: Signal<boolean> = this.store.selectSignal(selectHasStarted);
-  sessionChars: Signal<ReadonlyArray<SessionChar>> = this.store.selectSignal(selectSessionChars);
-  canClose: Signal<boolean> = this.store.selectSignal(selectCanClose);
+  status: Signal<SessionStatus> = this.sessionFacade.selectStatus();
+  hasStarted: Signal<boolean> = this.sessionFacade.selectHasStarted();
+  sessionChars: Signal<ReadonlyArray<SessionChar>> = this.sessionFacade.selectSessionChars();
+  canClose: Signal<boolean> = this.sessionFacade.selectCanClose();
 
-  constructor(private readonly store: Store) {
-    effect(() => this.store.dispatch(sessionActions.init({ content: this.source() })));
+  constructor(private readonly sessionFacade: SessionFacade) {
+    effect(() => this.sessionFacade.init(this.source()));
   }
 
   ngAfterViewInit(): void {
@@ -69,11 +61,11 @@ export class SessionComponent implements AfterViewInit {
       return;
     }
     if (!this.hasStarted()) {
-      this.store.dispatch(sessionActions.start());
+      this.sessionFacade.start();
     }
-    this.store.dispatch(sessionActions.update({ event: sanitizedEvent }));
+    this.sessionFacade.update(sanitizedEvent);
     if (this.canClose()) {
-      this.store.dispatch(sessionActions.close(this.metaData()));
+      this.sessionFacade.close(this.metaData());
     }
   }
 
@@ -82,7 +74,7 @@ export class SessionComponent implements AfterViewInit {
       $event.preventDefault();
     } else {
       if (isEscape($event)) {
-        this.store.dispatch(sessionActions.reset());
+        this.sessionFacade.reset();
         if (this.hiddenTextAreaRef) {
           this.hiddenTextAreaRef!.nativeElement.value = '';
         }

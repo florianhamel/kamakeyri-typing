@@ -2,16 +2,13 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { ChangeDetectionStrategy, Component, OnInit, Signal, computed } from '@angular/core';
 
-import { Store } from '@ngrx/store';
-
 import { WikiKey } from '../../../domain/constants/wiki.const';
 import { defaultLimit } from '../../../domain/constants/words.const';
 import { sessionMode } from '../../../domain/constants/session-mode.const';
 import { sessionOption, SessionOption } from '../../../domain/constants/session-option.const';
+import { SessionFacade } from '../../../domain/facades/session.facade';
+import { WordsFacade } from '../../../domain/facades/words.facade';
 import { SessionMetaData } from '../../../domain/types/session.type';
-import { wordsActions } from '../../../state/actions/words.actions';
-import { selectStatus } from '../../../state/selectors/session.selectors';
-import { selectIsLoading, selectRandomWords } from '../../../state/selectors/words.selectors';
 import { SessionDataComponent } from '../session/session-data/session-data.component';
 import { SessionComponent } from '../session/text-session/session.component';
 import { LoadingSvgComponent } from '../svgs/loading-svg/loading-svg.component';
@@ -29,13 +26,16 @@ export class CommonWordsComponent implements OnInit {
 
   protected metaData: SessionMetaData;
 
-  constructor(private store: Store) {}
+  constructor(
+    private readonly wordsFacade: WordsFacade,
+    private readonly sessionFacade: SessionFacade
+  ) {}
 
   ngOnInit(): void {
-    this.store.dispatch(wordsActions.loadCommonWords());
+    this.wordsFacade.loadCommonWords();
 
-    this.isLoading = this.store.selectSignal(selectIsLoading);
-    this.words = computed(() => this.store.selectSignal(selectRandomWords)().join(' '));
+    this.isLoading = this.wordsFacade.selectIsLoading();
+    this.words = computed(() => this.wordsFacade.selectRandomWords()().join(' '));
     this.metaData = {
       mode: sessionMode.words,
       label: `${defaultLimit}_words`,
@@ -45,9 +45,9 @@ export class CommonWordsComponent implements OnInit {
   }
 
   protected handlePostSession($event: KeyboardEvent) {
-    if (this.store.selectSignal(selectStatus)() !== 'inProgress') {
+    if (this.sessionFacade.selectStatus()() !== 'inProgress') {
       if ($event.key === WikiKey.randomKey) {
-        this.store.dispatch(wordsActions.generateRandomWords({ limit: defaultLimit }));
+        this.wordsFacade.generateRandomWords(defaultLimit);
       }
     }
   }

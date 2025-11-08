@@ -12,10 +12,8 @@ import {
   signal
 } from '@angular/core';
 
-import { Store } from '@ngrx/store';
-
+import { SessionFacade } from '../../../../domain/facades/session.facade';
 import { SessionStatus } from '../../../../domain/types/session.type';
-import { selectStatus } from '../../../../state/selectors/session.selectors';
 
 @Component({
   standalone: true,
@@ -46,8 +44,8 @@ export class TypewriterBubbleComponent implements OnInit, OnDestroy {
   private intervalId: number | null = null;
   private currentIndex = 0;
 
-  constructor(private readonly store: Store) {
-    this.sessionStatus = this.store.selectSignal(selectStatus);
+  constructor(private readonly sessionFacade: SessionFacade) {
+    this.sessionStatus = this.sessionFacade.selectStatus();
   }
 
   ngOnInit(): void {

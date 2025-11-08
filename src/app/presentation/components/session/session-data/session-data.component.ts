@@ -1,26 +1,17 @@
 import { TranslatePipe } from '@ngx-translate/core';
 
-
-
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Signal } from '@angular/core';
 
-
-
-import { Store } from '@ngrx/store';
-
-
-
-import { computeAccuracySnapshot, computeWpmSnapshot } from '../../../../application/functions/session-analysis.functions';
+import {
+  computeAccuracySnapshot,
+  computeWpmSnapshot
+} from '../../../../application/functions/session-analysis.functions';
+import { DialogFacade } from '../../../../domain/facades/dialog.facade';
+import { SessionFacade } from '../../../../domain/facades/session.facade';
+import { UserFacade } from '../../../../domain/facades/user.facade';
 import { SessionDataItem } from '../../../../domain/types/session.type';
-import { dialogActions } from '../../../../state/actions/dialog.actions';
-import { selectSessionState } from '../../../../state/selectors/session.selectors';
-import { selectIsLoggedIn } from '../../../../state/selectors/user.selectors';
 import { SessionState } from '../../../../state/states/session.state';
-
-
-
-
 
 @Component({
   standalone: true,
@@ -30,18 +21,22 @@ import { SessionState } from '../../../../state/states/session.state';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SessionDataComponent {
-  sessionState: Signal<SessionState> = this.store.selectSignal(selectSessionState);
-  isLoggedIn: Signal<boolean> = this.store.selectSignal(selectIsLoggedIn);
+  sessionState: Signal<SessionState> = this.sessionFacade.selectSessionState();
+  isLoggedIn: Signal<boolean> = this.userFacade.selectIsLoggedIn();
 
   readonly sessionDataItems: SessionDataItem[] = [
     { translation: 'typing.speed', formatter: this.formatWpm },
     { translation: 'typing.accuracy', formatter: this.formatAccuracy }
   ];
 
-  constructor(private readonly store: Store) {}
+  constructor(
+    private readonly sessionFacade: SessionFacade,
+    private readonly userFacade: UserFacade,
+    private readonly dialogFacade: DialogFacade
+  ) {}
 
   openDialog(): void {
-    this.store.dispatch(dialogActions.openLogIn());
+    this.dialogFacade.openLogIn();
   }
 
   private formatWpm(sessionState: SessionState): string {

@@ -1,8 +1,5 @@
-## Architecture
-- always follow the existing patterns
-
-
 ## How to code
+- follow the existing patterns when adding new code
 - generate short functions
 - use explicit names for variable and functions
 - prefer pure functions when possible
@@ -11,6 +8,5 @@
 ## Git
 - always ask for validation of the message and files before you commit
 
-
 ## Styling
-- when styling elements always use tailwind when possible
+- when styling elements use tailwind as much as possible

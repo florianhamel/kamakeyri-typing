@@ -3,13 +3,11 @@ import { TranslateModule } from '@ngx-translate/core';
 import { Component, Signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
-import { Store } from '@ngrx/store';
-
 import { kwRoute } from '../../../domain/constants/route.const';
 import { sessionMode } from '../../../domain/constants/session-mode.const';
 import { sessionOption } from '../../../domain/constants/session-option.const';
+import { SessionFacade } from '../../../domain/facades/session.facade';
 import { SessionMetaData, SessionStatus } from '../../../domain/types/session.type';
-import { selectStatus } from '../../../state/selectors/session.selectors';
 import { NavItem } from '../header/header.component';
 import { SessionComponent } from '../session/text-session/session.component';
 import { TypewriterBubbleComponent } from "../shared/typewriter-bubble/typewriter-bubble.component";
@@ -36,7 +34,7 @@ export class HomeComponent {
     lang: 'en'
   };
 
-  constructor(private readonly store: Store) {
-    this.sessionStatus = this.store.selectSignal(selectStatus);
+  constructor(private readonly sessionFacade: SessionFacade) {
+    this.sessionStatus = this.sessionFacade.selectStatus();
   }
 }

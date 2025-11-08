@@ -35,8 +35,8 @@ export type SessionData = {
 };
 
 export type SessionMetaData = {
-  mode: SessionMode;
   label: string | null;
+  mode: SessionMode;
   option: SessionOption;
   lang: SessionLang;
 };

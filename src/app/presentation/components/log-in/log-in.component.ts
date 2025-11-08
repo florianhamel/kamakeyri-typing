@@ -1,7 +1,6 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Store } from '@ngrx/store';
-import { userActions } from '../../../state/actions/user.actions';
+import { UserFacade } from '../../../domain/facades/user.facade';
 import { ButtonComponent } from '../shared/button/button.component';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -20,18 +19,16 @@ export class LogInComponent implements AfterViewInit {
     password: new FormControl<string>('', Validators.required)
   });
 
-  constructor(private readonly store: Store) {}
+  constructor(private readonly userFacade: UserFacade) {}
 
   ngAfterViewInit(): void {
     this.usernameInput?.nativeElement.focus();
   }
 
   handleSubmission(): void {
-    this.store.dispatch(
-      userActions.logIn({
-        username: this.logInForm.value.username,
-        password: this.logInForm.value.password
-      })
-    );
+    this.userFacade.logIn({
+      username: this.logInForm.value.username,
+      password: this.logInForm.value.password
+    });
   }
 }
