@@ -1,20 +1,23 @@
+import { catchError, exhaustMap, map, of, tap } from 'rxjs';
+
 import { inject } from '@angular/core';
+
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { catchError, exhaustMap, map, of, tap } from 'rxjs';
-import { userActions } from '../actions/user.actions';
-import { Credentials, Language } from '../../domain/types/user.type';
+
 import { setLocalItem } from '../../application/helpers/storage.helper';
+import { UserRepository } from '../../domain/repositories/user.repository';
+import { Credentials, Language } from '../../domain/types/user.type';
 import { sessionActions } from '../actions/session.actions';
-import { UserService } from '../../infrastructure/services/user.service';
+import { userActions } from '../actions/user.actions';
 
 // TODO test this effect
 export const userLogIn = createEffect(
-  (actions$ = inject(Actions), userService = inject(UserService), store = inject(Store)) => {
+  (actions$ = inject(Actions), userRepository = inject(UserRepository), store = inject(Store)) => {
     return actions$.pipe(
       ofType(userActions.logIn),
       exhaustMap(({ username, password }: Credentials) =>
-        userService.logIn({ username, password }).pipe(
+        userRepository.logIn({ username, password }).pipe(
           tap(({ username, exp, lang }) => {
             setLocalItem('userState', { username, exp, lang });
             store.dispatch(sessionActions.uploadAllSaved()); // TODO create an effect for loginSuccess and do this inside
@@ -32,11 +35,11 @@ export const userLogIn = createEffect(
 
 // TODO test this effect
 export const userUpdateLang = createEffect(
-  (actions$ = inject(Actions), userService = inject(UserService)) => {
+  (actions$ = inject(Actions), userRepository = inject(UserRepository)) => {
     return actions$.pipe(
       ofType(userActions.updateLang),
       exhaustMap(({ username, lang }) =>
-        userService.updateLang({ username, lang }).pipe(
+        userRepository.updateLang({ username, lang }).pipe(
           map((_) => userActions.updateLangSuccess({ lang })),
           catchError((_) => of(userActions.updateLangSuccess({ lang })))
         )

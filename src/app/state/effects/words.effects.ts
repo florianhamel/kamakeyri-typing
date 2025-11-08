@@ -8,19 +8,19 @@ import { Store } from '@ngrx/store';
 
 import { isEmpty } from '../../application/functions/common.functions';
 import { defaultLimit } from '../../domain/constants/words.const';
-import { WordsService } from '../../infrastructure/services/words.service';
+import { WordsRepository } from '../../domain/repositories/words.repository';
 import { wordsActions } from '../actions/words.actions';
 import { selectCommonWords } from '../selectors/words.selectors';
 
 export const loadCommonWords = createEffect(
-  (actions$ = inject(Actions), wordsService = inject(WordsService), store = inject(Store)) =>
+  (actions$ = inject(Actions), wordsRepository = inject(WordsRepository), store = inject(Store)) =>
     actions$.pipe(
       ofType(wordsActions.loadCommonWords),
       concatLatestFrom(() => store.select(selectCommonWords)),
       filter(([_, commonWords]) => isEmpty(commonWords)),
       tap(() => store.dispatch(wordsActions.setIsLoading({ isLoading: true }))),
       exhaustMap(() =>
-        wordsService.findCommonWords().pipe(
+        wordsRepository.findCommonWords().pipe(
           map((commonWords) => wordsActions.loadCommonWordsSuccess({ commonWords, limit: defaultLimit })),
           catchError(() => of(wordsActions.loadCommonWordsError()))
         )

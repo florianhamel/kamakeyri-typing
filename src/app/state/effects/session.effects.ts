@@ -12,17 +12,17 @@ import { sessionActions } from '../actions/session.actions';
 import { actionDispatched, noActionDispatched } from '../helpers/effects.helpers';
 import { selectSessionData } from '../selectors/session.selectors';
 import { selectIsLoggedIn } from '../selectors/user.selectors';
-import { SessionService } from '../../infrastructure/services/session.service';
+import { SessionRepository } from '../../domain/repositories/session.repository';
 
 export const sessionClose = createEffect(
-  (actions$ = inject(Actions), sessionService = inject(SessionService), store = inject(Store)) => {
+  (actions$ = inject(Actions), sessionRepository = inject(SessionRepository), store = inject(Store)) => {
     return actions$.pipe(
       ofType(sessionActions.close),
       withLatestFrom(store.select(selectSessionData), store.select(selectIsLoggedIn)),
       exhaustMap(([metaData, sessionData, isLoggedIn]) => {
         const sessionDTO = toSessionDTO({ ...sessionData, ...metaData });
         const saveSession$ = isLoggedIn
-          ? sessionService.saveAll([sessionDTO]).pipe(catchError(() => storeSession(sessionDTO)))
+          ? sessionRepository.saveAll([sessionDTO]).pipe(catchError(() => storeSession(sessionDTO)))
           : storeSession(sessionDTO);
 
         return saveSession$.pipe(ignoreElements());
@@ -33,13 +33,13 @@ export const sessionClose = createEffect(
 );
 
 export const sessionUploadAllSaved = createEffect(
-  (actions$ = inject(Actions), sessionService = inject(SessionService)) => {
+  (actions$ = inject(Actions), sessionRepository = inject(SessionRepository)) => {
     return actions$.pipe(
       ofType(sessionActions.uploadAllSaved),
       exhaustMap(() => {
         const sessions = getSessionItem<Array<Session>>('sessions');
 
-        return sessions ? sessionService.saveAll(sessions.map((s) => toSessionDTO(s))) : of(undefined);
+        return sessions ? sessionRepository.saveAll(sessions.map((s) => toSessionDTO(s))) : of(undefined);
       }),
       tap(() => clearSessionItems()) // TODO dispatch an action to clearSessionItems() in an effect
     );
@@ -47,11 +47,11 @@ export const sessionUploadAllSaved = createEffect(
   { functional: true, dispatch: false }
 );
 
-export const sessionLoadAll = createEffect((actions$ = inject(Actions), sessionService = inject(SessionService)) => {
+export const sessionLoadAll = createEffect((actions$ = inject(Actions), sessionRepository = inject(SessionRepository)) => {
   return actions$.pipe(
     ofType(sessionActions.loadAll),
     switchMap(() =>
-      sessionService.findAll().pipe(
+      sessionRepository.findAll().pipe(
         map((sessionRecords) => sessionActions.loadAllSuccess({ sessionRecords })),
         catchError(() => of(sessionActions.loadAllError()))
       )

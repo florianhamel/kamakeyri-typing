@@ -10,3 +10,6 @@
 
 ## Styling
 - when styling elements use tailwind as much as possible
+
+## Tests
+- after editing code find tests related to the modified files and suggest to run them

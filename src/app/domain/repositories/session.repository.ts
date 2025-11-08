@@ -1,8 +1,12 @@
 import { Observable } from 'rxjs';
 
-import { Session } from '../types/session.type';
+import { InjectionToken } from '@angular/core';
+
+import { Session, SessionRecord } from '../types/session.type';
 
 export interface SessionRepository {
   saveAll(sessions: ReadonlyArray<Session>): Observable<void>;
-  findAll(): Observable<ReadonlyArray<Session>>;
+  findAll(): Observable<ReadonlyArray<SessionRecord>>;
 }
+
+export const SessionRepository = new InjectionToken<SessionRepository>('SessionRepository');

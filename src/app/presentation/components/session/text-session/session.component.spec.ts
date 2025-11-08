@@ -9,6 +9,7 @@ import { Store, provideStore } from '@ngrx/store';
 
 import { sessionMode } from '../../../../domain/constants/session-mode.const';
 import { sessionOption } from '../../../../domain/constants/session-option.const';
+import { SessionFacade } from '../../../../domain/facades/session.facade';
 import { SessionMetaData } from '../../../../domain/types/session.type';
 import { SessionService } from '../../../../infrastructure/services/session.service';
 import { sessionClose } from '../../../../state/effects/session.effects';
@@ -19,6 +20,7 @@ import { SessionState, initialState as sessionInitialState } from '../../../../s
 import { UserState, initialState as userInitialState } from '../../../../state/states/user.state';
 import { SessionComponent } from './session.component';
 import { SessionComponentHarness } from './session.component.harness';
+import { SessionRepository } from '../../../../domain/repositories/session.repository';
 
 @Component({
   template: ` <div>
@@ -41,11 +43,14 @@ describe('SessionComponent', () => {
   function setup(session: Partial<SessionState> = {}, user: Partial<UserState> = {}) {
     TestBed.configureTestingModule({
       providers: [
+        SessionFacade,
+        SessionService,
+        { provide: SessionRepository, useExisting: SessionService },
         provideStore(
           { session: sessionFeature.reducer, user: userFeature.reducer },
           { initialState: { session: { ...sessionInitialState, ...session }, user: { ...userInitialState, ...user } } }
         ),
-        provideEffects({ sessionUploadOrSave: sessionClose }),
+        provideEffects({ sessionClose }),
         provideHttpClient(),
         provideHttpClientTesting()
       ]

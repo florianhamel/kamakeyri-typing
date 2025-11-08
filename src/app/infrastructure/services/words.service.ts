@@ -4,11 +4,12 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { apiUri } from '../constants/api.const';
+import { WordsRepository } from '../../domain/repositories/words.repository';
 
 @Injectable({
   providedIn: 'root'
 })
-export class WordsService {
+export class WordsService implements WordsRepository {
   constructor(private readonly http: HttpClient) {}
 
   findCommonWords(): Observable<ReadonlyArray<string>> {

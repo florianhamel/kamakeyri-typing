@@ -25,12 +25,24 @@ import { sessionFeature } from './state/reducers/session.reducer';
 import { userFeature } from './state/reducers/user.reducer';
 import { wikiFeature } from './state/reducers/wiki.reducer';
 import { wordsFeature } from './state/reducers/words.reducer';
+import { SessionRepository } from './domain/repositories/session.repository';
+import { SessionService } from './infrastructure/services/session.service';
+import { WordsRepository } from './domain/repositories/words.repository';
+import { WordsService } from './infrastructure/services/words.service';
+import { UserRepository } from './domain/repositories/user.repository';
+import { UserService } from './infrastructure/services/user.service';
+import { WikiRepository } from './domain/repositories/wiki.repository';
+import { WikiService } from './infrastructure/services/wiki.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideClientHydration(),
     provideHttpClient(withFetch()),
+    { provide: SessionRepository, useClass: SessionService },
+    { provide: WordsRepository, useClass: WordsService },
+    { provide: UserRepository, useClass: UserService },
+    { provide: WikiRepository, useClass: WikiService },
     provideStore({
       [sessionFeature.name]: sessionFeature.reducer,
       [wikiFeature.name]: wikiFeature.reducer,

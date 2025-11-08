@@ -3,11 +3,12 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Credentials, UpdateLangDto, UserInfo } from '../../domain/types/user.type';
 import { apiUri } from '../constants/api.const';
+import { UserRepository } from '../../domain/repositories/user.repository';
 
 @Injectable({
   providedIn: 'root'
 })
-export class UserService {
+export class UserService implements UserRepository {
   constructor(private readonly http: HttpClient) {}
 
   public logIn(credentials: Credentials): Observable<UserInfo> {

@@ -1,6 +1,7 @@
 import { provideHttpClient } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { SessionRepository } from '../../../domain/repositories/session.repository';
 import { SessionService } from '../../../infrastructure/services/session.service';
 import { SessionTableComponent } from './session-table.component';
 
@@ -11,7 +12,7 @@ describe('SessionTableComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [SessionTableComponent],
-      providers: [SessionService, provideHttpClient()]
+      providers: [SessionService, { provide: SessionRepository, useExisting: SessionService }, provideHttpClient()]
     }).compileComponents();
 
     fixture = TestBed.createComponent(SessionTableComponent);

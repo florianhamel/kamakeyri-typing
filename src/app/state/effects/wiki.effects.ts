@@ -7,17 +7,17 @@ import { Store } from '@ngrx/store';
 
 import { sessionOption } from '../../domain/constants/session-option.const';
 import { WikiSummary } from '../../domain/types/wiki.type';
-import { WikiService } from '../../infrastructure/services/wiki.service';
+import { WikiRepository } from '../../domain/repositories/wiki.repository';
 import { wikiActions } from '../actions/wiki.actions';
 import { WikiState } from '../states/wiki.state';
 
 export const wikiLoadExtract = createEffect(
-  (actions$ = inject(Actions), wikiService = inject(WikiService), wikiStore = inject(Store<WikiState>)) => {
+  (actions$ = inject(Actions), wikiRepository = inject(WikiRepository), wikiStore = inject(Store<WikiState>)) => {
     return actions$.pipe(
       ofType(wikiActions.loadSearchSummary),
       tap(() => wikiStore.dispatch(wikiActions.setIsLoading({ isLoading: true }))),
       exhaustMap(({ label }) =>
-        wikiService.fetchSummary(label).pipe(
+        wikiRepository.fetchSummary(label).pipe(
           map((wikiSummary: WikiSummary) =>
             wikiActions.loadSummarySuccess({ ...wikiSummary, option: sessionOption.search })
           ),
@@ -30,12 +30,12 @@ export const wikiLoadExtract = createEffect(
 );
 
 export const wikiLoadRelatedExtract = createEffect(
-  (actions$ = inject(Actions), wikiService = inject(WikiService), wikiStore = inject(Store<WikiState>)) => {
+  (actions$ = inject(Actions), wikiRepository = inject(WikiRepository), wikiStore = inject(Store<WikiState>)) => {
     return actions$.pipe(
       ofType(wikiActions.loadRelatedSummary),
       tap(() => wikiStore.dispatch(wikiActions.setIsLoading({ isLoading: true }))),
       exhaustMap(({ label }) =>
-        wikiService.fetchRelatedSummary(label).pipe(
+        wikiRepository.fetchRelatedSummary(label).pipe(
           map((wikiSummary: WikiSummary) =>
             wikiActions.loadSummarySuccess({ ...wikiSummary, option: sessionOption.related })
           ),
@@ -48,12 +48,12 @@ export const wikiLoadRelatedExtract = createEffect(
 );
 
 export const wikiLoadRandomExtract = createEffect(
-  (actions$ = inject(Actions), wikiService = inject(WikiService), wikiStore = inject(Store<WikiState>)) => {
+  (actions$ = inject(Actions), wikiRepository = inject(WikiRepository), wikiStore = inject(Store<WikiState>)) => {
     return actions$.pipe(
       ofType(wikiActions.loadRandomSummary),
       tap(() => wikiStore.dispatch(wikiActions.setIsLoading({ isLoading: true }))),
       exhaustMap(() =>
-        wikiService.fetchRandomSummary().pipe(
+        wikiRepository.fetchRandomSummary().pipe(
           map((wikiSummary: WikiSummary) =>
             wikiActions.loadSummarySuccess({ ...wikiSummary, option: sessionOption.random })
           ),
