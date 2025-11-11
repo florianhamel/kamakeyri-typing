@@ -19,7 +19,7 @@ export const userLogIn = createEffect(
       exhaustMap(({ username, password }: Credentials) =>
         userRepository.logIn({ username, password }).pipe(
           tap(({ username, exp, lang }) => {
-            setLocalItem('userState', { username, exp, lang });
+            setLocalItem('userState', { username, exp, lang: lang.toLowerCase() as Language });
             store.dispatch(sessionActions.uploadAllSaved()); // TODO create an effect for loginSuccess and do this inside
           }),
           map(({ username, exp, lang }) =>

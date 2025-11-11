@@ -26,6 +26,7 @@ export const openLogIn = createEffect(
   { functional: true, dispatch: true }
 );
 
+// TODO logic could probably be in a reducer and not an effet
 export const closeLogInDialog = createEffect(
   (actions$ = inject(Actions), store = inject(Store), dialog = inject(MatDialog)) => {
     return actions$.pipe(
