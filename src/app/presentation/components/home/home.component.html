@@ -4,7 +4,7 @@
 </div>
 
 <kw-session [source]="'kamakeyri.welcomeText' | translate" [metaData]="metaData" />
-<kw-typewriter-bubble [text]="startTypingText" [speed]="70" [isVisible]="sessionStatus() === 'notStarted'"/>
+<kw-typewriter-bubble [text]="'kamakeyri.startTyping' | translate" [speed]="70" [isVisible]="sessionStatus() === 'notStarted'"/>
 
 @if (sessionStatus() === 'closed') {
   <div class="flex flex-col gap-4">

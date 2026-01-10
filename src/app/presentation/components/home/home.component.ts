@@ -20,7 +20,6 @@ import { TypewriterBubbleComponent } from "../shared/typewriter-bubble/typewrite
 })
 export class HomeComponent {
   protected readonly sessionStatus: Signal<SessionStatus>;
-  protected readonly startTypingText = '👋 You can start typing!';
 
   protected readonly exploreItems: NavItem[] = [
     { langKey: 'kamakeyri.exploreWiki', route: kwRoute.wiki },
