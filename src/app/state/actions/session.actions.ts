@@ -12,6 +12,7 @@ export const sessionActions = createActionGroup({
     reset: emptyProps(),
     close: props<SessionMetaData>(),
     uploadAllSaved: emptyProps(),
+    uploadAllSavedSuccess: emptyProps(),
     loadAll: emptyProps(),
     loadAllSuccess: props<{ sessionRecords: ReadonlyArray<SessionRecord> }>(),
     loadAllError: emptyProps()

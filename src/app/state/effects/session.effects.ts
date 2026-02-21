@@ -1,4 +1,4 @@
-import { Observable, catchError, exhaustMap, ignoreElements, map, of, switchMap, tap, withLatestFrom } from 'rxjs';
+import { EMPTY, Observable, catchError, exhaustMap, ignoreElements, map, of, switchMap, withLatestFrom } from 'rxjs';
 
 import { inject } from '@angular/core';
 
@@ -6,13 +6,13 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
 import { clearSessionItems, getSessionItem, setSessionItem } from '../../application/helpers/storage.helper';
+import { SessionRepository } from '../../domain/repositories/session.repository';
 import { Session } from '../../domain/types/session.type';
 import { toSessionDTO } from '../../infrastructure/mappers/session.mappers';
 import { sessionActions } from '../actions/session.actions';
 import { actionDispatched, noActionDispatched } from '../helpers/effects.helpers';
 import { selectSessionData } from '../selectors/session.selectors';
 import { selectIsLoggedIn } from '../selectors/user.selectors';
-import { SessionRepository } from '../../domain/repositories/session.repository';
 
 export const sessionClose = createEffect(
   (actions$ = inject(Actions), sessionRepository = inject(SessionRepository), store = inject(Store)) => {
@@ -38,26 +38,43 @@ export const sessionUploadAllSaved = createEffect(
       ofType(sessionActions.uploadAllSaved),
       exhaustMap(() => {
         const sessions = getSessionItem<Array<Session>>('sessions');
-
-        return sessions ? sessionRepository.saveAll(sessions.map((s) => toSessionDTO(s))) : of(undefined);
-      }),
-      tap(() => clearSessionItems()) // TODO dispatch an action to clearSessionItems() in an effect
+        if (sessions) {
+          return sessionRepository.saveAll(sessions.map((s) => toSessionDTO(s))).pipe(
+            map(() => sessionActions.uploadAllSavedSuccess()),
+            catchError(() => EMPTY)
+          );
+        }
+        return EMPTY;
+      })
     );
   },
-  { functional: true, dispatch: false }
+  actionDispatched()
 );
 
-export const sessionLoadAll = createEffect((actions$ = inject(Actions), sessionRepository = inject(SessionRepository)) => {
+export const sessionClearSaved = createEffect((actions$ = inject(Actions)) => {
   return actions$.pipe(
-    ofType(sessionActions.loadAll),
-    switchMap(() =>
-      sessionRepository.findAll().pipe(
-        map((sessionRecords) => sessionActions.loadAllSuccess({ sessionRecords })),
-        catchError(() => of(sessionActions.loadAllError()))
-      )
-    )
+    ofType(sessionActions.uploadAllSavedSuccess),
+    exhaustMap(() => {
+      clearSessionItems();
+      return EMPTY;
+    })
   );
-}, actionDispatched());
+}, noActionDispatched());
+
+export const sessionLoadAll = createEffect(
+  (actions$ = inject(Actions), sessionRepository = inject(SessionRepository)) => {
+    return actions$.pipe(
+      ofType(sessionActions.loadAll),
+      switchMap(() =>
+        sessionRepository.findAll().pipe(
+          map((sessionRecords) => sessionActions.loadAllSuccess({ sessionRecords })),
+          catchError(() => of(sessionActions.loadAllError()))
+        )
+      )
+    );
+  },
+  actionDispatched()
+);
 
 function storeSession(sessionDto: Session): Observable<void> {
   const sessionDtos = getSessionItem<Session[]>('sessions');
