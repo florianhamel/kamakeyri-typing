@@ -9,7 +9,7 @@ import { Store, provideStore } from '@ngrx/store';
 
 import { sessionMode } from '../../../../domain/constants/session-mode.const';
 import { sessionOption } from '../../../../domain/constants/session-option.const';
-import { SessionFacade } from '../../../../domain/facades/session.facade';
+import { SessionFacade } from '../../../../application/facades/session.facade';
 import { SessionMetaData } from '../../../../domain/types/session.type';
 import { SessionService } from '../../../../infrastructure/services/session.service';
 import { sessionClose } from '../../../../state/effects/session.effects';

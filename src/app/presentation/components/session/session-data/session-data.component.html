@@ -5,9 +5,6 @@
   @for (item of sessionDataItems; track $index) {
     <div class="flex w-40 items-center gap-2">
       <span>{{ item.translation | translate }}:</span>
-      @if (item) {
-        <ng-container *ngComponentOutlet="item.svgComponent!" />
-      }
       <span class="font-black">{{ item.formatter(sessionState()) }}</span>
     </div>
   }

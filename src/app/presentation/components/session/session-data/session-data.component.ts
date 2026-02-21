@@ -7,11 +7,15 @@ import {
   computeAccuracySnapshot,
   computeWpmSnapshot
 } from '../../../../application/functions/session-analysis.functions';
-import { DialogFacade } from '../../../../domain/facades/dialog.facade';
-import { SessionFacade } from '../../../../domain/facades/session.facade';
-import { UserFacade } from '../../../../domain/facades/user.facade';
-import { SessionDataItem } from '../../../../domain/types/session.type';
+import { DialogFacade } from '../../../../application/facades/dialog.facade';
+import { SessionFacade } from '../../../../application/facades/session.facade';
+import { UserFacade } from '../../../../application/facades/user.facade';
 import { SessionState } from '../../../../state/states/session.state';
+
+type SessionDataItem = {
+  translation: string;
+  formatter: (sessionState: SessionState) => string;
+};
 
 @Component({
   standalone: true,

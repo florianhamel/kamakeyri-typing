@@ -6,9 +6,9 @@ import { RouterLink } from '@angular/router';
 
 import { getLocalItem, removeLocalItem, setLocalItem } from '../../../application/helpers/storage.helper';
 import { kwRoute } from '../../../domain/constants/route.const';
-import { DialogFacade } from '../../../domain/facades/dialog.facade';
-import { FeatureToggleFacade } from '../../../domain/facades/feature-toggle.facade';
-import { UserFacade } from '../../../domain/facades/user.facade';
+import { DialogFacade } from '../../../application/facades/dialog.facade';
+import { FeatureToggleFacade } from '../../../application/facades/feature-toggle.facade';
+import { UserFacade } from '../../../application/facades/user.facade';
 import { Language } from '../../../domain/types/user.type';
 import { UserState, userStateKey } from '../../../state/states/user.state';
 import { MenuComponent, MenuItem } from '../shared/menu/menu.component';

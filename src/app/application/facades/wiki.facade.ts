@@ -2,8 +2,8 @@ import { Injectable, Signal } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 
-import { SessionOption } from '../constants/session-option.const';
-import { WikiLang } from '../types/wiki.type';
+import { SessionOption } from '../../domain/constants/session-option.const';
+import { WikiLang } from '../../domain/types/wiki.type';
 import { wikiActions } from '../../state/actions/wiki.actions';
 import {
   selectExtract,

@@ -2,7 +2,7 @@ import { Injectable, Signal } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 
-import { Credentials, Language } from '../types/user.type';
+import { Credentials, Language } from '../../domain/types/user.type';
 import { userActions } from '../../state/actions/user.actions';
 import { selectExp, selectIsLoggedIn, selectLang, selectUsername, selectUserState } from '../../state/selectors/user.selectors';
 import { UserState } from '../../state/states/user.state';

@@ -13,8 +13,8 @@ import {
   selectStatus
 } from '../../state/selectors/session.selectors';
 import { SessionState } from '../../state/states/session.state';
-import { InputEventSanitized } from '../types/event.type';
-import { Session, SessionChar, SessionMetaData, SessionRecord, SessionStatus } from '../types/session.type';
+import { InputEventSanitized } from '../../domain/types/event.type';
+import { Session, SessionChar, SessionMetaData, SessionRecord, SessionStatus } from '../../domain/types/session.type';
 
 interface EntityFacade<T> {
   loadAll(): void;

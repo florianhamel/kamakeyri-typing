@@ -1,6 +1,3 @@
-import { Type } from '@angular/core';
-
-import { SessionState } from '../../state/states/session.state';
 import { SessionMode } from '../constants/session-mode.const';
 import { SessionOption } from '../constants/session-option.const';
 
@@ -18,12 +15,6 @@ export type SessionChar = {
 export type SessionCharsIndex = {
   sessionChars: ReadonlyArray<SessionChar>;
   index: number;
-};
-
-export type SessionDataItem = {
-  translation: string;
-  formatter: (sessionState: SessionState) => string;
-  svgComponent?: Type<any>;
 };
 
 export type SessionData = {
