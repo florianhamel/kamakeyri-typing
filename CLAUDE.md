@@ -20,7 +20,7 @@ The app follows a layered DDD architecture. Each layer has strict responsibiliti
 src/app/
 ├── domain/         # Entities, value objects, repository interfaces
 ├── application/    # Facades, pure business logic, helpers
-├── infrastructure/ # DTOs, mappers, http/ (repository implementations)
+├── infrastructure/ # DTOs, mappers, http (repository implementations)
 ├── presentation/   # Angular components, pipes, guards
 ├── state/          # NgRx: actions, reducers, selectors, effects, states
 └── testing/        # Shared test utilities: factories, mocks — never imported by production code
@@ -177,6 +177,7 @@ Never import `CommonModule` in standalone components. Import only what the templ
 **Signals:**
 - `input.required<T>()` — required inputs
 - `input<T>(default)` — optional inputs
+- `output<T>()` — component outputs (replaces `@Output() EventEmitter`)
 - `signal<T>()` — writable local state
 - `computed(() => ...)` — derived state
 - `effect(() => ...)` — reactive side effects (use sparingly, prefer facades)
@@ -195,6 +196,10 @@ export class SessionComponent {
 **Smart vs dumb components:**
 - Smart: inject facades, dispatch actions
 - Dumb: inputs/outputs only, no injected services
+
+**Dependency injection:**
+- Classes (components, services, facades): use constructor injection
+- Functional contexts (effects, guards): use `inject()` inside the function body
 
 ---
 
@@ -235,6 +240,9 @@ Use `.with()` instead of mutation:
 ```typescript
 const sessionChars = state.sessionChars.with(state.index, updatedChar);
 ```
+
+#### No `any`
+Never use `any`. Use `unknown` for truly unknown values, or narrow to a specific type.
 
 ---
 
