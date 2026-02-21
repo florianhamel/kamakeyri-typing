@@ -20,7 +20,7 @@ The app follows a layered DDD architecture. Each layer has strict responsibiliti
 src/app/
 ├── domain/         # Entities, value objects, repository interfaces
 ├── application/    # Facades, pure business logic, helpers
-├── infrastructure/ # HTTP services (repository implementations), DTOs, mappers
+├── infrastructure/ # DTOs, mappers, http/ (repository implementations)
 ├── presentation/   # Angular components, pipes, guards
 ├── state/          # NgRx: actions, reducers, selectors, effects, states
 └── testing/        # Shared test utilities: factories, mocks — never imported by production code
@@ -71,7 +71,7 @@ export const SessionRepository = new InjectionToken<SessionRepository>('SessionR
 { provide: SessionRepository, useClass: SessionService }
 ```
 
-Infrastructure services that implement a repository must use `@Injectable()` with no `providedIn`. The token binding in `app.config.ts` is the sole registration point — adding `providedIn: 'root'` creates a redundant second provider.
+HTTP repository implementations live in `infrastructure/http/` and follow the naming convention `[entity]-http.repository.ts`. They must use `@Injectable()` with no `providedIn`. The token binding in `app.config.ts` is the sole registration point — adding `providedIn: 'root'` creates a redundant second provider.
 
 #### Mapper Pattern
 Mappers in `infrastructure/mappers/` handle all DTO ↔ domain model transformations. They are pure functions, never classes.

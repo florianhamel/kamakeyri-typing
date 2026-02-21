@@ -13,7 +13,7 @@ import { generateMock } from '../../testing/mocking.tools';
 import { sessionMode } from '../../domain/constants/session-mode.const';
 import { sessionOption } from '../../domain/constants/session-option.const';
 import { Session, SessionData, SessionMetaData } from '../../domain/types/session.type';
-import { SessionService } from '../../infrastructure/services/session.service';
+import { SessionHttpRepository } from '../../infrastructure/http/session-http.repository';
 import { sessionActions } from '../actions/session.actions';
 import { selectSessionData } from '../selectors/session.selectors';
 import { selectIsLoggedIn } from '../selectors/user.selectors';
@@ -22,7 +22,7 @@ import { sessionClose, sessionUploadAllSaved } from './session.effects';
 
 describe('session effects', () => {
   const sessionRefined: SessionData = generateSessionData();
-  const mockSessionService: jest.Mocked<SessionService> = generateMock<SessionService>('saveAll');
+  const mockSessionService: jest.Mocked<SessionHttpRepository> = generateMock<SessionHttpRepository>('saveAll');
   let mockStore: MockStore;
   let subscription: Subscription;
 
@@ -37,7 +37,7 @@ describe('session effects', () => {
             { selector: selectIsLoggedIn, value: false }
           ]
         }),
-        { provide: SessionService, useValue: mockSessionService },
+        { provide: SessionHttpRepository, useValue: mockSessionService },
         { provide: window.sessionStorage, useClass: MockSessionStorageService },
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting()
@@ -85,7 +85,7 @@ describe('session effects', () => {
     mockSessionService.saveAll.mockImplementation(() => throwError(() => new Error('upload session error')));
 
     // when
-    sessionClose(actions$, mockSessionService as unknown as SessionService, mockStore).subscribe();
+    sessionClose(actions$, mockSessionService as unknown as SessionHttpRepository, mockStore).subscribe();
 
     // then
     const items: Array<Session> | null = getSessionItem('sessions');
@@ -101,7 +101,7 @@ describe('session effects', () => {
     const actions$ = of(sessionActions.uploadAllSaved());
     const mockSessionService = {
       saveSessions: jest.fn().mockImplementation(() => of(undefined))
-    } as unknown as SessionService;
+    } as unknown as SessionHttpRepository;
 
     // when
     sessionUploadAllSaved(actions$, mockSessionService).subscribe();

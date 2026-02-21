@@ -6,16 +6,16 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
 import { clearSessionItems, getSessionItem, setSessionItem } from '../../application/helpers/storage.helper';
-import { SessionRepository } from '../../domain/repositories/session.repository';
 import { Session } from '../../domain/types/session.type';
 import { toSessionDTO } from '../../infrastructure/mappers/session.mappers';
+import { SESSION_REPOSITORY } from '../../domain/repositories/session.repository';
 import { sessionActions } from '../actions/session.actions';
 import { actionDispatched, noActionDispatched } from '../helpers/effects.helpers';
 import { selectSessionData } from '../selectors/session.selectors';
 import { selectIsLoggedIn } from '../selectors/user.selectors';
 
 export const sessionClose = createEffect(
-  (actions$ = inject(Actions), sessionRepository = inject(SessionRepository), store = inject(Store)) => {
+  (actions$ = inject(Actions), sessionRepository = inject(SESSION_REPOSITORY), store = inject(Store)) => {
     return actions$.pipe(
       ofType(sessionActions.close),
       withLatestFrom(store.select(selectSessionData), store.select(selectIsLoggedIn)),
@@ -33,7 +33,7 @@ export const sessionClose = createEffect(
 );
 
 export const sessionUploadAllSaved = createEffect(
-  (actions$ = inject(Actions), sessionRepository = inject(SessionRepository)) => {
+  (actions$ = inject(Actions), sessionRepository = inject(SESSION_REPOSITORY)) => {
     return actions$.pipe(
       ofType(sessionActions.uploadAllSaved),
       exhaustMap(() => {
@@ -62,7 +62,7 @@ export const sessionClearSaved = createEffect((actions$ = inject(Actions)) => {
 }, noActionDispatched());
 
 export const sessionLoadAll = createEffect(
-  (actions$ = inject(Actions), sessionRepository = inject(SessionRepository)) => {
+  (actions$ = inject(Actions), sessionRepository = inject(SESSION_REPOSITORY)) => {
     return actions$.pipe(
       ofType(sessionActions.loadAll),
       switchMap(() =>

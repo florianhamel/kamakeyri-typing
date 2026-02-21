@@ -11,7 +11,7 @@ import { sessionMode } from '../../../../domain/constants/session-mode.const';
 import { sessionOption } from '../../../../domain/constants/session-option.const';
 import { SessionFacade } from '../../../../application/facades/session.facade';
 import { SessionMetaData } from '../../../../domain/types/session.type';
-import { SessionService } from '../../../../infrastructure/services/session.service';
+import { SessionHttpRepository } from '../../../../infrastructure/http/session-http.repository';
 import { sessionClose } from '../../../../state/effects/session.effects';
 import { sessionFeature } from '../../../../state/reducers/session.reducer';
 import { userFeature } from '../../../../state/reducers/user.reducer';
@@ -20,7 +20,7 @@ import { SessionState, initialState as sessionInitialState } from '../../../../s
 import { UserState, initialState as userInitialState } from '../../../../state/states/user.state';
 import { SessionComponent } from './session.component';
 import { SessionComponentHarness } from './session.component.harness';
-import { SessionRepository } from '../../../../domain/repositories/session.repository';
+import { SESSION_REPOSITORY } from '../../../../domain/repositories/session.repository';
 
 @Component({
   template: ` <div>
@@ -44,8 +44,8 @@ describe('SessionComponent', () => {
     TestBed.configureTestingModule({
       providers: [
         SessionFacade,
-        SessionService,
-        { provide: SessionRepository, useExisting: SessionService },
+        SessionHttpRepository,
+        { provide: SESSION_REPOSITORY, useExisting: SessionHttpRepository },
         provideStore(
           { session: sessionFeature.reducer, user: userFeature.reducer },
           { initialState: { session: { ...sessionInitialState, ...session }, user: { ...userInitialState, ...user } } }
@@ -88,7 +88,7 @@ describe('SessionComponent', () => {
     await fireKeyboardEvents(sessionHarness, 'e', 'y');
     expect(status()).toBe('closed');
 
-    const request = httpController.expectOne({ method: 'POST', url: SessionService.url }).request;
+    const request = httpController.expectOne({ method: 'POST', url: SessionHttpRepository.url }).request;
     expect(request.body).toEqual([
       {
         time: expect.any(Number),

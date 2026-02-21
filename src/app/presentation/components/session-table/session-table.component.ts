@@ -4,7 +4,7 @@ import { Session } from '../../../domain/types/session.type';
 import { Observable } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 import { VirtualTableComponent } from '../virtual-table/virtual-table.component';
-import { SessionRepository } from '../../../domain/repositories/session.repository';
+import { SESSION_REPOSITORY, SessionRepository } from '../../../domain/repositories/session.repository';
 
 @Component({
   selector: 'kw-session-table',
@@ -16,7 +16,7 @@ export class SessionTableComponent {
   protected readonly headers: ReadonlyArray<string>;
   protected readonly sessions$: Observable<ReadonlyArray<Session>>;
 
-  constructor(@Inject(SessionRepository) private readonly sessionRepository: SessionRepository) {
+  constructor(@Inject(SESSION_REPOSITORY) private readonly sessionRepository: SessionRepository) {
     this.headers = ['Time', 'Length', 'Keystrokes', 'Errors', 'Mode', 'Label', 'Option', 'Language'];
     this.sessions$ = this.sessionRepository.findAll();
   }
