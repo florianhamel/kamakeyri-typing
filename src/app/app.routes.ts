@@ -1,5 +1,5 @@
 import { KwRoute, kwRoute } from './domain/constants/route.const';
-import { AuthGuard } from './domain/guards/auth.guard';
+import { AuthGuard } from './presentation/guards/auth.guard';
 import { CommonWordsComponent } from './presentation/components/common-words/common-words.component';
 import { DashboardComponent } from './presentation/components/dashboard/dashboard.component';
 import { HomeComponent } from './presentation/components/home/home.component';

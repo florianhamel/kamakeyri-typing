@@ -21,7 +21,7 @@ src/app/
 ├── domain/         # Entities, value objects, repository interfaces
 ├── application/    # Facades, pure business logic, factories, helpers, mocks
 ├── infrastructure/ # HTTP services (repository implementations), DTOs, mappers
-├── presentation/   # Angular components, pipes
+├── presentation/   # Angular components, pipes, guards
 └── state/          # NgRx: actions, reducers, selectors, effects, states
 ```
 
