@@ -36,7 +36,7 @@ export class SessionFacade implements EntityFacade<Session> {
     return this.store.selectSignal(selectSessionRecords);
   }
 
-  isLoading(): Signal<boolean> {
+  selectIsLoading(): Signal<boolean> {
     return this.store.selectSignal(selectIsLoading);
   }
 

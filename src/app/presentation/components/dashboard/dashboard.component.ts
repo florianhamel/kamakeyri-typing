@@ -31,7 +31,7 @@ export class DashboardComponent implements OnInit {
 
   constructor(private readonly sessionFacade: SessionFacade) {
     this.sessions = this.sessionFacade.selectAll();
-    this.isLoading = this.sessionFacade.isLoading();
+    this.isLoading = this.sessionFacade.selectIsLoading();
     this.lineChartData = computed(() => this.buildChartDatasets());
     this.lineChartOptions = this.buildChartOptions();
   }

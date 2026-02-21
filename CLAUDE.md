@@ -42,6 +42,8 @@ src/app/
 #### Facade Pattern
 Facades live in `application/facades/` and expose a clean API to the presentation layer. Components never interact with the NgRx store directly.
 
+**Naming convention:** all methods returning a `Signal` must be prefixed with `select`. Methods dispatching actions use a verb (`init`, `start`, `reset`, etc.).
+
 ```typescript
 // src/app/application/facades/session.facade.ts
 @Injectable({ providedIn: 'root' })
