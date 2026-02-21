@@ -3,9 +3,9 @@ import { Observable } from 'rxjs';
 
 import { Credentials, UpdateLangDto, UserInfo } from '../types/user.type';
 
-export interface UserRepository {
+export type UserRepository = {
   logIn(credentials: Credentials): Observable<UserInfo>;
   updateLang(langDto: UpdateLangDto): Observable<void>;
-}
+};
 
-export const UserRepository = new InjectionToken<UserRepository>('UserRepository');
+export const USER_REPOSITORY = new InjectionToken<UserRepository>('UserRepository');

@@ -1,8 +1,8 @@
 import { InjectionToken } from '@angular/core';
 import { Observable } from 'rxjs';
 
-export interface WordsRepository {
+export type WordsRepository = {
   findCommonWords(): Observable<ReadonlyArray<string>>;
-}
+};
 
-export const WordsRepository = new InjectionToken<WordsRepository>('WordsRepository');
+export const WORDS_REPOSITORY = new InjectionToken<WordsRepository>('WordsRepository');

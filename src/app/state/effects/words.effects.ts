@@ -8,12 +8,12 @@ import { Store } from '@ngrx/store';
 
 import { isEmpty } from '../../application/functions/common.functions';
 import { defaultLimit } from '../../domain/constants/words.const';
-import { WordsRepository } from '../../domain/repositories/words.repository';
+import { WORDS_REPOSITORY } from '../../domain/repositories/words.repository';
 import { wordsActions } from '../actions/words.actions';
 import { selectCommonWords } from '../selectors/words.selectors';
 
 export const loadCommonWords = createEffect(
-  (actions$ = inject(Actions), wordsRepository = inject(WordsRepository), store = inject(Store)) =>
+  (actions$ = inject(Actions), wordsRepository = inject(WORDS_REPOSITORY), store = inject(Store)) =>
     actions$.pipe(
       ofType(wordsActions.loadCommonWords),
       concatLatestFrom(() => store.select(selectCommonWords)),

@@ -6,14 +6,14 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
 import { setLocalItem } from '../../application/helpers/storage.helper';
-import { UserRepository } from '../../domain/repositories/user.repository';
+import { USER_REPOSITORY } from '../../domain/repositories/user.repository';
 import { Credentials, Language } from '../../domain/types/user.type';
 import { sessionActions } from '../actions/session.actions';
 import { userActions } from '../actions/user.actions';
 
 // TODO test this effect
 export const userLogIn = createEffect(
-  (actions$ = inject(Actions), userRepository = inject(UserRepository), store = inject(Store)) => {
+  (actions$ = inject(Actions), userRepository = inject(USER_REPOSITORY), store = inject(Store)) => {
     return actions$.pipe(
       ofType(userActions.logIn),
       exhaustMap(({ username, password }: Credentials) =>
@@ -35,7 +35,7 @@ export const userLogIn = createEffect(
 
 // TODO test this effect
 export const userUpdateLang = createEffect(
-  (actions$ = inject(Actions), userRepository = inject(UserRepository)) => {
+  (actions$ = inject(Actions), userRepository = inject(USER_REPOSITORY)) => {
     return actions$.pipe(
       ofType(userActions.updateLang),
       exhaustMap(({ username, lang }) =>

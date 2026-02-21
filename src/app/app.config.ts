@@ -27,12 +27,12 @@ import { wikiFeature } from './state/reducers/wiki.reducer';
 import { wordsFeature } from './state/reducers/words.reducer';
 import { SESSION_REPOSITORY } from './domain/repositories/session.repository';
 import { SessionHttpRepository } from './infrastructure/http/session-http.repository';
-import { WordsRepository } from './domain/repositories/words.repository';
-import { WordsService } from './infrastructure/http/words.service';
-import { UserRepository } from './domain/repositories/user.repository';
-import { UserService } from './infrastructure/http/user.service';
-import { WikiRepository } from './domain/repositories/wiki.repository';
-import { WikiService } from './infrastructure/http/wiki.service';
+import { WORDS_REPOSITORY } from './domain/repositories/words.repository';
+import { WordsHttpRepository } from './infrastructure/http/words-http.repository';
+import { USER_REPOSITORY } from './domain/repositories/user.repository';
+import { UserHttpRepository } from './infrastructure/http/user-http.repository';
+import { WIKI_REPOSITORY } from './domain/repositories/wiki.repository';
+import { WikiHttpRepository } from './infrastructure/http/wiki-http.repository';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -40,9 +40,9 @@ export const appConfig: ApplicationConfig = {
     provideClientHydration(),
     provideHttpClient(withFetch()),
     { provide: SESSION_REPOSITORY, useClass: SessionHttpRepository },
-    { provide: WordsRepository, useClass: WordsService },
-    { provide: UserRepository, useClass: UserService },
-    { provide: WikiRepository, useClass: WikiService },
+    { provide: WORDS_REPOSITORY, useClass: WordsHttpRepository },
+    { provide: USER_REPOSITORY, useClass: UserHttpRepository },
+    { provide: WIKI_REPOSITORY, useClass: WikiHttpRepository },
     provideStore({
       [sessionFeature.name]: sessionFeature.reducer,
       [wikiFeature.name]: wikiFeature.reducer,
