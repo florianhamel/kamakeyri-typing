@@ -7,9 +7,9 @@ import { TestBed } from '@angular/core/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { clearSessionItems, getSessionItem, setSessionItem } from '../../application/helpers/storage.helper';
-import { generateSession, generateSessionData } from '../../application/mocks/factories.tools';
-import { MockSessionStorageService } from '../../application/mocks/mock-session-storage.service';
-import { generateMock } from '../../application/mocks/mocking.tools';
+import { generateSession, generateSessionData } from '../../testing/factories.tools';
+import { MockSessionStorageService } from '../../testing/mock-session-storage.service';
+import { generateMock } from '../../testing/mocking.tools';
 import { sessionMode } from '../../domain/constants/session-mode.const';
 import { sessionOption } from '../../domain/constants/session-option.const';
 import { Session, SessionData, SessionMetaData } from '../../domain/types/session.type';

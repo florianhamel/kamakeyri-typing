@@ -1,4 +1,4 @@
-import { generateSessionRecord } from '../../application/mocks/factories.tools';
+import { generateSessionRecord } from '../../testing/factories.tools';
 import { SessionRecord } from '../../domain/types/session.type';
 import { computeAccuracy, computeAccuracyDailyAverages } from './session-analysis.functions';
 

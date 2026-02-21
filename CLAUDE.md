@@ -19,10 +19,11 @@ The app follows a layered DDD architecture. Each layer has strict responsibiliti
 ```
 src/app/
 ├── domain/         # Entities, value objects, repository interfaces
-├── application/    # Facades, pure business logic, factories, helpers, mocks
+├── application/    # Facades, pure business logic, helpers
 ├── infrastructure/ # HTTP services (repository implementations), DTOs, mappers
 ├── presentation/   # Angular components, pipes, guards
-└── state/          # NgRx: actions, reducers, selectors, effects, states
+├── state/          # NgRx: actions, reducers, selectors, effects, states
+└── testing/        # Shared test utilities: factories, mocks — never imported by production code
 ```
 
 **Layer rules:**
@@ -75,16 +76,6 @@ Mappers in `infrastructure/mappers/` handle all DTO ↔ domain model transformat
 // infrastructure/mappers/session.mappers.ts
 export function toSessionRecord(dto: SessionRecordDTO): SessionRecord {
   return { ...dto, createDate: new Date(dto.createDate) };
-}
-```
-
-#### Factory Pattern
-Factories in `application/factories/` create test objects. Used exclusively in tests.
-
-```typescript
-// application/factories/keyboard-event.factory.ts
-export function keyboardEventFactory(key: string, code: string): KeyboardEvent {
-  return new KeyboardEvent('keydown', { key, code });
 }
 ```
 
@@ -261,6 +252,6 @@ it('should initialize session', () => {
 
 **Effect tests:** call the functional effect directly, passing mocked `actions$` and services. Use `provideMockStore` with pre-configured selectors.
 
-**Mock data:** use generators from `application/mocks/factories.tools.ts`.
+**Mock data:** use generators from `testing/factories.tools.ts`.
 
 **File convention:** test files live next to the file they test with `.spec.ts` suffix.

@@ -1,6 +1,6 @@
-import { sessionMode } from '../../domain/constants/session-mode.const';
-import { sessionOption } from '../../domain/constants/session-option.const';
-import { Session, SessionData, SessionRecord } from '../../domain/types/session.type';
+import { sessionMode } from '../domain/constants/session-mode.const';
+import { sessionOption } from '../domain/constants/session-option.const';
+import { Session, SessionData, SessionRecord } from '../domain/types/session.type';
 
 export function generateSessionData(): SessionData {
   return {
