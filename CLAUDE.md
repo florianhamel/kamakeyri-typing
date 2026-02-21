@@ -71,6 +71,8 @@ export const SessionRepository = new InjectionToken<SessionRepository>('SessionR
 { provide: SessionRepository, useClass: SessionService }
 ```
 
+Infrastructure services that implement a repository must use `@Injectable()` with no `providedIn`. The token binding in `app.config.ts` is the sole registration point — adding `providedIn: 'root'` creates a redundant second provider.
+
 #### Mapper Pattern
 Mappers in `infrastructure/mappers/` handle all DTO ↔ domain model transformations. They are pure functions, never classes.
 

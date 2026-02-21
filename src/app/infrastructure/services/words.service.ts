@@ -6,9 +6,7 @@ import { Injectable } from '@angular/core';
 import { apiUri } from '../constants/api.const';
 import { WordsRepository } from '../../domain/repositories/words.repository';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class WordsService implements WordsRepository {
   constructor(private readonly http: HttpClient) {}
 

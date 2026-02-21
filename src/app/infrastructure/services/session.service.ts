@@ -9,9 +9,7 @@ import { SessionDtos, SessionRecordDTO } from '../../infrastructure/DTOs/session
 import { toSessionRecord } from '../../infrastructure/mappers/session.mappers';
 import { apiUri } from '../constants/api.const';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class SessionService implements SessionRepository {
   static readonly url = `${apiUri.scheme}://${apiUri.baseUri}/${apiUri.session}`;
 

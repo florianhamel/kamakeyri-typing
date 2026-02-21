@@ -5,9 +5,7 @@ import { Credentials, UpdateLangDto, UserInfo } from '../../domain/types/user.ty
 import { apiUri } from '../constants/api.const';
 import { UserRepository } from '../../domain/repositories/user.repository';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class UserService implements UserRepository {
   constructor(private readonly http: HttpClient) {}
 

@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable, InjectionToken, Signal } from '@angular/core';
+import { Injectable, Signal } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { WikiLang, WikiSummary } from '../../domain/types/wiki.type';
 import { contactEmail } from '../../domain/constants/api.const';
@@ -10,9 +10,7 @@ import { WikiDTO } from '../../infrastructure/DTOs/wiki.dtos';
 import { wikiUri } from '../constants/wiki.const';
 import { WikiRepository } from '../../domain/repositories/wiki.repository';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class WikiService implements WikiRepository {
   private readonly headers: HttpHeaders = new HttpHeaders({ 'Api-User-Agent': contactEmail });
   private readonly wikiLang: Signal<WikiLang>;
