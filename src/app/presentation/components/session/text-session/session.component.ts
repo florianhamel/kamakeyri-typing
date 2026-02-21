@@ -1,6 +1,6 @@
 import { TranslateModule } from '@ngx-translate/core';
 
-import { CommonModule, NgStyle } from '@angular/common';
+import { NgStyle } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -26,7 +26,7 @@ import { StyleSessionCharPipe } from '../../../pipes/style-session-char.pipe';
   standalone: true,
   selector: 'kw-session',
   templateUrl: './session.component.html',
-  imports: [CommonModule, TranslateModule, NgStyle, FormatSessionCharPipe, StyleSessionCharPipe],
+  imports: [TranslateModule, NgStyle, FormatSessionCharPipe, StyleSessionCharPipe],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SessionComponent implements AfterViewInit {

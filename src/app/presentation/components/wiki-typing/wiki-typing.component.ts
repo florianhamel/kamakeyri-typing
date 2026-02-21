@@ -1,6 +1,5 @@
 import { TranslateModule } from '@ngx-translate/core';
 
-import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -36,7 +35,6 @@ import { LoadingSvgComponent } from '../svgs/loading-svg/loading-svg.component';
   templateUrl: './wiki-typing.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CommonModule,
     LoadingSvgComponent,
     TranslateModule,
     FormsModule,

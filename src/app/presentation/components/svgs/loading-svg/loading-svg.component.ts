@@ -1,10 +1,9 @@
-import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   standalone: true,
   selector: 'kw-loading-svg',
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './loading-svg.component.svg',
   changeDetection: ChangeDetectionStrategy.OnPush
 })

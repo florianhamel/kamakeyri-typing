@@ -1,5 +1,4 @@
 import { animate, style, transition, trigger } from '@angular/animations';
-import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -18,7 +17,7 @@ import { SessionStatus } from '../../../../domain/types/session.type';
 @Component({
   standalone: true,
   selector: 'kw-typewriter-bubble',
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './typewriter-bubble.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [

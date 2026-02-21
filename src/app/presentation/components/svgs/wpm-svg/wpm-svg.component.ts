@@ -1,10 +1,9 @@
-import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   standalone: true,
   selector: 'app-wpm-svg',
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './wpm-svg.component.svg',
   changeDetection: ChangeDetectionStrategy.OnPush
 })

@@ -163,12 +163,14 @@ All components are standalone with `ChangeDetectionStrategy.OnPush`.
 @Component({
   standalone: true,
   selector: 'kw-session',
-  imports: [CommonModule, TranslateModule],
+  imports: [TranslateModule, NgStyle, FormatSessionCharPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './session.component.html'
 })
 export class SessionComponent { ... }
 ```
+
+Never import `CommonModule` in standalone components. Import only what the template actually uses: `NgStyle`, `NgClass`, `AsyncPipe`, etc. Angular's new control flow (`@if`, `@for`) requires no import.
 
 **Signals:**
 - `input.required<T>()` — required inputs

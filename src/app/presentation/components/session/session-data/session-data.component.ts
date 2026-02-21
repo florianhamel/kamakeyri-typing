@@ -1,6 +1,5 @@
 import { TranslatePipe } from '@ngx-translate/core';
 
-import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Signal } from '@angular/core';
 
 import {
@@ -20,7 +19,7 @@ type SessionDataItem = {
 @Component({
   standalone: true,
   selector: 'kw-session-data',
-  imports: [CommonModule, TranslatePipe],
+  imports: [TranslatePipe],
   templateUrl: './session-data.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })

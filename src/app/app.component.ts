@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
@@ -8,7 +7,7 @@ import { HeaderComponent } from './presentation/components/header/header.compone
 @Component({
   standalone: true,
   selector: 'app-root',
-  imports: [CommonModule, RouterOutlet, HeaderComponent, FooterComponent],
+  imports: [RouterOutlet, HeaderComponent, FooterComponent],
   templateUrl: './app.component.html'
 })
 export class AppComponent {
