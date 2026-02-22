@@ -5,7 +5,7 @@ import { inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
-import { clearSessionItems, getSessionItem, setSessionItem } from '../../application/helpers/storage.helper';
+import { clearSessionItems, getSessionItem, setSessionItem } from '../../application/functions/storage.functions';
 import { Session } from '../../domain/types/session.type';
 import { toSessionDTO } from '../../infrastructure/mappers/session.mappers';
 import { SESSION_REPOSITORY } from '../../domain/repositories/session.repository';

@@ -2,7 +2,7 @@ import { DailyAverage } from '../../domain/types/data.type';
 import { SessionAccuracyData, SessionRecord, SessionWpmData } from '../../domain/types/session.type';
 import { SessionState } from '../../state/states/session.state';
 import { exists } from './common.functions';
-import { isCorrect } from './session-common.functions';
+import { isCorrect } from './session-util.functions';
 
 export function computeWpmSnapshot(sessionState: SessionState): number {
   const words: number = Math.round((sessionState.keystrokes - computeMismatches(sessionState)) / 5);

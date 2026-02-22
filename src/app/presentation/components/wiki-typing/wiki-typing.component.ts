@@ -14,7 +14,7 @@ import {
 import { FormsModule } from '@angular/forms';
 
 import { isNull } from '../../../application/functions/common.functions';
-import { setLocalItem } from '../../../application/helpers/storage.helper';
+import { setLocalItem } from '../../../application/functions/storage.functions';
 import { WikiKey } from '../../../domain/constants/wiki.const';
 import { sessionMode } from '../../../domain/constants/session-mode.const';
 import { SessionOption } from '../../../domain/constants/session-option.const';

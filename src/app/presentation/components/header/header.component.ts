@@ -4,7 +4,7 @@ import { Component, computed, effect, Signal, signal, WritableSignal } from '@an
 import { MatIcon } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
 
-import { getLocalItem, removeLocalItem, setLocalItem } from '../../../application/helpers/storage.helper';
+import { getLocalItem, removeLocalItem, setLocalItem } from '../../../application/functions/storage.functions';
 import { kwRoute } from '../../../domain/constants/route.const';
 import { DialogFacade } from '../../../application/facades/dialog.facade';
 import { FeatureToggleFacade } from '../../../application/facades/feature-toggle.facade';

@@ -6,7 +6,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
-import { clearSessionItems, getSessionItem, setSessionItem } from '../../application/helpers/storage.helper';
+import { clearSessionItems, getSessionItem, setSessionItem } from '../../application/functions/storage.functions';
 import { generateSession, generateSessionData } from '../../testing/factories.tools';
 import { MockSessionStorageService } from '../../testing/mock-session-storage.service';
 import { generateMock } from '../../testing/mocking.tools';

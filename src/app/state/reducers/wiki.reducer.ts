@@ -1,6 +1,6 @@
 import { createFeature, on } from '@ngrx/store';
 
-import { createRehydrateReducer } from '../../application/helpers/storage.helper';
+import { createRehydrateReducer } from '../../application/functions/storage.functions';
 import { wikiActions } from '../actions/wiki.actions';
 import { WikiState, initialState } from '../states/wiki.state';
 import { sessionOption } from '../../domain/constants/session-option.const';

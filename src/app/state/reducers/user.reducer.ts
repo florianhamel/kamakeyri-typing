@@ -1,6 +1,6 @@
 import { createFeature, on } from '@ngrx/store';
 import { userActions } from '../actions/user.actions';
-import { createRehydrateReducer } from '../../application/helpers/storage.helper';
+import { createRehydrateReducer } from '../../application/functions/storage.functions';
 import { initialState, UserState } from '../states/user.state';
 
 export const userFeature = createFeature({

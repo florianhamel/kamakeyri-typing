@@ -9,11 +9,16 @@ import {
   moveBackwardFrom,
   moveForwardFrom,
   sessionCharAt
-} from './session-common.functions';
+} from './session-util.functions';
 
-
-
-
+export function initSessionChars(content: string, checker: (char: string) => boolean): ReadonlyArray<SessionChar> {
+  return [...content].map((char) => ({
+    target: char,
+    input: null,
+    enabled: checker(char),
+    isComposing: false
+  }));
+}
 
 export function processBackspaceChar(state: SessionState): SessionState {
   const end = new Date();
@@ -121,8 +126,9 @@ function startComposition(state: SessionState, event: InputEventSanitized): Sess
 }
 
 function endComposition(state: SessionState, event: InputEventSanitized): SessionState {
-  const sessionState =
-    hasCompositionFailed(event) ? endCompositionFailure(state, event) : endCompositionSuccess(state, event);
+  const sessionState = hasCompositionFailed(event)
+    ? endCompositionFailure(state, event)
+    : endCompositionSuccess(state, event);
 
   return {
     ...sessionState,

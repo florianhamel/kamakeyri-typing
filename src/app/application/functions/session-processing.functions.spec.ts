@@ -1,8 +1,8 @@
 import { isUsInternational } from '../../domain/layouts/us-international.layout';
 import { SessionChar } from '../../domain/types/session.type';
-import { initSessionChars } from './session-common.functions';
+import { initSessionChars } from './session-processing.functions';
 
-describe('session functions', () => {
+describe('session processing functions', () => {
   it('should init session chars', () => {
     // given
     const specialChar = '†';

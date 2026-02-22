@@ -2,7 +2,7 @@ import { Pipe, PipeTransform, Signal } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 
-import { isCorrect } from '../../application/functions/session-common.functions';
+import { isCorrect } from '../../application/functions/session-util.functions';
 import { SessionChar } from '../../domain/types/session.type';
 import { selectIndex, selectIsComposing, selectSessionChars } from '../../state/selectors/session.selectors';
 

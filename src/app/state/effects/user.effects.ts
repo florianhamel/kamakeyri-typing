@@ -5,7 +5,7 @@ import { inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
-import { setLocalItem } from '../../application/helpers/storage.helper';
+import { setLocalItem } from '../../application/functions/storage.functions';
 import { USER_REPOSITORY } from '../../domain/repositories/user.repository';
 import { Credentials, Language } from '../../domain/types/user.type';
 import { sessionActions } from '../actions/session.actions';
