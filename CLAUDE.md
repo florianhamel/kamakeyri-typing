@@ -14,38 +14,41 @@ This is the frontend application of a website for improving your typing skills
 
 ### Architectural
 
-The app follows a layered DDD architecture. Each layer has strict responsibilities:
+The app follows a 3-layer architecture:
 
 ```
 src/app/
-├── domain/         # Entities, value objects, repository interfaces
-├── application/    # Facades, pure business logic, helpers
-├── infrastructure/ # DTOs, mappers, http (repository implementations)
-├── presentation/   # Angular components, pipes, guards
-├── state/          # NgRx: actions, reducers, selectors, effects, states
-└── testing/        # Shared test utilities: factories, mocks — never imported by production code
+├── domain/             # Entities, value objects, repository interfaces — no framework deps
+├── core/
+│   ├── facades/        # NgRx store API exposed to presentation
+│   ├── functions/      # Pure utility functions
+│   ├── http/           # HTTP repository implementations
+│   │   └── constants/  # API URI constants
+│   ├── state/          # NgRx: actions, reducers, selectors, effects, states
+│   ├── mappers/        # DTO ↔ domain model transformations
+│   └── DTOs/           # HTTP response shapes
+├── presentation/       # Angular components, pipes, guards
+└── testing/            # Shared test utilities — never imported by production code
 ```
 
 **Layer rules:**
 - `domain` defines the contracts (types, repository tokens) — pure TypeScript, no framework dependencies
-- `application` contains facades, pure functions and utilities — facades may depend on NgRx Store
-- `infrastructure` implements repository interfaces and handles HTTP/DTO mapping
-- `presentation` uses facades only — never dispatches actions or calls services directly
-- `state` wires everything together through NgRx
+- `core` contains all non-UI implementation: state management, HTTP, facades, pure functions
+- `presentation` uses facades only — never dispatches NgRx actions or accesses state directly
 
-**Dependency direction:** `presentation` → `application` (facades) → `state` → `infrastructure` (via DI tokens). `domain` is imported by all layers but depends on nothing.
+**Dependency direction:** `presentation` → `core/facades` → `core/state`. `domain` is imported by all layers but depends on nothing.
 
 ---
 
 ### Design Patterns
 
 #### Facade Pattern
-Facades live in `application/facades/` and expose a clean API to the presentation layer. Components never interact with the NgRx store directly.
+Facades live in `core/facades/` and expose a clean API to the presentation layer. Components never interact with the NgRx store directly.
 
 **Naming convention:** all methods returning a `Signal` must be prefixed with `select`. Methods dispatching actions use a verb (`init`, `start`, `reset`, etc.).
 
 ```typescript
-// src/app/application/facades/session.facade.ts
+// src/app/core/facades/session.facade.ts
 @Injectable({ providedIn: 'root' })
 export class SessionFacade {
   constructor(private readonly store: Store) {}
@@ -61,23 +64,24 @@ export class SessionFacade {
 ```
 
 #### Repository Pattern
-Repository interfaces are defined in `domain/repositories/` as `InjectionToken`. Implementations live in `infrastructure/services/`.
+Repository interfaces are defined in `domain/repositories/` as `InjectionToken`. Implementations live in `core/http/`.
 
 ```typescript
 // domain/repositories/session.repository.ts
-export const SessionRepository = new InjectionToken<SessionRepository>('SessionRepository');
+export type SessionRepository = { ... };
+export const SESSION_REPOSITORY = new InjectionToken<SessionRepository>('SessionRepository');
 
 // app.config.ts — bind implementation to token
-{ provide: SessionRepository, useClass: SessionService }
+{ provide: SESSION_REPOSITORY, useClass: SessionHttpRepository }
 ```
 
-HTTP repository implementations live in `infrastructure/http/` and follow the naming convention `[entity]-http.repository.ts`. They must use `@Injectable()` with no `providedIn`. The token binding in `app.config.ts` is the sole registration point — adding `providedIn: 'root'` creates a redundant second provider.
+HTTP repository implementations live in `core/http/` and follow the naming convention `[entity]-http.repository.ts`. They must use `@Injectable()` with no `providedIn`. The token binding in `app.config.ts` is the sole registration point — adding `providedIn: 'root'` creates a redundant second provider.
 
 #### Mapper Pattern
-Mappers in `infrastructure/mappers/` handle all DTO ↔ domain model transformations. They are pure functions, never classes.
+Mappers in `core/mappers/` handle all DTO ↔ domain model transformations. They are pure functions, never classes.
 
 ```typescript
-// infrastructure/mappers/session.mappers.ts
+// core/mappers/session.mappers.ts
 export function toSessionRecord(dto: SessionRecordDTO): SessionRecord {
   return { ...dto, createDate: new Date(dto.createDate) };
 }
@@ -131,7 +135,7 @@ export const selectSessionData = createSelector(selectSessionState, (state): Ses
 
 #### Effects — functional, with helper metadata
 ```typescript
-// state/effects/session.effects.ts
+// core/state/effects/session.effects.ts
 export const sessionLoadAll = createEffect(
   (actions$ = inject(Actions), sessionRepository = inject(SessionRepository)) =>
     actions$.pipe(
@@ -147,7 +151,7 @@ export const sessionLoadAll = createEffect(
 );
 ```
 
-Use `actionDispatched()` / `noActionDispatched()` helpers from `state/helpers/effects.helpers.ts` — never pass the config object inline.
+Use `actionDispatched()` / `noActionDispatched()` helpers from `core/state/helpers/effects.helpers.ts` — never pass the config object inline.
 
 **RxJS operator conventions:**
 - `switchMap` — cancellable streams (search, load)

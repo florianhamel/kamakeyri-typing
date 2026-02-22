@@ -5,11 +5,11 @@ import { ChangeDetectionStrategy, Component, Signal } from '@angular/core';
 import {
   computeAccuracySnapshot,
   computeWpmSnapshot
-} from '../../../../application/functions/session-analysis.functions';
-import { DialogFacade } from '../../../../application/facades/dialog.facade';
-import { SessionFacade } from '../../../../application/facades/session.facade';
-import { UserFacade } from '../../../../application/facades/user.facade';
-import { SessionState } from '../../../../state/states/session.state';
+} from '../../../../core/functions/session-analysis.functions';
+import { DialogFacade } from '../../../../core/facades/dialog.facade';
+import { SessionFacade } from '../../../../core/facades/session.facade';
+import { UserFacade } from '../../../../core/facades/user.facade';
+import { SessionState } from '../../../../core/state/states/session.state';
 
 type SessionDataItem = {
   translation: string;

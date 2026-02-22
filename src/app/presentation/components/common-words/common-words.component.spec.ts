@@ -4,8 +4,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { provideStore } from '@ngrx/store';
 
-import { wordsFeature } from '../../../state/reducers/words.reducer';
-import { wordsInitialState } from '../../../state/states/words.state';
+import { wordsFeature } from '../../../core/state/reducers/words.reducer';
+import { wordsInitialState } from '../../../core/state/states/words.state';
 import { CommonWordsComponent } from './common-words.component';
 
 describe('WordsComponent', () => {

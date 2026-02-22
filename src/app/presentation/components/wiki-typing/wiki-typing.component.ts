@@ -13,14 +13,14 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-import { isNull } from '../../../application/functions/common.functions';
-import { setLocalItem } from '../../../application/functions/storage.functions';
+import { isNull } from '../../../core/functions/common.functions';
+import { setLocalItem } from '../../../core/functions/storage.functions';
 import { WikiKey } from '../../../domain/constants/wiki.const';
 import { sessionMode } from '../../../domain/constants/session-mode.const';
 import { SessionOption } from '../../../domain/constants/session-option.const';
-import { FeatureToggleFacade } from '../../../application/facades/feature-toggle.facade';
-import { SessionFacade } from '../../../application/facades/session.facade';
-import { WikiFacade } from '../../../application/facades/wiki.facade';
+import { FeatureToggleFacade } from '../../../core/facades/feature-toggle.facade';
+import { SessionFacade } from '../../../core/facades/session.facade';
+import { WikiFacade } from '../../../core/facades/wiki.facade';
 import { SessionMetaData, SessionStatus } from '../../../domain/types/session.type';
 import { Language } from '../../../domain/types/user.type';
 import { WikiLang } from '../../../domain/types/wiki.type';

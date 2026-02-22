@@ -6,7 +6,7 @@ import { RouterLink } from '@angular/router';
 import { kwRoute } from '../../../domain/constants/route.const';
 import { sessionMode } from '../../../domain/constants/session-mode.const';
 import { sessionOption } from '../../../domain/constants/session-option.const';
-import { SessionFacade } from '../../../application/facades/session.facade';
+import { SessionFacade } from '../../../core/facades/session.facade';
 import { SessionMetaData, SessionStatus } from '../../../domain/types/session.type';
 import { NavItem } from '../header/header.component';
 import { SessionComponent } from '../session/text-session/session.component';

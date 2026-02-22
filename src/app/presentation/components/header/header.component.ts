@@ -4,13 +4,13 @@ import { Component, computed, effect, Signal, signal, WritableSignal } from '@an
 import { MatIcon } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
 
-import { getLocalItem, removeLocalItem, setLocalItem } from '../../../application/functions/storage.functions';
+import { getLocalItem, removeLocalItem, setLocalItem } from '../../../core/functions/storage.functions';
 import { kwRoute } from '../../../domain/constants/route.const';
-import { DialogFacade } from '../../../application/facades/dialog.facade';
-import { FeatureToggleFacade } from '../../../application/facades/feature-toggle.facade';
-import { UserFacade } from '../../../application/facades/user.facade';
+import { DialogFacade } from '../../../core/facades/dialog.facade';
+import { FeatureToggleFacade } from '../../../core/facades/feature-toggle.facade';
+import { UserFacade } from '../../../core/facades/user.facade';
 import { Language } from '../../../domain/types/user.type';
-import { UserState, userStateKey } from '../../../state/states/user.state';
+import { UserState, userStateKey } from '../../../core/state/states/user.state';
 import { MenuComponent, MenuItem } from '../shared/menu/menu.component';
 
 export type NavItem = {

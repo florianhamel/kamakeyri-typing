@@ -2,7 +2,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SESSION_REPOSITORY } from '../../../domain/repositories/session.repository';
-import { SessionHttpRepository } from '../../../infrastructure/http/session-http.repository';
+import { SessionHttpRepository } from '../../../core/http/session-http.repository';
 import { SessionTableComponent } from './session-table.component';
 
 describe('SessionTableComponent', () => {

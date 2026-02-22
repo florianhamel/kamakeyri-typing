@@ -2,7 +2,7 @@ import { AuthGuard } from './auth.guard';
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { selectIsLoggedIn } from '../../state/selectors/user.selectors';
+import { selectIsLoggedIn } from '../../core/state/selectors/user.selectors';
 
 describe('AuthGuard', () => {
   let router: Router;

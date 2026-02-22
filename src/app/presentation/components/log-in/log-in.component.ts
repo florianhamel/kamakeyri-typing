@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { UserFacade } from '../../../application/facades/user.facade';
+import { UserFacade } from '../../../core/facades/user.facade';
 import { ButtonComponent } from '../shared/button/button.component';
 import { TranslateModule } from '@ngx-translate/core';
 

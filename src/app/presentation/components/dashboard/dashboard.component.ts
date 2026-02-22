@@ -8,8 +8,8 @@ import { MatTab, MatTabContent, MatTabGroup } from '@angular/material/tabs';
 import {
   computeAccuracyDailyAverages,
   computeWpmDailyAverages
-} from '../../../application/functions/session-analysis.functions';
-import { SessionFacade } from '../../../application/facades/session.facade';
+} from '../../../core/functions/session-analysis.functions';
+import { SessionFacade } from '../../../core/facades/session.facade';
 import { DailyAverage } from '../../../domain/types/data.type';
 import { SessionRecord } from '../../../domain/types/session.type';
 import { LoadingSvgComponent } from '../svgs/loading-svg/loading-svg.component';

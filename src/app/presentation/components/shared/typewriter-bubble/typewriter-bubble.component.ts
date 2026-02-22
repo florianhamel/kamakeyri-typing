@@ -11,7 +11,7 @@ import {
   signal
 } from '@angular/core';
 
-import { SessionFacade } from '../../../../application/facades/session.facade';
+import { SessionFacade } from '../../../../core/facades/session.facade';
 import { SessionStatus } from '../../../../domain/types/session.type';
 
 @Component({

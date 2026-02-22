@@ -13,10 +13,10 @@ import {
   input
 } from '@angular/core';
 
-import { exists } from '../../../../application/functions/common.functions';
-import { isForbidden } from '../../../../application/functions/input-event.functions';
-import { isEscape, isIgnoredKey } from '../../../../application/functions/keyboard-event.functions';
-import { SessionFacade } from '../../../../application/facades/session.facade';
+import { exists } from '../../../../core/functions/common.functions';
+import { isForbidden } from '../../../../core/functions/input-event.functions';
+import { isEscape, isIgnoredKey } from '../../../../core/functions/keyboard-event.functions';
+import { SessionFacade } from '../../../../core/facades/session.facade';
 import { InputEventSanitized } from '../../../../domain/types/event.type';
 import { SessionChar, SessionMetaData, SessionStatus } from '../../../../domain/types/session.type';
 import { FormatSessionCharPipe } from '../../../pipes/format-session-char.pipe';

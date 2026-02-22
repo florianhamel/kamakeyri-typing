@@ -1,5 +1,5 @@
 import { Starter } from '../types/layout.type';
-import { isAscii } from '../../application/functions/common.functions';
+import { isAscii } from '../../core/functions/common.functions';
 
 export const usInternationalStarters: ReadonlyArray<Starter> = getStarters();
 export const usInternationalSequences: ReadonlyMap<string, string> = getSequences();
